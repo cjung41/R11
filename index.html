@@ -12,32 +12,34 @@
 <title>Rübezahlweg 11 – Zuhause</title>
 <style>
   :root {
-    --bg: #0f0f13;
-    --surface: #1a1a22;
-    --surface2: #22222e;
-    --surface3: #2a2a38;
-    --border: #2e2e3e;
-    --text: #f0f0f5;
-    --text2: #9090a8;
-    --text3: #5a5a72;
-    --accent: #6c63ff;
-    --accent2: #8b84ff;
-    --tado: #e74c3c;
-    --nuki: #f39c12;
-    --hue: #f1c40f;
-    --sonos: #1db954;
-    --bio: #e8735a;
-    --rest: #3d3d4a;
-    --papier: #4fc3f7;
-    --verp: #fdd835;
-    --gruen: #66bb6a;
-    --radius: 14px;
-    --bottom-nav: 80px;
+    --bg: #000000;
+    --bg2: #1C1C1E;
+    --surface: rgba(28,28,30,0.85);
+    --surface2: rgba(44,44,46,0.85);
+    --surface3: rgba(58,58,60,0.85);
+    --border: rgba(255,255,255,0.10);
+    --text: #FFFFFF;
+    --text2: rgba(235,235,245,0.6);
+    --text3: rgba(235,235,245,0.3);
+    --accent: #007AFF;
+    --accent2: #0A84FF;
+    --tado: #FF3B30;
+    --nuki: #FF9500;
+    --hue: #FFD60A;
+    --sonos: #30D158;
+    --bio: #FF6B35;
+    --rest: #48484A;
+    --papier: #0A84FF;
+    --verp: #FFD60A;
+    --gruen: #30D158;
+    --radius: 22px;
+    --glass: blur(40px) saturate(180%);
+    --bottom-nav: 84px;
     --safe-bottom: env(safe-area-inset-bottom, 0px);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   html, body { height: 100%; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif; overflow-x: hidden; }
-  #app { background: radial-gradient(ellipse 60% 40% at 15% 0%, rgba(108,99,255,0.09) 0%, transparent 100%), radial-gradient(ellipse 50% 40% at 85% 100%, rgba(79,195,247,0.06) 0%, transparent 100%), var(--bg); min-height:100%; }
+  #app { background: #000; min-height:100%; }
 
   /* ── APP SHELL ── */
   #app { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
@@ -98,12 +100,12 @@
   .page { display: none; padding: 16px; padding-bottom: calc(var(--bottom-nav) + 16px + var(--safe-bottom)); min-height: 100%; }
   .page.active { display: block; }
 
-  /* ── BOTTOM NAV ── */
-  #nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(8,8,16,0.94); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); border-top: 1px solid rgba(108,99,255,0.1); display: flex; z-index: 100; padding-bottom: max(10px, var(--safe-bottom)); box-shadow: 0 -4px 30px rgba(0,0,0,0.5); }
-  .nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 4px; cursor: pointer; color: var(--text3); transition: color 0.2s; border: none; background: none; gap: 3px; }
-  .nav-btn.active { color: var(--accent2); filter: drop-shadow(0 0 8px rgba(139,132,255,0.6)); }
-  .nav-btn svg { width: 22px; height: 22px; }
-  .nav-btn span { font-size: 10px; font-weight: 500; }
+  /* ── BOTTOM NAV – iOS Tab Bar ── */
+  #nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(28,28,30,0.92); backdrop-filter: var(--glass); -webkit-backdrop-filter: var(--glass); border-top: 1px solid rgba(255,255,255,0.08); display: flex; z-index: 100; padding-bottom: max(16px, var(--safe-bottom)); }
+  .nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 4px 0; cursor: pointer; color: rgba(235,235,245,0.3); transition: color 0.15s; border: none; background: none; gap: 4px; }
+  .nav-btn.active { color: var(--accent); }
+  .nav-btn svg { width: 24px; height: 24px; }
+  .nav-btn span { font-size: 10px; font-weight: 500; letter-spacing: -0.1px; }
 
   /* ── CARDS ── */
   .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; }
@@ -274,57 +276,117 @@
   input[type=text]:focus, input[type=date]:focus, select:focus { outline: none; border-color: var(--accent); }
   select option { background: var(--surface2); }
 
-  /* ── HERO ── */
-  /* ── HERO ── */
-  .hero-new { position:relative; overflow:hidden; background:linear-gradient(145deg,#0c0b1e 0%,#0e1030 50%,#070c1e 100%); border:1px solid rgba(108,99,255,0.4); border-radius:22px; padding:22px 20px 18px; margin-bottom:16px; box-shadow:0 8px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(108,99,255,0.06), inset 0 1px 0 rgba(255,255,255,0.07), 0 0 60px rgba(108,99,255,0.08); }
-  .hero-new::before { content:''; position:absolute; top:-90px; right:-80px; width:300px; height:300px; background:radial-gradient(circle,rgba(108,99,255,0.38) 0%,rgba(139,120,255,0.15) 40%,transparent 70%); border-radius:50%; pointer-events:none; }
-  .hero-new::after { content:''; position:absolute; bottom:-70px; left:-50px; width:240px; height:240px; background:radial-gradient(circle,rgba(79,195,247,0.2) 0%,rgba(56,182,255,0.08) 45%,transparent 70%); border-radius:50%; pointer-events:none; }
-  .hero-main-row { display:flex; align-items:flex-start; justify-content:space-between; position:relative; z-index:1; }
+  /* ── HERO – iOS Lock Screen Style ── */
+  .hero-new { position:relative; padding:20px 20px 16px; margin-bottom:12px; }
+  .hero-new::before { display:none; }
+  .hero-new::after  { display:none; }
+  .hero-main-row { display:flex; align-items:flex-start; justify-content:space-between; }
   .hero-weather-col { display:flex; flex-direction:column; }
-  .hero-wx-icon { font-size:48px; line-height:1; margin-bottom:6px; }
-  .hero-wx-temp { font-size:30px; font-weight:300; letter-spacing:-0.5px; background:linear-gradient(135deg,#ffffff 0%,#c8dfff 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-  .hero-wx-label { font-size:11px; color:var(--text3); margin-top:3px; }
+  .hero-wx-icon { font-size:44px; line-height:1; margin-bottom:4px; }
+  .hero-wx-temp { font-size:28px; font-weight:300; letter-spacing:-0.5px; color:#fff; }
+  .hero-wx-label { font-size:11px; color:var(--text2); margin-top:2px; }
   .hero-time-col { text-align:right; }
-  .hero-time-big { font-size:56px; font-weight:200; line-height:1; letter-spacing:-3px; background:linear-gradient(135deg,#e8e4ff 0%,#b8b0ff 45%,#80c8ff 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-  .hero-date-small { font-size:12px; color:var(--text2); margin-top:5px; }
-  .hero-divider { height:1px; background:rgba(255,255,255,0.07); margin:16px 0 12px; position:relative; z-index:1; }
-  .hero-status-row { display:flex; gap:0; position:relative; z-index:1; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:8px 0; backdrop-filter:blur(8px); }
-  .hero-stat { flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; cursor:pointer; padding:2px 0; }
-  .hero-stat+.hero-stat { border-left:1px solid rgba(255,255,255,0.07); }
-  .hero-stat-icon { font-size:15px; }
-  .hero-stat-val { font-size:13px; font-weight:600; }
-  .hero-stat-label { font-size:10px; color:var(--text3); }
-  /* ── CC GRID ── */
-  .home-section-label { font-size:10px; font-weight:800; color:rgba(180,170,255,0.6); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px; }
-  .cc-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; margin-bottom:12px; }
-  .cc-tile { background:linear-gradient(145deg,rgba(28,28,42,0.95) 0%,rgba(20,20,34,0.98) 100%); border:1px solid var(--border); border-radius:16px; padding:13px 10px 11px; cursor:pointer; transition:all 0.18s; display:flex; flex-direction:column; gap:3px; text-decoration:none; color:var(--text); position:relative; overflow:hidden; min-height:82px; box-shadow:0 2px 12px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05); }
-  .cc-tile:active { transform:scale(0.91); opacity:0.8; }
-  .cc-tile .cc-icon { font-size:28px; line-height:1; margin-bottom:6px; position:relative; z-index:1; filter:drop-shadow(0 2px 6px rgba(0,0,0,0.5)); }
-  .cc-tile .cc-name { font-size:12px; font-weight:700; color:var(--text); position:relative; z-index:1; letter-spacing:0.2px; }
-  .cc-tile .cc-status { font-size:10px; color:var(--text3); position:relative; z-index:1; }
-  .cc-tile::before { content:''; position:absolute; top:-35px; right:-35px; width:100px; height:100px; border-radius:50%; pointer-events:none; }
-  .cc-tile.cc-tado { border-color:rgba(231,76,60,0.42); box-shadow:0 2px 12px rgba(0,0,0,0.35),0 0 20px rgba(231,76,60,0.1),inset 0 1px 0 rgba(255,255,255,0.05); } .cc-tile.cc-tado::before { background:radial-gradient(circle,rgba(231,76,60,0.28) 0%,transparent 70%); }
-  .cc-tile.cc-nuki { border-color:rgba(243,156,18,0.42); box-shadow:0 2px 12px rgba(0,0,0,0.35),0 0 20px rgba(243,156,18,0.08),inset 0 1px 0 rgba(255,255,255,0.05); } .cc-tile.cc-nuki::before { background:radial-gradient(circle,rgba(243,156,18,0.25) 0%,transparent 70%); }
-  .cc-tile.cc-hue { border-color:rgba(241,196,15,0.35); box-shadow:0 2px 12px rgba(0,0,0,0.35),0 0 20px rgba(241,196,15,0.08),inset 0 1px 0 rgba(255,255,255,0.05); } .cc-tile.cc-hue::before { background:radial-gradient(circle,rgba(241,196,15,0.25) 0%,transparent 70%); }
-  .cc-tile.cc-sonos { border-color:rgba(29,185,84,0.35); box-shadow:0 2px 12px rgba(0,0,0,0.35),0 0 20px rgba(29,185,84,0.08),inset 0 1px 0 rgba(255,255,255,0.05); } .cc-tile.cc-sonos::before { background:radial-gradient(circle,rgba(29,185,84,0.25) 0%,transparent 70%); }
-  .cc-tile.cc-home { border-color:rgba(108,99,255,0.38); box-shadow:0 2px 12px rgba(0,0,0,0.35),0 0 20px rgba(108,99,255,0.1),inset 0 1px 0 rgba(255,255,255,0.05); } .cc-tile.cc-home::before { background:radial-gradient(circle,rgba(108,99,255,0.25) 0%,transparent 70%); }
-  .cc-tile.cc-garten { border-color:rgba(102,187,106,0.35); box-shadow:0 2px 12px rgba(0,0,0,0.35),0 0 20px rgba(102,187,106,0.08),inset 0 1px 0 rgba(255,255,255,0.05); } .cc-tile.cc-garten::before { background:radial-gradient(circle,rgba(102,187,106,0.25) 0%,transparent 70%); }
-  /* ── DUO CARDS ── */
-  .home-duo { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
-  .duo-card { background:linear-gradient(145deg,rgba(28,28,44,0.95) 0%,rgba(18,18,34,0.98) 100%); border:1px solid var(--border); border-radius:18px; padding:16px 14px; cursor:pointer; transition:all 0.18s; display:flex; flex-direction:column; gap:4px; min-height:110px; position:relative; overflow:hidden; text-decoration:none; color:var(--text); box-shadow:0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05); }
-  .duo-card:active { transform:scale(0.94); }
-  .duo-card .duo-icon { font-size:32px; line-height:1; margin-bottom:6px; position:relative; z-index:1; filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5)); }
-  .duo-card .duo-name { font-size:14px; font-weight:700; position:relative; z-index:1; letter-spacing:0.1px; }
-  .duo-card .duo-sub { font-size:11px; color:var(--text3); position:relative; z-index:1; }
-  .duo-card::before { content:''; position:absolute; bottom:-35px; right:-35px; width:110px; height:110px; border-radius:50%; pointer-events:none; }
-  .duo-card.ebike-card { border-color:rgba(108,99,255,0.4); box-shadow:0 4px 24px rgba(0,0,0,0.4),0 0 30px rgba(108,99,255,0.1),inset 0 1px 0 rgba(255,255,255,0.05); } .duo-card.ebike-card::before { background:radial-gradient(circle,rgba(108,99,255,0.3) 0%,transparent 70%); }
-  .duo-card.games-card { border-color:rgba(255,80,130,0.35); box-shadow:0 4px 24px rgba(0,0,0,0.4),0 0 30px rgba(255,80,130,0.08),inset 0 1px 0 rgba(255,255,255,0.05); } .duo-card.games-card::before { background:radial-gradient(circle,rgba(255,80,130,0.28) 0%,transparent 70%); }
-  /* ── INFO DUO ── */
-  .info-card { background:linear-gradient(145deg,rgba(20,20,32,0.97) 0%,rgba(16,16,26,0.99) 100%); border:1px solid var(--border); border-radius:16px; padding:14px 13px; display:flex; flex-direction:column; gap:6px; box-shadow:0 2px 16px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04); }
-  .info-card-title { font-size:10px; font-weight:700; color:var(--text2); text-transform:uppercase; letter-spacing:0.5px; }
-  .info-card-btn { background:none; border:none; color:var(--accent2); font-size:11px; font-weight:600; cursor:pointer; padding:0; text-align:left; margin-top:auto; }
-  .waste-info-card { border-color:rgba(232,115,90,0.28); box-shadow:0 2px 16px rgba(0,0,0,0.3),0 0 20px rgba(232,115,90,0.06),inset 0 1px 0 rgba(255,255,255,0.04); }
-  .cal-info-card { border-color:rgba(108,99,255,0.3); box-shadow:0 2px 16px rgba(0,0,0,0.3),0 0 20px rgba(108,99,255,0.06),inset 0 1px 0 rgba(255,255,255,0.04); }
+  .hero-time-big { font-size:64px; font-weight:200; line-height:1; letter-spacing:-3px; color:#fff; }
+  .hero-date-small { font-size:13px; color:var(--text2); margin-top:4px; font-weight:400; }
+  .hero-divider { height:1px; background:rgba(255,255,255,0.08); margin:14px 0 12px; }
+  .hero-status-row { display:flex; gap:0; background:rgba(255,255,255,0.06); backdrop-filter:var(--glass); -webkit-backdrop-filter:var(--glass); border-radius:16px; padding:10px 0; }
+  .hero-stat { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer; padding:2px 0; }
+  .hero-stat+.hero-stat { border-left:1px solid rgba(255,255,255,0.08); }
+  .hero-stat-icon { font-size:16px; }
+  .hero-stat-val { font-size:14px; font-weight:600; color:#fff; }
+  .hero-stat-label { font-size:10px; color:var(--text2); }
+  /* ── iOS CONTROL CENTER GRID ── */
+  .home-section-label { font-size:11px; font-weight:600; color:var(--text2); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:10px; margin-left:2px; }
+  .cc-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 10px;
+    /* Tado nimmt 2x2 ein */
+  }
+  /* Basis-Tile: frosted glass */
+  .cc-tile {
+    background: var(--surface2);
+    backdrop-filter: var(--glass);
+    -webkit-backdrop-filter: var(--glass);
+    border-radius: 22px;
+    padding: 14px 12px 12px;
+    cursor: pointer;
+    transition: transform 0.12s, opacity 0.12s;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--text);
+    position: relative;
+    overflow: hidden;
+    min-height: 86px;
+  }
+  .cc-tile:active { transform: scale(0.90); opacity: 0.8; }
+  .cc-tile .cc-icon { font-size: 26px; line-height: 1; margin-bottom: auto; }
+  .cc-tile .cc-name { font-size: 12px; font-weight: 700; margin-top: 8px; letter-spacing: -0.1px; }
+  .cc-tile .cc-status { font-size: 10px; color: var(--text2); margin-top: 1px; }
+
+  /* Tado: groß (2x2) */
+  .cc-tile.cc-tado {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+    border-radius: 28px;
+    padding: 18px 16px 16px;
+    min-height: auto;
+    background: rgba(44,44,46,0.90);
+  }
+  .cc-tile.cc-tado .cc-icon { font-size: 36px; }
+  .cc-tile.cc-tado .cc-name { font-size: 16px; font-weight: 700; margin-top: 12px; }
+  .cc-tile.cc-tado .cc-status { font-size: 13px; color: var(--text2); }
+  .cc-tile.cc-tado .cc-tado-temp { font-size: 42px; font-weight: 200; letter-spacing: -2px; margin-top: 6px; color: #fff; }
+
+  /* Farb-Akzente je Tile */
+  .cc-tile.cc-nuki  { background: rgba(255,149,0,0.25); }
+  .cc-tile.cc-hue   { background: rgba(255,214,10,0.20); }
+  .cc-tile.cc-sonos { background: rgba(48,209,88,0.20); }
+  .cc-tile.cc-home  { background: rgba(0,122,255,0.22); }
+
+  /* ── DUO ROW (E-Bike + Garten) ── */
+  .home-duo { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px; }
+  .duo-card {
+    background: var(--surface2);
+    backdrop-filter: var(--glass);
+    -webkit-backdrop-filter: var(--glass);
+    border-radius: 22px;
+    padding: 16px 14px;
+    cursor: pointer;
+    transition: transform 0.12s, opacity 0.12s;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-height: 110px;
+    text-decoration: none;
+    color: var(--text);
+  }
+  .duo-card:active { transform: scale(0.92); opacity: 0.8; }
+  .duo-card .duo-icon { font-size: 30px; line-height: 1; margin-bottom: auto; }
+  .duo-card .duo-name { font-size: 13px; font-weight: 700; margin-top: 8px; }
+  .duo-card .duo-sub { font-size: 11px; color: var(--text2); }
+  .duo-card.ebike-card { background: rgba(0,122,255,0.22); }
+  .duo-card.games-card { background: rgba(255,55,95,0.22); }
+
+  /* ── INFO CARDS (Müll + Kalender) ── */
+  .info-card {
+    background: var(--surface2);
+    backdrop-filter: var(--glass);
+    -webkit-backdrop-filter: var(--glass);
+    border-radius: 22px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 100px;
+  }
+  .info-card-title { font-size: 11px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; }
+  .info-card-btn { background: none; border: none; color: var(--accent); font-size: 11px; font-weight: 600; cursor: pointer; padding: 0; text-align: left; margin-top: auto; }
+  .waste-info-card {}
+  .cal-info-card {}
 
   /* ── SECTION TITLE ── */
   .section-title { font-size: 20px; font-weight: 700; margin-bottom: 14px; margin-top: 6px; }
@@ -396,16 +458,11 @@
 
 
   /* ── ANIMATIONEN ── */
-  @keyframes orb-drift { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(10px,-14px) scale(1.06)} 66%{transform:translate(-6px,10px) scale(0.95)} }
-  @keyframes orb-drift2 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-12px,8px) scale(1.04)} 66%{transform:translate(8px,-10px) scale(0.97)} }
   @keyframes pulse-live { 0%,100%{opacity:1;box-shadow:0 0 4px currentColor} 50%{opacity:0.5;box-shadow:0 0 10px currentColor} }
-  @keyframes fade-in { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
-  .hero-new::before { animation: orb-drift 14s ease-in-out infinite; }
-  .hero-new::after  { animation: orb-drift2 18s ease-in-out infinite; }
-  .hero-new { animation: fade-in 0.5s ease both; }
-  .cc-grid  { animation: fade-in 0.5s 0.1s ease both; }
-  .home-duo { animation: fade-in 0.5s 0.18s ease both; }
-  .cc-tile:hover { border-color: rgba(255,255,255,0.2) !important; background: var(--surface3); }
+  @keyframes fade-in { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+  .hero-new { animation: fade-in 0.4s ease both; }
+  .cc-grid  { animation: fade-in 0.4s 0.08s ease both; }
+  .home-duo { animation: fade-in 0.4s 0.14s ease both; }
   .live-dot { display:inline-block; width:6px; height:6px; border-radius:50%; margin-right:5px; vertical-align:middle; animation: pulse-live 2.2s ease-in-out infinite; }
   .live-dot.green { background:var(--gruen); color:var(--gruen); }
   .live-dot.red   { background:var(--tado);  color:var(--tado); }
@@ -492,41 +549,51 @@
         <span id="weather-info" style="display:none"></span>
       </div>
 
-      <!-- Smart Home -->
-      <div class="home-section-label">⚡ Smart Home</div>
+      <!-- Smart Home CC Grid -->
+      <div class="home-section-label">Smart Home</div>
       <div class="cc-grid">
+        <!-- Tado: groß (2×2) -->
         <div class="cc-tile cc-tado" onclick="openTadoModal()">
           <div class="cc-icon">🌡️</div>
-          <div class="cc-name">Tado</div>
-          <div class="cc-status" id="tado-quick">Heizung</div>
-          <script>if(!_proxy){document.currentScript.previousElementSibling.textContent='Heimnetz';document.currentScript.previousElementSibling.style.color='var(--text3)';}</script>
+          <div class="cc-tado-temp" id="tado-hero-big">--°</div>
+          <div class="cc-name">Heizung</div>
+          <div class="cc-status" id="tado-quick">Tado</div>
+          <script>if(!_proxy){document.getElementById('tado-quick').textContent='Heimnetz';document.getElementById('tado-quick').style.color='var(--text3)';document.getElementById('tado-hero-big').textContent='';}</script>
         </div>
+        <!-- Nuki -->
         <a class="cc-tile cc-nuki" href="nuki:///" onclick="return openApp(this,'https://web.nuki.io')">
           <div class="cc-icon">🔐</div>
           <div class="cc-name">Nuki</div>
-          <div class="cc-status" id="nuki-quick">Türschloss</div>
+          <div class="cc-status" id="nuki-quick">Schloss</div>
         </a>
+        <!-- Hue -->
         <a class="cc-tile cc-hue" href="hueapp:///" onclick="return openApp(this,'https://www.meethue.com')">
           <div class="cc-icon">💡</div>
           <div class="cc-name">Hue</div>
-          <div class="cc-status">Lichter</div>
+          <div class="cc-status">Licht</div>
         </a>
+        <!-- Sonos -->
         <a class="cc-tile cc-sonos" href="x-sonos:///" onclick="return openApp(this,'https://www.sonos.com/app')">
           <div class="cc-icon">🎵</div>
           <div class="cc-name">Sonos</div>
           <div class="cc-status">Musik</div>
         </a>
+        <!-- Apple Home -->
         <a class="cc-tile cc-home" href="x-apple-home:///" onclick="return openApp(this,'#')">
           <div class="cc-icon">🏡</div>
-          <div class="cc-name">Apple Home</div>
-          <div class="cc-status">Steuerung</div>
-        </a>
-        <a class="cc-tile cc-garten" onclick="showPage('garten')" style="cursor:pointer">
-          <div class="cc-icon">🌱</div>
-          <div class="cc-name">Garten</div>
-          <div class="cc-status" id="garden-season">Tipps</div>
+          <div class="cc-name">Home</div>
+          <div class="cc-status">Apple</div>
         </a>
       </div>
+      <!-- Garten als eigene Zeile -->
+      <a class="cc-tile cc-garten" onclick="showPage('garten')" style="cursor:pointer;border-radius:22px;display:flex;flex-direction:row;align-items:center;gap:12px;padding:14px 16px;background:rgba(48,209,88,0.20);backdrop-filter:var(--glass);-webkit-backdrop-filter:var(--glass);margin-bottom:10px;text-decoration:none;color:var(--text);transition:transform 0.12s,opacity 0.12s;" ontouchstart="this.style.opacity=0.7" ontouchend="this.style.opacity=1">
+        <div style="font-size:28px">🌱</div>
+        <div>
+          <div style="font-size:13px;font-weight:700">Garten</div>
+          <div style="font-size:11px;color:var(--text2)" id="garden-season">Saison-Tipps</div>
+        </div>
+        <div style="margin-left:auto;color:var(--text2);font-size:18px">›</div>
+      </a>
 
       <!-- E-Bike + Spiele -->
       <div class="home-duo">
@@ -2525,6 +2592,7 @@ async function loadTadoData() {
       const el = document.getElementById('tado-quick');
       if (el) el.innerHTML = (heating.length > 0 ? '<span class="live-dot green"></span>' : '') + `${first.measuredTemp.toFixed(1)}° · ${heating.length} Räume`;
       const heroEl = document.getElementById('tado-hero'); if(heroEl) heroEl.textContent = `${first.measuredTemp.toFixed(1)}°`;
+      const bigEl = document.getElementById('tado-hero-big'); if(bigEl) bigEl.textContent = `${first.measuredTemp.toFixed(1)}°`;
     }
 
   } catch(err) {
