@@ -1088,6 +1088,7 @@
         <div class="fb-name" id="fb-name"></div>
       </div>
       <div id="fb-questions-container"></div>
+      <div id="fb-autosave-indicator" style="text-align:center;font-size:12px;color:var(--text3);opacity:0;transition:opacity 0.4s;margin-bottom:8px">✓ Automatisch gespeichert</div>
       <button class="fb-save-btn" onclick="saveFreundebuch()">Speichern ✓</button>
       <div style="height:20px"></div>
     </div>
@@ -3507,29 +3508,32 @@ const FRIENDS = [
 
 // ── Freundebuch-Fragen ────────────────────────────────────────
 const FB_QUESTIONS = [
-  // Klassiker
-  { section: '📚 Die Klassiker', items: [
-    { id: 'geburtstag',    q: 'Dein Geburtstag' },
-    { id: 'lieblingsessen',q: 'Dein Lieblingsessen' },
-    { id: 'lieblingsfarbe',q: 'Deine Lieblingsfarbe' },
-    { id: 'lieblingstier', q: 'Dein Lieblingstier' },
-    { id: 'hobby',         q: 'Dein liebstes Hobby' },
-    { id: 'beruf_wunsch',  q: 'Was wolltest du als Kind werden?' },
-    { id: 'groesster_wunsch', q: 'Dein größter Wunsch' },
-    { id: 'lebensmotto',   q: 'Dein Lebensmotto' },
+  { section: '🎯 Die Basics', items: [
+    { id: 'geburtstag',     q: 'Dein Geburtstag (wir feiern das nämlich)' },
+    { id: 'lieblingsessen', q: 'Was isst du, wenn du dir wirklich was gönnst?' },
+    { id: 'lieblingssong',  q: 'Welcher Song beschreibt dich gerade am besten?' },
+    { id: 'lebensmotto',    q: 'Dein Lebensmotto – oder das, nach dem du eigentlich lebst' },
   ]},
-  // Cool & Modern
-  { section: '✨ Die coolen Fragen', items: [
-    { id: 'bester_moment', q: 'Unser bester gemeinsamer Moment' },
-    { id: 'was_magst_du',  q: 'Was magst du besonders an Chris?' },
-    { id: 'ein_wort',      q: 'Ein Wort, das Chris beschreibt' },
-    { id: 'geheimtipp',    q: 'Dein aktueller Geheimtipp (Ort, Film, Song...)' },
-    { id: 'superkraft',    q: 'Wenn du eine Superkraft hättest...' },
-    { id: 'glueck',        q: 'Was macht dich glücklich?' },
-    { id: 'serie_film',    q: 'Lieblingsserie oder -film gerade' },
-    { id: 'zukunft_wunsch',q: 'Was wünschst du Chris für die Zukunft?' },
-    { id: 'frueher_wissen',q: 'Was hättest du früher gerne gewusst?' },
-    { id: 'stempel',       q: 'Hinterlasse hier deinen Stempel 🖊' },
+  { section: '🕵️ Persönlichkeitscheck', items: [
+    { id: 'freier_tag',    q: 'Freier Tag, niemand weiß davon – was passiert?' },
+    { id: 'talent',        q: 'Dein größtes Talent, das kaum jemand kennt' },
+    { id: 'koeder',        q: 'Womit kann man dich immer ködern?' },
+    { id: 'nervt',         q: 'Was nervt dich, aber du gibst es ungern zu?' },
+    { id: 'stadt',         q: 'In welcher Stadt könntest du dir vorstellen zu leben?' },
+  ]},
+  { section: '🏠 Rübezahlweg-Special', items: [
+    { id: 'bester_moment', q: 'Deine liebste Erinnerung an dieses Haus' },
+    { id: 'party',         q: 'Was darf bei einer Party hier nie fehlen?' },
+    { id: 'was_magst_du',  q: 'Chris in einem Satz – maximal ehrlich' },
+    { id: 'was_magst_monica', q: 'Monica in einem Satz – maximal ehrlich' },
+    { id: 'ein_wort',      q: 'Ein Wort für Chris, ein Wort für Monica' },
+  ]},
+  { section: '🌀 Die großen Fragen', items: [
+    { id: 'nicht_scheitern', q: 'Was würdest du tun, wenn du sicher wärst nicht zu scheitern?' },
+    { id: 'frueher_wissen',  q: 'Dein Ratschlag an dein 16-jähriges Ich' },
+    { id: 'guilty_pleasure', q: 'Guilty pleasure – kommt jetzt ins Gästebuch, kein Zurück' },
+    { id: 'zukunft_wunsch',  q: 'Was wünschst du Chris & Monica für die Zukunft?' },
+    { id: 'stempel',         q: 'Hinterlasse hier alles was du willst 🖊' },
   ]},
 ];
 
@@ -3584,7 +3588,7 @@ async function openFreundebuch(friendIdx) {
         <div class="fb-qa-card">
           <div class="fb-question">${q.q}</div>
           <textarea class="fb-answer-input" data-qid="${q.id}" rows="1"
-            placeholder="Hier schreiben..." oninput="autoResize(this)">${(saved[q.id] || '').replace(/</g,'&lt;')}</textarea>
+            placeholder="Hier schreiben..." oninput="autoResize(this);scheduleAutoSave()">${(saved[q.id] || '').replace(/</g,'&lt;')}</textarea>
         </div>`;
     });
   });
@@ -3597,29 +3601,46 @@ function autoResize(el) {
   el.style.height = el.scrollHeight + 'px';
 }
 
-function saveFreundebuch() {
+let _autoSaveTimer = null;
+function scheduleAutoSave() {
+  clearTimeout(_autoSaveTimer);
+  _autoSaveTimer = setTimeout(() => {
+    saveFreundebuch(true); // true = silent auto-save
+  }, 2000);
+}
+
+function saveFreundebuch(silent) {
   if (!_currentFriendId) return;
   const answers = {};
   document.querySelectorAll('.fb-answer-input').forEach(el => {
     answers[el.dataset.qid] = el.value;
   });
   const btn = document.querySelector('.fb-save-btn');
-  if (btn) { btn.textContent = 'Wird gespeichert…'; btn.disabled = true; }
+  if (!silent && btn) { btn.textContent = 'Wird gespeichert…'; btn.disabled = true; }
+  // Sofort lokal cachen
+  localStorage.setItem('fb_' + _currentFriendId, JSON.stringify(answers));
   fetch('https://r11-gaestebuch.cjung41.workers.dev?friend=' + encodeURIComponent(_currentFriendId), {
     method: 'POST',
     body: JSON.stringify(answers),
     headers: { 'Content-Type': 'application/json' }
   }).then(() => {
-    // auch lokal cachen als Fallback
-    localStorage.setItem('fb_' + _currentFriendId, JSON.stringify(answers));
-    if (btn) { btn.textContent = 'Speichern ✓'; btn.disabled = false; }
-    _showFbToast();
+    if (!silent) {
+      if (btn) { btn.textContent = 'Speichern ✓'; btn.disabled = false; }
+      _showFbToast();
+    } else {
+      _showAutoSaveIndicator();
+    }
   }).catch(() => {
-    // offline: nur localStorage
-    localStorage.setItem('fb_' + _currentFriendId, JSON.stringify(answers));
-    if (btn) { btn.textContent = 'Speichern ✓'; btn.disabled = false; }
-    _showFbToast();
+    if (!silent && btn) { btn.textContent = 'Speichern ✓'; btn.disabled = false; }
   });
+}
+
+function _showAutoSaveIndicator() {
+  const ind = document.getElementById('fb-autosave-indicator');
+  if (!ind) return;
+  ind.style.opacity = '1';
+  clearTimeout(ind._t);
+  ind._t = setTimeout(() => { ind.style.opacity = '0'; }, 1500);
 }
 
 async function _loadFriendAnswers(name) {
