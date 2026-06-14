@@ -3498,10 +3498,13 @@ function renderGaestebuch() {
   }).join('');
 }
 
-function openFreundebuch(friendIdx) {
+async function openFreundebuch(friendIdx) {
   const f = FRIENDS[friendIdx];
   if (!f) return;
   _currentFriendId = f.name;
+
+  // Seite sofort zeigen mit Ladezustand
+  showPage('freundebuch');
 
   // Avatar
   const avatarEl = document.getElementById('fb-avatar');
@@ -3511,29 +3514,26 @@ function openFreundebuch(friendIdx) {
   // Name
   document.getElementById('fb-name').textContent = f.name;
 
-  // Fragen aufbauen
+  // Antworten aus Cloud laden
   const container = document.getElementById('fb-questions-container');
-  const saved = _loadFriendAnswers(f.name);
+  container.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text3)">Lädt…</div>';
+  const saved = await _loadFriendAnswers(f.name);
 
+  // Fragen aufbauen
   let html = '';
   FB_QUESTIONS.forEach(section => {
     html += `<div class="fb-section-label">${section.section}</div>`;
     section.items.forEach(q => {
-      const val = (saved[q.id] || '').replace(/"/g, '&quot;');
       html += `
         <div class="fb-qa-card">
           <div class="fb-question">${q.q}</div>
           <textarea class="fb-answer-input" data-qid="${q.id}" rows="1"
-            placeholder="Hier schreiben..." oninput="autoResize(this)">${saved[q.id] || ''}</textarea>
+            placeholder="Hier schreiben..." oninput="autoResize(this)">${(saved[q.id] || '').replace(/</g,'&lt;')}</textarea>
         </div>`;
     });
   });
   container.innerHTML = html;
-
-  // Textarea-Höhe anpassen
   container.querySelectorAll('.fb-answer-input').forEach(autoResize);
-
-  showPage('freundebuch');
 }
 
 function autoResize(el) {
@@ -3547,11 +3547,37 @@ function saveFreundebuch() {
   document.querySelectorAll('.fb-answer-input').forEach(el => {
     answers[el.dataset.qid] = el.value;
   });
-  localStorage.setItem('fb_' + _currentFriendId, JSON.stringify(answers));
-  _showFbToast();
+  const btn = document.querySelector('.fb-save-btn');
+  if (btn) { btn.textContent = 'Wird gespeichert…'; btn.disabled = true; }
+  fetch('/gaestebuch?friend=' + encodeURIComponent(_currentFriendId), {
+    method: 'POST',
+    body: JSON.stringify(answers),
+    headers: { 'Content-Type': 'application/json' }
+  }).then(() => {
+    // auch lokal cachen als Fallback
+    localStorage.setItem('fb_' + _currentFriendId, JSON.stringify(answers));
+    if (btn) { btn.textContent = 'Speichern ✓'; btn.disabled = false; }
+    _showFbToast();
+  }).catch(() => {
+    // offline: nur localStorage
+    localStorage.setItem('fb_' + _currentFriendId, JSON.stringify(answers));
+    if (btn) { btn.textContent = 'Speichern ✓'; btn.disabled = false; }
+    _showFbToast();
+  });
 }
 
-function _loadFriendAnswers(name) {
+async function _loadFriendAnswers(name) {
+  // Erst aus Cloud laden, Fallback auf localStorage
+  try {
+    const res = await fetch('/gaestebuch?friend=' + encodeURIComponent(name));
+    if (res.ok) {
+      const data = await res.json();
+      if (data && Object.keys(data).length > 0) {
+        localStorage.setItem('fb_' + name, JSON.stringify(data));
+        return data;
+      }
+    }
+  } catch(e) {}
   try {
     return JSON.parse(localStorage.getItem('fb_' + name)) || {};
   } catch(e) { return {}; }
