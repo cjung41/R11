@@ -1026,6 +1026,7 @@
       <div style="height:20px"></div>
     </div>
     <div class="fb-saved-toast" id="fb-toast">Gespeichert! 🎉</div>
+<div id="gb-debug-toast" style="display:none;position:fixed;bottom:80px;left:12px;right:12px;background:rgba(220,50,50,0.95);color:#fff;padding:12px;border-radius:12px;font-size:12px;z-index:9999;word-break:break-all"></div>
 
   </div><!-- /content -->
 
@@ -1064,6 +1065,11 @@
 </div>
 
 <script>
+// ── Debug-Fehleranzeige (temporär) ───────────────
+window.onerror = function(msg, src, line, col, err) {
+  const toast = document.getElementById('gb-debug-toast');
+  if (toast) { toast.textContent = '⚠ JS-Fehler Z.' + line + ': ' + msg; toast.style.display = 'block'; }
+};
 // ════════════════════════════════════════════════
 // ABFUHRKALENDER 2026 — Rübezahlweg 11, Bezirk 4
 // Daten aus PDF extrahiert (Stand 12.06.26)
@@ -3471,31 +3477,47 @@ let _currentFriendId = null;
 
 function renderGaestebuch() {
   const grid = document.getElementById('gb-grid');
-  const countEl = document.getElementById('gb-friend-count');
-
-  if (FRIENDS.length === 0) {
-    grid.innerHTML = `
-      <div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--text3)">
-        <div style="font-size:44px;margin-bottom:12px">📸</div>
-        <div style="font-size:15px;font-weight:600;color:var(--text2);margin-bottom:6px">Noch keine Freunde eingetragen</div>
-        <div style="font-size:13px">Bilder in den Ordner <code style="background:var(--surface3);padding:2px 6px;border-radius:6px">friends/</code> legen<br>und in der FRIENDS-Liste eintragen</div>
-      </div>`;
-    if (countEl) countEl.textContent = 'Freunde & Erinnerungen';
+  if (!grid) {
+    // Grid-Element nicht gefunden – zeige Fehler in der Seite
+    const pg = document.getElementById('page-gaestebuch');
+    if (pg) pg.insertAdjacentHTML('beforeend',
+      '<p style="color:red;font-size:13px">❌ gb-grid nicht gefunden</p>');
     return;
   }
 
-  if (countEl) countEl.textContent = FRIENDS.length + ' ' + (FRIENDS.length === 1 ? 'Freund' : 'Freunde');
+  try {
+    if (typeof FRIENDS === 'undefined') {
+      grid.innerHTML = '<div style="grid-column:1/-1;color:red;font-size:13px;padding:12px">❌ FRIENDS nicht definiert – JS-Fehler beim Laden</div>';
+      return;
+    }
 
-  grid.innerHTML = FRIENDS.map((f, i) => {
-    const imgPath = 'friends/' + f.name + '.' + (f.img || 'jpg');
-    return `
-      <div class="gb-friend-card" onclick="openFreundebuch(${i})">
-        <img class="gb-friend-img" src="${imgPath}" alt="${f.name}"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="gb-friend-img-placeholder" style="display:none">🙂</div>
-        <div class="gb-friend-name">${f.name}</div>
-      </div>`;
-  }).join('');
+    const countEl = document.getElementById('gb-friend-count');
+    if (countEl) countEl.textContent = FRIENDS.length + ' ' + (FRIENDS.length === 1 ? 'Freund' : 'Freunde');
+
+    if (FRIENDS.length === 0) {
+      grid.innerHTML = `
+        <div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--text3)">
+          <div style="font-size:44px;margin-bottom:12px">📸</div>
+          <div style="font-size:15px;font-weight:600;color:var(--text2);margin-bottom:6px">Noch keine Freunde eingetragen</div>
+          <div style="font-size:13px">Bilder in den Ordner <code style="background:var(--surface3);padding:2px 6px;border-radius:6px">friends/</code> legen<br>und in der FRIENDS-Liste eintragen</div>
+        </div>`;
+      return;
+    }
+
+    grid.innerHTML = FRIENDS.map((f, i) => {
+      const imgPath = 'friends/' + f.name + '.' + (f.img || 'jpg');
+      return `
+        <div class="gb-friend-card" onclick="openFreundebuch(${i})">
+          <img class="gb-friend-img" src="${imgPath}" alt="${f.name}"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="gb-friend-img-placeholder" style="display:none">🙂</div>
+          <div class="gb-friend-name">${f.name}</div>
+        </div>`;
+    }).join('');
+
+  } catch(err) {
+    grid.innerHTML = '<div style="grid-column:1/-1;color:red;font-size:13px;padding:12px">❌ Fehler: ' + err.message + '</div>';
+  }
 }
 
 async function openFreundebuch(friendIdx) {
