@@ -589,31 +589,36 @@
     border-radius: 16px;
     padding: 14px;
     margin-bottom: 10px;
+    cursor: text;
   }
+  .fb-qa-card:active { opacity: 0.85; }
   .fb-question {
     font-size: 12px;
     font-weight: 600;
     color: var(--text2);
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
   .fb-answer-input {
     width: 100%;
     background: transparent;
     border: none;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1.5px solid var(--border);
     border-radius: 0;
     color: var(--text);
     font-family: inherit;
-    font-size: 15px;
+    font-size: 16px; /* 16px verhindert iOS-Zoom beim Antippen */
     font-weight: 400;
-    padding: 4px 2px 8px;
+    padding: 6px 2px 10px;
     margin: 0;
     resize: none;
-    min-height: 30px;
+    min-height: 36px;
     line-height: 1.5;
-    transition: border-color 0.15s;
+    touch-action: manipulation;
+    -webkit-appearance: none;
+    transition: border-color 0.2s;
+    display: block;
   }
-  .fb-answer-input:focus { outline: none; border-bottom-color: var(--accent); }
+  .fb-answer-input:focus { outline: none; border-bottom-color: var(--accent); border-bottom-width: 2px; }
   .fb-answer-input::placeholder { color: var(--text3); font-style: italic; }
   .fb-save-btn {
     width: 100%;
@@ -3529,6 +3534,7 @@ const FB_QUESTIONS = [
     { id: 'ein_wort',      q: 'Ein Wort für Chris, ein Wort für Monica' },
   ]},
   { section: '🌀 Die großen Fragen', items: [
+    { id: 'wm2026',          q: '⚽ Wer wird Weltmeister 2026?' },
     { id: 'nicht_scheitern', q: 'Was würdest du tun, wenn du sicher wärst nicht zu scheitern?' },
     { id: 'frueher_wissen',  q: 'Dein Ratschlag an dein 16-jähriges Ich' },
     { id: 'guilty_pleasure', q: 'Guilty pleasure – kommt jetzt ins Gästebuch, kein Zurück' },
@@ -3594,6 +3600,13 @@ async function openFreundebuch(friendIdx) {
   });
   container.innerHTML = html;
   container.querySelectorAll('.fb-answer-input').forEach(autoResize);
+  // Ganzen Karten-Bereich tippbar machen → Tastatur öffnet sich
+  container.querySelectorAll('.fb-qa-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const ta = card.querySelector('.fb-answer-input');
+      if (ta) ta.focus();
+    });
+  });
 }
 
 function autoResize(el) {
