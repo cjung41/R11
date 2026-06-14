@@ -484,7 +484,7 @@
     background: var(--surface2);
     border: 1px solid var(--border);
     border-radius: 22px;
-    overflow: hidden;
+    overflow: visible;
     cursor: pointer;
     transition: transform 0.15s, opacity 0.15s;
     text-decoration: none;
@@ -499,6 +499,8 @@
     object-fit: cover;
     display: block;
     background: var(--surface3);
+    border-radius: 22px 22px 0 0;
+    overflow: hidden;
   }
   .gb-friend-img-placeholder {
     width: 100%;
@@ -508,12 +510,30 @@
     align-items: center;
     justify-content: center;
     font-size: 52px;
+    border-radius: 22px 22px 0 0;
+    overflow: hidden;
   }
   .gb-friend-name {
     font-size: 14px;
     font-weight: 700;
     padding: 10px 12px 12px;
     text-align: center;
+  }
+  .gb-friend-card.bewohner {
+    border: 2px solid rgba(255,55,95,0.5);
+    background: rgba(255,55,95,0.08);
+  }
+  .gb-bewohner-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255,55,95,0.85);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 7px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
   }
   /* Freundebuch individual page */
   .fb-header {
@@ -1009,28 +1029,33 @@
 
     <!-- ══ GÄSTEBUCH ══ -->
     <div class="page" id="page-gaestebuch">
-      <div class="section-title">📖 Gästebuch</div>
-      <p style="font-size:13px;color:var(--text2);margin-bottom:18px;margin-top:-10px">Wähl einen Freund aus und füll dein Freundebuch aus 🖊</p>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+        <div class="section-title" style="margin-bottom:0">📖 Gästebuch</div>
+        <button onclick="showPage('home')" style="background:var(--surface3);border:none;border-radius:50%;width:32px;height:32px;font-size:18px;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1">✕</button>
+      </div>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:18px;margin-top:4px">Wähl einen Freund aus und füll dein Freundebuch aus 🖊</p>
       <div class="gb-grid" id="gb-grid">
-        <div class="gb-friend-card" onclick="openFreundebuch(0)">
+        <div class="gb-friend-card bewohner" onclick="openFreundebuch(0)" style="position:relative">
+          <img class="gb-friend-img" src="friends/Chris.png" alt="Chris" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="gb-friend-img-placeholder" style="display:none">🙂</div>
+          <div class="gb-bewohner-badge">🏠 Bewohner</div>
+          <div class="gb-friend-name">Chris</div>
+        </div>
+        <div class="gb-friend-card bewohner" onclick="openFreundebuch(1)" style="position:relative">
+          <img class="gb-friend-img" src="friends/Monica.png" alt="Monica" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="gb-friend-img-placeholder" style="display:none">🙂</div>
+          <div class="gb-bewohner-badge">🏠 Bewohner</div>
+          <div class="gb-friend-name">Monica</div>
+        </div>
+        <div class="gb-friend-card" onclick="openFreundebuch(2)">
           <img class="gb-friend-img" src="friends/Alex.png" alt="Alex" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div class="gb-friend-img-placeholder" style="display:none">🙂</div>
           <div class="gb-friend-name">Alex</div>
         </div>
-        <div class="gb-friend-card" onclick="openFreundebuch(1)">
-          <img class="gb-friend-img" src="friends/Chris.png" alt="Chris" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="gb-friend-img-placeholder" style="display:none">🙂</div>
-          <div class="gb-friend-name">Chris</div>
-        </div>
-        <div class="gb-friend-card" onclick="openFreundebuch(2)">
+        <div class="gb-friend-card" onclick="openFreundebuch(3)">
           <img class="gb-friend-img" src="friends/Dennis.png" alt="Dennis" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div class="gb-friend-img-placeholder" style="display:none">🙂</div>
           <div class="gb-friend-name">Dennis</div>
-        </div>
-        <div class="gb-friend-card" onclick="openFreundebuch(3)">
-          <img class="gb-friend-img" src="friends/Monica.png" alt="Monica" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="gb-friend-img-placeholder" style="display:none">🙂</div>
-          <div class="gb-friend-name">Monica</div>
         </div>
         <div class="gb-friend-card" onclick="openFreundebuch(4)">
           <img class="gb-friend-img" src="friends/Niklas.png" alt="Niklas" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -1067,7 +1092,6 @@
       <div style="height:20px"></div>
     </div>
     <div class="fb-saved-toast" id="fb-toast">Gespeichert! 🎉</div>
-<div id="gb-debug-toast" style="display:none;position:fixed;bottom:80px;left:12px;right:12px;background:rgba(220,50,50,0.95);color:#fff;padding:12px;border-radius:12px;font-size:12px;z-index:9999;word-break:break-all"></div>
 
   </div><!-- /content -->
 
@@ -1106,11 +1130,6 @@
 </div>
 
 <script>
-// ── Debug-Fehleranzeige (temporär) ───────────────
-window.onerror = function(msg, src, line, col, err) {
-  const toast = document.getElementById('gb-debug-toast');
-  if (toast) { toast.textContent = '⚠ JS-Fehler Z.' + line + ': ' + msg; toast.style.display = 'block'; }
-};
 // ════════════════════════════════════════════════
 // ABFUHRKALENDER 2026 — Rübezahlweg 11, Bezirk 4
 // Daten aus PDF extrahiert (Stand 12.06.26)
@@ -3476,10 +3495,10 @@ function _sdLoop(){
 // Name muss EXAKT dem Dateinamen entsprechen (ohne Endung)
 // Beispiel: { name: 'Lisa', img: 'jpg' }  → lädt friends/Lisa.jpg
 const FRIENDS = [
+  { name: 'Chris',  img: 'png', bewohner: true },
+  { name: 'Monica', img: 'png', bewohner: true },
   { name: 'Alex',   img: 'png' },
-  { name: 'Chris',  img: 'png' },
   { name: 'Dennis', img: 'png' },
-  { name: 'Monica', img: 'png' },
   { name: 'Niklas', img: 'png' },
   { name: 'Spiri',  img: 'png' },
   { name: 'Sucuk',  img: 'png' },
@@ -3518,47 +3537,21 @@ let _currentFriendId = null;
 
 function renderGaestebuch() {
   const grid = document.getElementById('gb-grid');
-  if (!grid) {
-    // Grid-Element nicht gefunden – zeige Fehler in der Seite
-    const pg = document.getElementById('page-gaestebuch');
-    if (pg) pg.insertAdjacentHTML('beforeend',
-      '<p style="color:red;font-size:13px">❌ gb-grid nicht gefunden</p>');
-    return;
-  }
-
-  try {
-    if (typeof FRIENDS === 'undefined') {
-      grid.innerHTML = '<div style="grid-column:1/-1;color:red;font-size:13px;padding:12px">❌ FRIENDS nicht definiert – JS-Fehler beim Laden</div>';
-      return;
-    }
-
-    const countEl = document.getElementById('gb-friend-count');
-    if (countEl) countEl.textContent = FRIENDS.length + ' ' + (FRIENDS.length === 1 ? 'Freund' : 'Freunde');
-
-    if (FRIENDS.length === 0) {
-      grid.innerHTML = `
-        <div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--text3)">
-          <div style="font-size:44px;margin-bottom:12px">📸</div>
-          <div style="font-size:15px;font-weight:600;color:var(--text2);margin-bottom:6px">Noch keine Freunde eingetragen</div>
-          <div style="font-size:13px">Bilder in den Ordner <code style="background:var(--surface3);padding:2px 6px;border-radius:6px">friends/</code> legen<br>und in der FRIENDS-Liste eintragen</div>
-        </div>`;
-      return;
-    }
-
-    grid.innerHTML = FRIENDS.map((f, i) => {
-      const imgPath = 'friends/' + f.name + '.' + (f.img || 'jpg');
-      return `
-        <div class="gb-friend-card" onclick="openFreundebuch(${i})">
-          <img class="gb-friend-img" src="${imgPath}" alt="${f.name}"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="gb-friend-img-placeholder" style="display:none">🙂</div>
-          <div class="gb-friend-name">${f.name}</div>
-        </div>`;
-    }).join('');
-
-  } catch(err) {
-    grid.innerHTML = '<div style="grid-column:1/-1;color:red;font-size:13px;padding:12px">❌ Fehler: ' + err.message + '</div>';
-  }
+  if (!grid) return;
+  const countEl = document.getElementById('gb-friend-count');
+  if (countEl) countEl.textContent = FRIENDS.length + ' ' + (FRIENDS.length === 1 ? 'Freund' : 'Freunde');
+  if (FRIENDS.length === 0) return;
+  grid.innerHTML = FRIENDS.map((f, i) => {
+    const imgPath = 'friends/' + f.name + '.' + (f.img || 'jpg');
+    return `
+      <div class="gb-friend-card${f.bewohner ? ' bewohner' : ''}" onclick="openFreundebuch(${i})" style="position:relative">
+        <img class="gb-friend-img" src="${imgPath}" alt="${f.name}"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="gb-friend-img-placeholder" style="display:none">🙂</div>
+        ${f.bewohner ? '<div class="gb-bewohner-badge">🏠 Bewohner</div>' : ''}
+        <div class="gb-friend-name">${f.name}</div>
+      </div>`;
+  }).join('');
 }
 
 async function openFreundebuch(friendIdx) {
