@@ -486,6 +486,10 @@
     border-radius: 22px;
     overflow: visible;
     cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+    user-select: none;
+    -webkit-user-select: none;
     transition: transform 0.15s, opacity 0.15s;
     text-decoration: none;
     color: var(--text);
@@ -1040,44 +1044,44 @@
       </div>
       <p style="font-size:13px;color:var(--text2);margin-bottom:18px;margin-top:4px">Wähl einen Freund aus und füll dein Freundebuch aus 🖊</p>
       <div class="gb-grid" id="gb-grid">
-        <div class="gb-friend-card bewohner" onclick="openFreundebuch(0)" style="position:relative">
+        <div class="gb-friend-card bewohner" ontouchstart="" onclick="openFreundebuch(0)" style="position:relative">
           <img class="gb-friend-img" src="friends/Chris.png" alt="Chris" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div class="gb-friend-img-placeholder" style="display:none">🙂</div>
           <div class="gb-bewohner-badge">🏠 Bewohner</div>
           <div class="gb-friend-name">Chris</div>
         </div>
-        <div class="gb-friend-card bewohner" onclick="openFreundebuch(1)" style="position:relative">
+        <div class="gb-friend-card bewohner" ontouchstart="" onclick="openFreundebuch(1)" style="position:relative">
           <img class="gb-friend-img" src="friends/Monica.png" alt="Monica" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div class="gb-friend-img-placeholder" style="display:none">🙂</div>
           <div class="gb-bewohner-badge">🏠 Bewohner</div>
           <div class="gb-friend-name">Monica</div>
         </div>
-        <div class="gb-friend-card" onclick="openFreundebuch(2)">
+        <div class="gb-friend-card" ontouchstart="" onclick="openFreundebuch(2)">
           <img class="gb-friend-img" src="friends/Sucuk.png" alt="Sucuk" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div class="gb-friend-img-placeholder" style="display:none">🙂</div>
           <div class="gb-friend-name">Sucuk</div>
         </div>
-        <div class="gb-friend-card" onclick="openFreundebuch(3)">
+        <div class="gb-friend-card" ontouchstart="" onclick="openFreundebuch(3)">
           <img class="gb-friend-img" src="friends/Dennis.png" alt="Dennis" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div class="gb-friend-img-placeholder" style="display:none">🙂</div>
           <div class="gb-friend-name">Dennis</div>
         </div>
-        <div class="gb-friend-card" onclick="openFreundebuch(4)">
+        <div class="gb-friend-card" ontouchstart="" onclick="openFreundebuch(4)">
           <img class="gb-friend-img" src="friends/Alex.png" alt="Alex" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div class="gb-friend-img-placeholder" style="display:none">🙂</div>
           <div class="gb-friend-name">Alex</div>
         </div>
-        <div class="gb-friend-card" onclick="openFreundebuch(5)">
+        <div class="gb-friend-card" ontouchstart="" onclick="openFreundebuch(5)">
           <img class="gb-friend-img" src="friends/Niklas.png" alt="Niklas" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div class="gb-friend-img-placeholder" style="display:none">🙂</div>
           <div class="gb-friend-name">Niklas</div>
         </div>
-        <div class="gb-friend-card" onclick="openFreundebuch(6)">
+        <div class="gb-friend-card" ontouchstart="" onclick="openFreundebuch(6)">
           <img class="gb-friend-img" src="friends/Spiri.png" alt="Spiri" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div class="gb-friend-img-placeholder" style="display:none">🙂</div>
           <div class="gb-friend-name">Spiri</div>
         </div>
-        <div class="gb-friend-card" onclick="openFreundebuch(7)">
+        <div class="gb-friend-card" ontouchstart="" onclick="openFreundebuch(7)">
           <img class="gb-friend-img" src="friends/Thomas.png" alt="Thomas" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div class="gb-friend-img-placeholder" style="display:none">🙂</div>
           <div class="gb-friend-name">Thomas</div>
@@ -3554,7 +3558,7 @@ function renderGaestebuch() {
   grid.innerHTML = FRIENDS.map((f, i) => {
     const imgPath = 'friends/' + f.name + '.' + (f.img || 'jpg');
     return `
-      <div class="gb-friend-card${f.bewohner ? ' bewohner' : ''}" onclick="openFreundebuch(${i})" style="position:relative">
+      <div class="gb-friend-card${f.bewohner ? ' bewohner' : ''}" ontouchstart="" onclick="openFreundebuch(${i})" style="position:relative">
         <img class="gb-friend-img" src="${imgPath}" alt="${f.name}"
              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="gb-friend-img-placeholder" style="display:none">🙂</div>
