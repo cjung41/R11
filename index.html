@@ -413,6 +413,27 @@
   .hue-light { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--border); cursor: pointer; transition: all 0.2s; flex-shrink: 0; }
   .hue-light.on { border-color: var(--hue); box-shadow: 0 0 10px rgba(241,196,15,0.5); }
 
+  /* ── HUE PANEL & CARDS ── */
+  .hue-light-card { background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:8px;transition:border-color 0.2s,background 0.2s; }
+  .hue-light-card.on { border-color:rgba(255,214,10,0.4);background:rgba(255,214,10,0.06); }
+  .hue-bulb-icon { font-size:22px;opacity:0.35;transition:opacity 0.2s;line-height:1; }
+  .hue-bulb-icon.on { opacity:1; }
+  .hue-toggle-btn { width:44px;height:26px;background:var(--surface3);border-radius:13px;position:relative;cursor:pointer;transition:background 0.25s;flex-shrink:0;border:none; }
+  .hue-toggle-btn.on { background:var(--hue); }
+  .hue-toggle-btn::after { content:'';position:absolute;width:20px;height:20px;background:white;border-radius:50%;top:3px;left:3px;transition:transform 0.25s; }
+  .hue-toggle-btn.on::after { transform:translateX(18px); }
+  .hue-bri-slider { width:100%;-webkit-appearance:none;appearance:none;height:4px;border-radius:2px;background:rgba(255,214,10,0.25);outline:none;cursor:pointer;margin-top:10px;display:block; }
+  .hue-bri-slider::-webkit-slider-thumb { -webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--hue);cursor:pointer; }
+  /* Hue setup modal */
+  #hue-setup-modal { display:none;position:fixed;inset:0;z-index:310;background:var(--bg);flex-direction:column;overflow-y:auto; }
+  #hue-setup-modal.open { display:flex; }
+  .hue-setup-header { display:flex;align-items:center;justify-content:space-between;padding:max(14px,env(safe-area-inset-top)) 20px 14px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:10; }
+  /* Hue bottom panel */
+  #hue-panel-overlay { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;align-items:flex-end; }
+  #hue-panel-overlay.open { display:flex; }
+  .hue-tab-btn { background:none;border:none;color:var(--text2);font-size:13px;font-weight:500;padding:6px 10px;border-radius:9px;cursor:pointer;touch-action:manipulation;transition:background 0.15s,color 0.15s; }
+  .hue-tab-btn.active { background:var(--surface3);color:var(--text);font-weight:700; }
+
   .pill { background: var(--surface3); border-radius: 20px; padding: 4px 10px; font-size: 12px; color: var(--text2); }
   .pill.green { background: rgba(102,187,106,0.15); color: var(--gruen); }
   .pill.red { background: rgba(231,76,60,0.15); color: var(--tado); }
@@ -746,11 +767,11 @@
           <div class="cc-status" id="nuki-quick">Schloss</div>
         </a>
         <!-- Hue -->
-        <a class="cc-tile cc-hue" href="hueapp:///" onclick="return openApp(this,'https://www.meethue.com')">
+        <div class="cc-tile cc-hue" onclick="openHuePanel()" style="cursor:pointer">
           <div class="cc-icon">💡</div>
           <div class="cc-name">Hue</div>
-          <div class="cc-status">Licht</div>
-        </a>
+          <div class="cc-status" id="hue-quick-status">Verbinden…</div>
+        </div>
         <!-- Sonos -->
         <a class="cc-tile cc-sonos" href="x-sonos:///" onclick="return openApp(this,'https://www.sonos.com/app')">
           <div class="cc-icon">🎵</div>
@@ -895,15 +916,15 @@
 
       <!-- Philips Hue -->
       <div class="card">
-        <div class="card-title">💡 Philips Hue – Licht</div>
-        <div id="hue-rooms">
-          <div class="hue-room"><span>Wohnzimmer</span><div style="display:flex;align-items:center;gap:10px"><span class="pill" id="hue-wz-label">Aus</span><div class="hue-light" id="hue-wz" onclick="toggleHue('wz')"></div></div></div>
-          <div class="hue-room"><span>Schlafzimmer</span><div style="display:flex;align-items:center;gap:10px"><span class="pill" id="hue-sz-label">Aus</span><div class="hue-light" id="hue-sz" onclick="toggleHue('sz')"></div></div></div>
-          <div class="hue-room"><span>Küche</span><div style="display:flex;align-items:center;gap:10px"><span class="pill" id="hue-ku-label">Aus</span><div class="hue-light" id="hue-ku" onclick="toggleHue('ku')"></div></div></div>
-          <div class="hue-room"><span>Bad</span><div style="display:flex;align-items:center;gap:10px"><span class="pill" id="hue-ba-label">Aus</span><div class="hue-light" id="hue-ba" onclick="toggleHue('ba')"></div></div></div>
-          <div class="hue-room"><span>Außen / Eingang</span><div style="display:flex;align-items:center;gap:10px"><span class="pill" id="hue-au-label">Aus</span><div class="hue-light" id="hue-au" onclick="toggleHue('au')"></div></div></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div class="card-title" style="margin-bottom:0">💡 Philips Hue – Licht</div>
+          <button onclick="hueLoadAll().then(hueRenderSmarthomeSection)" style="background:none;border:none;color:var(--text3);font-size:18px;cursor:pointer;padding:0 4px">↻</button>
         </div>
-        <a href="hueapp:///" onclick="return openApp(this,'https://www.meethue.com')" class="btn secondary" style="margin-top:12px;width:100%;justify-content:center">Hue App →</a>
+        <div id="hue-rooms"><p style="color:var(--text3);font-size:13px;padding:8px 0">Lade…</p></div>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button class="btn secondary" onclick="openHueSetup()" style="flex:1;justify-content:center;font-size:13px" id="hue-setup-btn">🔗 Bridge verbinden</button>
+          <button class="btn" onclick="openHuePanel()" style="flex:1;justify-content:center;font-size:13px" id="hue-open-btn">💡 Schnellsteuerung</button>
+        </div>
       </div>
 
       <!-- Sonos + HomePods -->
@@ -1139,6 +1160,109 @@
   </div>
 </div>
 
+<!-- Hue Setup Modal (Fullscreen) -->
+<div id="hue-setup-modal">
+  <div class="hue-setup-header">
+    <div style="font-size:20px;font-weight:700">💡 Philips Hue</div>
+    <button onclick="document.getElementById('hue-setup-modal').classList.remove('open')" style="background:var(--surface2);border:1px solid var(--border);color:var(--text2);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center">✕</button>
+  </div>
+  <div style="padding:24px 20px;max-width:480px;margin:0 auto;width:100%">
+
+    <!-- Remote Setup (Standard) -->
+    <div id="hue-step-remote">
+      <div style="font-size:52px;text-align:center;margin:16px 0 12px">☁️</div>
+      <h3 style="font-size:20px;font-weight:700;text-align:center;margin-bottom:6px">Hue Cloud verbinden</h3>
+      <p style="font-size:13px;color:var(--text2);text-align:center;margin-bottom:24px">Funktioniert von überall – nicht nur im Heimnetz.</p>
+      <div style="margin-bottom:12px">
+        <label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px;font-weight:700;letter-spacing:0.5px">CLIENT ID</label>
+        <input type="text" id="hue-client-id" placeholder="Aus dem Developer Portal" style="font-size:15px;width:100%;margin-bottom:0">
+      </div>
+      <div style="margin-bottom:20px">
+        <label style="font-size:12px;color:var(--text3);display:block;margin-bottom:4px;font-weight:700;letter-spacing:0.5px">CLIENT SECRET</label>
+        <input type="password" id="hue-client-secret" placeholder="Aus dem Developer Portal" style="font-size:15px;width:100%;margin-bottom:0">
+      </div>
+      <button class="btn" ontouchstart="" onclick="hueStartOAuth(document.getElementById('hue-client-id').value.trim(),document.getElementById('hue-client-secret').value.trim())" style="width:100%;justify-content:center;font-size:16px;padding:14px">Mit Hue verbinden →</button>
+      <p id="hue-oauth-error" style="color:var(--tado);font-size:13px;text-align:center;margin-top:12px;display:none"></p>
+      <div style="margin-top:20px;padding:14px;background:var(--surface2);border-radius:12px;border:1px solid var(--border)">
+        <div style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:6px">🛠 Einmalige Einrichtung (5 Min.)</div>
+        <div style="font-size:12px;color:var(--text3);line-height:1.7">
+          1. Gehe zu <strong style="color:var(--accent2)">developers.meethue.com</strong><br>
+          2. Account erstellen (kostenlos) → „Create App"<br>
+          3. Callback URL eintragen: <span style="color:var(--text2);font-size:11px">https://r11.cjung41.workers.dev</span><br>
+          4. Client ID + Secret oben eingeben → Verbinden
+        </div>
+      </div>
+      <div style="margin-top:14px;text-align:center">
+        <button ontouchstart="" onclick="showHueSetupStep('local-1');hueAutoDiscover()" style="background:none;border:none;color:var(--text3);font-size:12px;cursor:pointer;text-decoration:underline;touch-action:manipulation">Alternativ: Lokal verbinden (nur zu Hause)</button>
+      </div>
+      <div id="hue-setup-disconnect-row" style="display:none;margin-top:14px;text-align:center">
+        <button ontouchstart="" onclick="hueDisconnect()" style="background:none;border:none;color:var(--tado);font-size:13px;cursor:pointer;touch-action:manipulation">Hue trennen & zurücksetzen</button>
+      </div>
+    </div>
+
+    <!-- Connecting -->
+    <div id="hue-step-connecting" style="display:none">
+      <div style="font-size:52px;text-align:center;margin:40px 0 12px">⏳</div>
+      <h3 style="font-size:20px;font-weight:700;text-align:center;margin-bottom:8px">Verbinde…</h3>
+      <p style="font-size:14px;color:var(--text2);text-align:center">Token wird ausgetauscht und Bridge verknüpft…</p>
+    </div>
+
+    <!-- Local Step 1: IP -->
+    <div id="hue-step-local-1" style="display:none">
+      <div style="font-size:52px;text-align:center;margin:16px 0 12px">🔍</div>
+      <h3 style="font-size:20px;font-weight:700;text-align:center;margin-bottom:6px">Lokale Bridge finden</h3>
+      <p id="hue-discover-status" style="font-size:13px;color:var(--text2);text-align:center;margin-bottom:20px;min-height:20px">Suche Bridge im Netzwerk…</p>
+      <input type="text" id="hue-bridge-ip-input" placeholder="z.B. 192.168.1.100" style="font-size:16px;text-align:center;margin-bottom:6px">
+      <p style="font-size:12px;color:var(--text3);text-align:center;margin-bottom:24px">IP: Hue-App → Einstellungen → Meine Hue Bridge → IP-Adresse</p>
+      <button class="btn" ontouchstart="" onclick="hueLocalPairStep1()" style="width:100%;justify-content:center;font-size:16px;padding:14px">Weiter →</button>
+      <div style="margin-top:12px;text-align:center">
+        <button ontouchstart="" onclick="showHueSetupStep('remote')" style="background:none;border:none;color:var(--text3);font-size:12px;cursor:pointer;text-decoration:underline;touch-action:manipulation">← Zurück zu Cloud-Verbindung</button>
+      </div>
+    </div>
+
+    <!-- Local Step 2: Button Press -->
+    <div id="hue-step-local-2" style="display:none">
+      <div style="font-size:52px;text-align:center;margin:16px 0 12px">🔵</div>
+      <h3 style="font-size:20px;font-weight:700;text-align:center;margin-bottom:8px">Knopf drücken!</h3>
+      <p style="font-size:14px;color:var(--text2);text-align:center;margin-bottom:6px">Drücke den <strong>Knopf auf der Hue Bridge</strong>, dann tippe auf „Verbinden".</p>
+      <p id="hue-pending-ip" style="font-size:12px;color:var(--text3);text-align:center;margin-bottom:24px"></p>
+      <button id="hue-pair-btn" class="btn" ontouchstart="" onclick="hueLocalPairConnect()" style="width:100%;justify-content:center;font-size:16px;padding:14px">Jetzt verbinden</button>
+      <p id="hue-pair-error" style="color:var(--tado);font-size:13px;text-align:center;margin-top:12px;min-height:20px"></p>
+      <button ontouchstart="" onclick="showHueSetupStep('local-1')" class="btn secondary" style="width:100%;justify-content:center;margin-top:8px">← Zurück</button>
+    </div>
+
+    <!-- Success -->
+    <div id="hue-step-success" style="display:none">
+      <div style="font-size:52px;text-align:center;margin:40px 0 12px">✅</div>
+      <h3 style="font-size:20px;font-weight:700;text-align:center;margin-bottom:8px">Verbunden!</h3>
+      <p style="font-size:14px;color:var(--text2);text-align:center;margin-bottom:24px">Philips Hue ist mit dem Dashboard verknüpft. Steuere alle Lichter direkt von hier.</p>
+      <button class="btn" ontouchstart="" onclick="hueSetupDone()" style="width:100%;justify-content:center;font-size:16px;padding:14px">Los geht's 🎉</button>
+      <div style="margin-top:16px;text-align:center">
+        <button ontouchstart="" onclick="hueDisconnect()" style="background:none;border:none;color:var(--tado);font-size:13px;cursor:pointer;touch-action:manipulation">Hue trennen</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Hue Control Panel (Bottom Sheet) -->
+<div id="hue-panel-overlay" onclick="closeHuePanel()">
+  <div id="hue-panel" onclick="event.stopPropagation()" style="background:var(--surface);border-radius:20px 20px 0 0;padding:20px;padding-bottom:max(20px,var(--safe-bottom));width:100%;max-height:85vh;overflow-y:auto;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <h3 style="font-size:18px;font-weight:700">💡 Philips Hue</h3>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button onclick="hueLoadAll().then(hueRenderPanel)" style="background:none;border:none;color:var(--text3);font-size:20px;cursor:pointer;padding:0 4px">↻</button>
+        <button onclick="closeHuePanel()" style="background:var(--surface3);border:none;color:var(--text);width:28px;height:28px;border-radius:14px;cursor:pointer;font-size:16px">✕</button>
+      </div>
+    </div>
+    <div style="display:flex;gap:4px;margin-bottom:14px;background:var(--surface2);border-radius:12px;padding:3px">
+      <button id="hue-tab-rooms"  class="hue-tab-btn active" ontouchstart="" onclick="hueSetPanelTab('rooms')"  style="flex:1">Räume</button>
+      <button id="hue-tab-scenes" class="hue-tab-btn"        ontouchstart="" onclick="hueSetPanelTab('scenes')" style="flex:1">Szenen</button>
+      <button id="hue-tab-lights" class="hue-tab-btn"        ontouchstart="" onclick="hueSetPanelTab('lights')" style="flex:1">Lichter</button>
+    </div>
+    <div id="hue-panel-content"><p style="color:var(--text3);text-align:center;padding:20px">Lade…</p></div>
+  </div>
+</div>
+
 <script>
 // ════════════════════════════════════════════════
 // ABFUHRKALENDER 2026 — Rübezahlweg 11, Bezirk 4
@@ -1220,7 +1344,8 @@ const PLANTS = [
 let currentPage = 'home';
 let calYear = new Date().getFullYear();
 let calMonth = new Date().getMonth();
-let hueState = { wz: false, sz: false, ku: false, ba: false, au: false };
+let hueConfig = JSON.parse(localStorage.getItem('r11_hue_config') || 'null');
+let hueLights = {}, hueGroups = {}, hueScenes = {};
 let events = JSON.parse(localStorage.getItem('r11_events') || '[]');
 let gardenIdeas = JSON.parse(localStorage.getItem('r11_garden_ideas') || '[]');
 
@@ -1404,29 +1529,507 @@ function renderTodayEvents() {
   document.getElementById('today-events').innerHTML = html || '<span style="color:var(--text3)">Keine Termine heute oder morgen</span>';
 }
 
-// ════════════════════
-// HUE TOGGLE
-// ════════════════════
-function toggleHue(room) {
-  hueState[room] = !hueState[room];
-  const el = document.getElementById('hue-' + room);
-  const label = document.getElementById('hue-' + room + '-label');
-  if (hueState[room]) {
-    el.classList.add('on');
-    el.style.background = '#f1c40f';
-    label.className = 'pill';
-    label.style.background = 'rgba(241,196,15,0.15)';
-    label.style.color = 'var(--hue)';
-    label.textContent = 'An';
-  } else {
-    el.classList.remove('on');
-    el.style.background = '';
-    label.className = 'pill';
-    label.style.background = '';
-    label.style.color = '';
-    label.textContent = 'Aus';
+// ════════════════════════════════════════
+// PHILIPS HUE – Remote API + Local HTTPS
+// ════════════════════════════════════════
+
+// ── CONNECTION CHECK ──
+function hueIsConnected() {
+  if (!hueConfig) return false;
+  if (hueConfig.type === 'remote') return !!(hueConfig.accessToken && hueConfig.username);
+  // Legacy local (type undefined or 'local')
+  return !!(hueConfig.username && (hueConfig.bridgeIp || hueConfig.type === 'local'));
+}
+
+// ── TOKEN REFRESH ──
+async function hueEnsureToken() {
+  if (!hueConfig || hueConfig.type !== 'remote') return;
+  if (!hueConfig.refreshToken) return;
+  const expiry = hueConfig.tokenExpiry || 0;
+  if (Date.now() < expiry - 60000) return; // still valid (>1 min left)
+  try {
+    const r = await fetch('https://api.meethue.com/oauth2/refresh?token=refresh', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Basic ' + btoa(`${hueConfig.clientId}:${hueConfig.clientSecret}`),
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: `grant_type=refresh_token&refresh_token=${encodeURIComponent(hueConfig.refreshToken)}`
+    });
+    const data = await r.json();
+    if (data.access_token) {
+      hueConfig.accessToken = data.access_token;
+      if (data.refresh_token) hueConfig.refreshToken = data.refresh_token;
+      hueConfig.tokenExpiry = Date.now() + (parseInt(data.expires_in) || 7200) * 1000;
+      localStorage.setItem('r11_hue_config', JSON.stringify(hueConfig));
+    }
+  } catch(e) { console.warn('Hue token refresh failed:', e); }
+}
+
+// ── API LAYER ──
+function _hueHeaders(extraHeaders) {
+  const h = { 'Content-Type': 'application/json', ...extraHeaders };
+  if (hueConfig.type === 'remote') h['Authorization'] = `Bearer ${hueConfig.accessToken}`;
+  return h;
+}
+function _hueUrl(endpoint) {
+  if (hueConfig.type === 'remote')
+    return `https://api.meethue.com/route/api/${hueConfig.username}${endpoint}`;
+  return `https://${hueConfig.bridgeIp}/api/${hueConfig.username}${endpoint}`;
+}
+
+async function hueApiGet(endpoint) {
+  await hueEnsureToken();
+  const r = await fetch(_hueUrl(endpoint), { headers: _hueHeaders(), signal: AbortSignal.timeout(12000) });
+  return r.json();
+}
+async function hueApiPut(endpoint, body) {
+  await hueEnsureToken();
+  const r = await fetch(_hueUrl(endpoint), { method:'PUT', headers:_hueHeaders(), body:JSON.stringify(body), signal:AbortSignal.timeout(8000) });
+  return r.json();
+}
+
+// ── LOAD ALL ──
+async function hueLoadAll() {
+  if (!hueIsConnected()) { hueUpdateQuickStatus(); hueRenderSmarthomeSection(); return; }
+  try {
+    const [lights, groups, scenes] = await Promise.all([
+      hueApiGet('/lights'),
+      hueApiGet('/groups'),
+      hueApiGet('/scenes')
+    ]);
+    if (Array.isArray(lights) && lights[0]?.error) throw new Error(lights[0].error.description);
+    hueLights = (Array.isArray(lights) ? {} : lights) || {};
+    hueGroups = (Array.isArray(groups) ? {} : groups) || {};
+    hueScenes = (Array.isArray(scenes) ? {} : scenes) || {};
+    hueUpdateQuickStatus();
+    hueRenderSmarthomeSection();
+  } catch(e) {
+    console.warn('Hue load error:', e.message);
+    const el = document.getElementById('hue-quick-status');
+    if (el) el.textContent = '⚠️ Keine Verbindung';
   }
-  localStorage.setItem('r11_hue', JSON.stringify(hueState));
+}
+
+function hueUpdateQuickStatus() {
+  const el = document.getElementById('hue-quick-status');
+  if (!el) return;
+  if (!hueIsConnected()) { el.textContent = 'Tippen zum Verbinden'; el.style.color = 'var(--text3)'; return; }
+  const all = Object.values(hueLights).filter(l => l.state?.reachable !== false);
+  const on = all.filter(l => l.state?.on).length;
+  el.style.color = '';
+  el.textContent = on > 0 ? `${on} von ${all.length} an` : all.length > 0 ? 'Alle aus' : 'Verbunden';
+}
+
+// ── LIGHT & GROUP CONTROL ──
+async function hueToggleLight(id, on) {
+  if (hueLights[id]) hueLights[id].state.on = on;
+  await hueApiPut(`/lights/${id}/state`, { on }).catch(()=>{});
+  hueUpdateQuickStatus();
+}
+async function hueSetBrightness(id, bri) {
+  const on = bri > 0;
+  if (hueLights[id]) { hueLights[id].state.on = on; hueLights[id].state.bri = bri; }
+  await hueApiPut(`/lights/${id}/state`, { on, bri: Math.max(1,bri) }).catch(()=>{});
+  hueUpdateQuickStatus();
+}
+async function hueToggleGroup(id, on) {
+  if (hueGroups[id]) hueGroups[id].action = { ...hueGroups[id].action, on };
+  (hueGroups[id]?.lights || []).forEach(lid => { if (hueLights[lid]?.state) hueLights[lid].state.on = on; });
+  await hueApiPut(`/groups/${id}/action`, { on }).catch(()=>{});
+  hueUpdateQuickStatus(); hueRenderPanel(); hueRenderSmarthomeSection();
+}
+async function hueSetGroupBrightness(id, bri) {
+  await hueApiPut(`/groups/${id}/action`, { bri: Math.max(1,bri), on: bri > 0 }).catch(()=>{});
+}
+async function hueAllLights(on) {
+  await hueApiPut('/groups/0/action', { on }).catch(()=>{});
+  Object.values(hueLights).forEach(l => { if(l.state) l.state.on = on; });
+  hueUpdateQuickStatus(); hueRenderPanel(); hueRenderSmarthomeSection();
+}
+async function hueActivateScene(groupId, sceneId) {
+  await hueApiPut(`/groups/${groupId}/action`, { scene: sceneId }).catch(()=>{});
+  setTimeout(() => hueLoadAll().then(hueRenderPanel), 800);
+}
+
+// ── OAUTH FLOW ──
+function hueStartOAuth(clientId, clientSecret) {
+  if (!clientId || !clientSecret) { alert('Bitte Client ID und Client Secret eingeben.'); return; }
+  localStorage.setItem('r11_hue_pending', JSON.stringify({ clientId, clientSecret }));
+  const state = 'r11hue_' + Math.random().toString(36).substr(2,8);
+  localStorage.setItem('r11_hue_oauth_state', state);
+  const params = new URLSearchParams({ clientid:clientId, response_type:'code', state, appid:'r11_dashboard', deviceid:'r11_browser', devicename:'R11 Dashboard' });
+  window.location.href = `https://api.meethue.com/oauth2/authorize?${params}`;
+}
+
+async function hueHandleOAuthCallback(code, state) {
+  const pending = JSON.parse(localStorage.getItem('r11_hue_pending') || 'null');
+  const savedState = localStorage.getItem('r11_hue_oauth_state');
+  if (!pending || !code) return;
+  if (savedState && state !== savedState) { console.warn('Hue OAuth state mismatch'); return; }
+  localStorage.removeItem('r11_hue_oauth_state');
+  localStorage.removeItem('r11_hue_pending');
+  // Clean URL immediately
+  window.history.replaceState({}, '', window.location.pathname);
+  // Show connecting modal
+  document.getElementById('hue-setup-modal').classList.add('open');
+  showHueSetupStep('connecting');
+  try {
+    // 1) Exchange code → token
+    const tokenResp = await fetch('https://api.meethue.com/oauth2/token', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Basic ' + btoa(`${pending.clientId}:${pending.clientSecret}`),
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: `grant_type=authorization_code&code=${encodeURIComponent(code)}`
+    });
+    const tokenData = await tokenResp.json();
+    if (!tokenData.access_token) throw new Error('Kein Token erhalten. Antwort: ' + JSON.stringify(tokenData));
+    const { access_token, refresh_token, expires_in } = tokenData;
+    // 2) Enable link button remotely (no physical button press needed with Remote API)
+    await fetch('https://api.meethue.com/route/api/0/config', {
+      method: 'PUT',
+      headers: { 'Authorization': `Bearer ${access_token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ linkbutton: true })
+    });
+    await new Promise(r => setTimeout(r, 400));
+    // 3) Create API username
+    const pairResp = await fetch('https://api.meethue.com/route/api', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${access_token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ devicetype: 'r11_dashboard#browser', generateclientkey: true })
+    });
+    const pairData = await pairResp.json();
+    const username = pairData[0]?.success?.username;
+    if (!username) throw new Error('Username nicht erhalten: ' + JSON.stringify(pairData));
+    // 4) Save everything
+    hueConfig = {
+      type: 'remote',
+      clientId: pending.clientId,
+      clientSecret: pending.clientSecret,
+      accessToken: access_token,
+      refreshToken: refresh_token,
+      tokenExpiry: Date.now() + (parseInt(expires_in) || 7200) * 1000,
+      username
+    };
+    localStorage.setItem('r11_hue_config', JSON.stringify(hueConfig));
+    showHueSetupStep('success');
+    await hueLoadAll();
+  } catch(e) {
+    console.error('Hue OAuth error:', e);
+    showHueSetupStep('remote');
+    const errEl = document.getElementById('hue-oauth-error');
+    if (errEl) { errEl.textContent = '❌ ' + e.message; errEl.style.display = 'block'; }
+  }
+}
+
+// ── SETUP MODAL ──
+function showHueSetupStep(step) {
+  ['remote','connecting','local-1','local-2','success'].forEach(s => {
+    const el = document.getElementById(`hue-step-${s}`);
+    if (el) el.style.display = (s === step) ? 'block' : 'none';
+  });
+}
+
+function openHueSetup() {
+  document.getElementById('hue-setup-modal').classList.add('open');
+  showHueSetupStep('remote');
+  // Pre-fill credentials if known
+  if (hueConfig?.clientId) {
+    const cidEl = document.getElementById('hue-client-id');
+    const csEl  = document.getElementById('hue-client-secret');
+    if (cidEl) cidEl.value = hueConfig.clientId;
+    if (csEl)  csEl.value  = hueConfig.clientSecret || '';
+  }
+  if (hueConfig?.bridgeIp) {
+    const ipEl = document.getElementById('hue-bridge-ip-input');
+    if (ipEl) ipEl.value = hueConfig.bridgeIp;
+  }
+  const disconnRow = document.getElementById('hue-setup-disconnect-row');
+  if (disconnRow) disconnRow.style.display = hueIsConnected() ? 'block' : 'none';
+  hueAutoDiscover();
+}
+
+async function hueAutoDiscover() {
+  const statusEl = document.getElementById('hue-discover-status');
+  if (!statusEl) return;
+  statusEl.textContent = 'Suche Bridge im Netzwerk…'; statusEl.style.color = '';
+  try {
+    const r = await fetch('https://discovery.meethue.com/', { signal: AbortSignal.timeout(5000) });
+    const data = await r.json();
+    if (data?.length > 0) {
+      const ip = data[0].internalipaddress;
+      const ipEl = document.getElementById('hue-bridge-ip-input');
+      if (ipEl) ipEl.value = ip;
+      statusEl.textContent = `✓ Bridge gefunden: ${ip}`; statusEl.style.color = 'var(--gruen)';
+    } else { statusEl.textContent = 'Nicht gefunden – IP manuell eingeben.'; statusEl.style.color = 'var(--text3)'; }
+  } catch(e) { statusEl.textContent = 'Suche fehlgeschlagen.'; statusEl.style.color = 'var(--text3)'; }
+}
+
+function hueLocalPairStep1() {
+  const ip = document.getElementById('hue-bridge-ip-input').value.trim();
+  if (!ip) { alert('Bitte Bridge-IP eingeben'); return; }
+  document.getElementById('hue-pending-ip').textContent = `Bridge: ${ip}`;
+  showHueSetupStep('local-2');
+  document.getElementById('hue-pair-error').textContent = '';
+  const btn = document.getElementById('hue-pair-btn');
+  btn.disabled = false; btn.textContent = 'Jetzt verbinden';
+}
+
+async function hueLocalPairConnect() {
+  const ip = document.getElementById('hue-bridge-ip-input').value.trim();
+  const btn = document.getElementById('hue-pair-btn');
+  const errEl = document.getElementById('hue-pair-error');
+  btn.disabled = true; btn.textContent = 'Verbinde…'; errEl.textContent = '';
+  try {
+    // Try HTTPS first (bridge supports it since v1.24)
+    const r = await fetch(`https://${ip}/api`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ devicetype: 'r11_dashboard#browser', generateclientkey: true }),
+      signal: AbortSignal.timeout(8000)
+    });
+    const data = await r.json();
+    if (data[0]?.success?.username) {
+      hueConfig = { type:'local', bridgeIp:ip, username:data[0].success.username };
+      localStorage.setItem('r11_hue_config', JSON.stringify(hueConfig));
+      showHueSetupStep('success');
+      await hueLoadAll();
+    } else {
+      const msg = data[0]?.error?.description || 'Unbekannter Fehler';
+      errEl.textContent = msg.toLowerCase().includes('button')
+        ? '⚠️ Zuerst den Knopf auf der Bridge drücken!'
+        : `❌ ${msg}`;
+      btn.disabled = false; btn.textContent = 'Nochmal versuchen';
+    }
+  } catch(e) {
+    errEl.textContent = '❌ Verbindung fehlgeschlagen – Bridge erreichbar? (Gleiches WLAN?)';
+    btn.disabled = false; btn.textContent = 'Nochmal versuchen';
+  }
+}
+
+function hueSetupDone() {
+  document.getElementById('hue-setup-modal').classList.remove('open');
+  hueRenderSmarthomeSection(); hueRenderPanel();
+}
+
+function hueDisconnect() {
+  hueConfig = null; hueLights = {}; hueGroups = {}; hueScenes = {};
+  localStorage.removeItem('r11_hue_config');
+  hueUpdateQuickStatus(); hueRenderSmarthomeSection();
+  document.getElementById('hue-setup-modal').classList.remove('open');
+}
+
+// ── CONTROL PANEL ──
+let _huePanelTab = 'rooms';
+
+function openHuePanel() {
+  if (!hueIsConnected()) { openHueSetup(); return; }
+  document.getElementById('hue-panel-overlay').classList.add('open');
+  hueRenderPanel();
+  hueLoadAll().then(hueRenderPanel);
+}
+function closeHuePanel() {
+  document.getElementById('hue-panel-overlay').classList.remove('open');
+}
+function hueSetPanelTab(tab) {
+  _huePanelTab = tab;
+  ['rooms','scenes','lights'].forEach(t => {
+    const btn = document.getElementById(`hue-tab-${t}`);
+    if (btn) btn.classList.toggle('active', t === tab);
+  });
+  hueRenderPanel();
+}
+function hueRenderPanel() {
+  const el = document.getElementById('hue-panel-content');
+  if (!el) return;
+  if (_huePanelTab === 'scenes') hueRenderScenesPanel(el);
+  else if (_huePanelTab === 'lights') hueRenderLightsPanel(el);
+  else hueRenderGroupsPanel(el);
+}
+
+// ── PANEL: RÄUME ──
+function hueRenderGroupsPanel(el) {
+  const groups = Object.entries(hueGroups).filter(([,g]) => ['Room','Zone','LightGroup'].includes(g.type));
+  if (!groups.length) { el.innerHTML = '<p style="text-align:center;color:var(--text3);padding:20px">Keine Räume gefunden</p>'; return; }
+  let html = `<div style="display:flex;gap:8px;margin-bottom:14px">
+    <button class="btn" ontouchstart="" onclick="hueAllLights(true)"  style="flex:1;justify-content:center;font-size:13px">☀️ Alle an</button>
+    <button class="btn secondary" ontouchstart="" onclick="hueAllLights(false)" style="flex:1;justify-content:center;font-size:13px">🌙 Alle aus</button>
+  </div>`;
+  groups.sort(([,a],[,b]) => a.name.localeCompare(b.name));
+  groups.forEach(([id, group]) => {
+    const gLights = (group.lights||[]).map(lid => hueLights[lid]).filter(Boolean);
+    const onCnt = gLights.filter(l => l.state?.on).length;
+    const isOn = onCnt > 0;
+    const bri = group.action?.bri || 254;
+    const gScenes = Object.entries(hueScenes).filter(([,s]) => s.group === id);
+    html += `
+      <div class="hue-light-card ${isOn ? 'on' : ''}" style="margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="font-size:22px">${hueRoomIcon(group.name)}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:15px;font-weight:600">${group.name}</div>
+            <div style="font-size:11px;color:var(--text3)">${isOn ? `${onCnt}/${gLights.length} Lichter an` : gLights.length > 0 ? 'Alle aus' : 'Keine Lichter'}</div>
+          </div>
+          <button class="hue-toggle-btn ${isOn ? 'on' : ''}" ontouchstart="" onclick="hueToggleGroup('${id}',${!isOn})"></button>
+        </div>
+        ${isOn ? `<input type="range" class="hue-bri-slider" min="1" max="254" value="${bri}"
+          oninput="this.nextElementSibling.textContent=Math.round(this.value/2.54)+'%'"
+          onchange="hueSetGroupBrightness('${id}',parseInt(this.value))">
+        <div style="text-align:right;font-size:10px;color:var(--text3);margin-top:2px">${Math.round(bri/254*100)}%</div>` : ''}
+        ${gScenes.length > 0 ? `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px">
+          ${gScenes.slice(0,6).map(([sid,sc]) => `<button ontouchstart="" onclick="hueActivateScene('${id}','${sid}')" style="background:var(--surface3);border:none;border-radius:20px;color:var(--text2);font-size:11px;padding:4px 10px;cursor:pointer;touch-action:manipulation">${hueSceneIcon(sc.name)} ${sc.name}</button>`).join('')}
+        </div>` : ''}
+      </div>`;
+  });
+  el.innerHTML = html;
+}
+
+// ── PANEL: SZENEN ──
+function hueRenderScenesPanel(el) {
+  const allScenes = Object.entries(hueScenes);
+  if (!allScenes.length) { el.innerHTML = '<p style="text-align:center;color:var(--text3);padding:20px">Keine Szenen gefunden</p>'; return; }
+  const byGroup = {};
+  allScenes.forEach(([id,sc]) => { const gid = sc.group||'0'; (byGroup[gid]||(byGroup[gid]=[])).push([id,sc]); });
+  let html = '';
+  Object.entries(byGroup).forEach(([gid, scenes]) => {
+    const gName = gid==='0' ? 'Alle Räume' : (hueGroups[gid]?.name||`Gruppe ${gid}`);
+    html += `<div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;margin:12px 0 6px">${gName}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px">`;
+    scenes.forEach(([id,sc]) => {
+      html += `<button ontouchstart="" onclick="hueActivateScene('${gid}','${id}')" style="background:var(--surface3);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:13px;padding:10px;cursor:pointer;text-align:left;touch-action:manipulation">
+        <div style="font-size:18px;margin-bottom:2px">${hueSceneIcon(sc.name)}</div>
+        <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${sc.name}</div>
+      </button>`;
+    });
+    html += '</div>';
+  });
+  el.innerHTML = html;
+}
+
+// ── PANEL: EINZELNE LICHTER ──
+function hueRenderLightsPanel(el) {
+  const lights = Object.entries(hueLights);
+  if (!lights.length) { el.innerHTML = '<p style="text-align:center;color:var(--text3);padding:20px">Keine Lichter gefunden</p>'; return; }
+  const onCnt = lights.filter(([,l]) => l.state?.on).length;
+  let html = `<div style="display:flex;gap:8px;margin-bottom:14px">
+    <button class="btn" ontouchstart="" onclick="hueAllLights(true)"  style="flex:1;justify-content:center;font-size:13px">☀️ Alle an</button>
+    <button class="btn secondary" ontouchstart="" onclick="hueAllLights(false)" style="flex:1;justify-content:center;font-size:13px">🌙 Alle aus</button>
+  </div>
+  <div style="font-size:11px;color:var(--text3);margin-bottom:10px">${onCnt} von ${lights.length} an</div>`;
+  lights.sort(([,a],[,b]) => (b.state?.on?1:0)-(a.state?.on?1:0)||a.name.localeCompare(b.name));
+  lights.forEach(([id, light]) => {
+    const on = !!(light.state?.on);
+    const reachable = light.state?.reachable !== false;
+    const bri = light.state?.bri || 254;
+    html += `
+      <div class="hue-light-card ${on ? 'on' : ''}" id="hue-card-${id}">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="hue-bulb-icon ${on ? 'on' : ''}">💡</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${light.name}</div>
+            <div style="font-size:11px;color:var(--text3)">${!reachable ? '⚠️ Nicht erreichbar' : on ? Math.round(bri/254*100)+'%' : 'Aus'}</div>
+          </div>
+          <button class="hue-toggle-btn ${on?'on':''}" ontouchstart="" onclick="huePanelToggle('${id}',${!on})" ${!reachable?'disabled style="opacity:0.4"':''}></button>
+        </div>
+        ${on ? `<input type="range" class="hue-bri-slider" min="1" max="254" value="${bri}"
+          oninput="document.getElementById('hue-bv-${id}').textContent=Math.round(this.value/2.54)+'%'"
+          onchange="hueSetBrightness('${id}',parseInt(this.value))">
+        <div style="text-align:right;font-size:10px;color:var(--text3);margin-top:2px" id="hue-bv-${id}">${Math.round(bri/254*100)}%</div>` : ''}
+      </div>`;
+  });
+  el.innerHTML = html;
+}
+
+async function huePanelToggle(id, on) {
+  if (hueLights[id]?.state) hueLights[id].state.on = on;
+  hueRenderPanel(); hueUpdateQuickStatus();
+  await hueToggleLight(id, on);
+  hueRenderSmarthomeSection();
+}
+
+// ── HELPER: ICONS ──
+function hueRoomIcon(name) {
+  const n = (name||'').toLowerCase();
+  if (n.includes('wohnzimmer')||n.includes('living')||n.includes('lounge')) return '🛋';
+  if (n.includes('schlaf')||n.includes('bedroom')||n.includes('bed')) return '🛏';
+  if (n.includes('küche')||n.includes('kitchen')||n.includes('essen')||n.includes('dining')) return '🍳';
+  if (n.includes('bad')||n.includes('bath')||n.includes('toilet')||n.includes('wc')) return '🚿';
+  if (n.includes('flur')||n.includes('hall')||n.includes('eingang')) return '🚪';
+  if (n.includes('büro')||n.includes('office')||n.includes('arbeit')||n.includes('studio')) return '💻';
+  if (n.includes('garten')||n.includes('terr')||n.includes('balkon')||n.includes('outdoor')) return '🌿';
+  if (n.includes('keller')||n.includes('basement')||n.includes('garage')) return '🚗';
+  if (n.includes('kind')||n.includes('child')||n.includes('baby')) return '🧸';
+  return '💡';
+}
+function hueSceneIcon(name) {
+  const n = (name||'').toLowerCase();
+  if (n.includes('relax')||n.includes('entspann')) return '😌';
+  if (n.includes('concentrate')||n.includes('focus')||n.includes('konzentrat')) return '🎯';
+  if (n.includes('energize')||n.includes('energie')||n.includes('boost')) return '⚡';
+  if (n.includes('bright')||n.includes('hell')||n.includes('tages')) return '☀️';
+  if (n.includes('night')||n.includes('nacht')||n.includes('dim')) return '🌙';
+  if (n.includes('read')||n.includes('lesen')) return '📖';
+  if (n.includes('tv')||n.includes('movie')||n.includes('film')||n.includes('kino')) return '🎬';
+  if (n.includes('dine')||n.includes('dinner')||n.includes('essen')) return '🍽';
+  if (n.includes('romance')||n.includes('romantic')) return '💕';
+  if (n.includes('party')||n.includes('disco')) return '🎉';
+  if (n.includes('sunrise')||n.includes('sonnenauf')||n.includes('spring')||n.includes('tropic')) return '🌅';
+  if (n.includes('sunset')||n.includes('sonnenunter')||n.includes('autumn')||n.includes('herbst')) return '🍂';
+  return '✨';
+}
+
+// ── SMARTHOME TAB ──
+function hueRenderSmarthomeSection() {
+  const el = document.getElementById('hue-rooms');
+  if (!el) return;
+  const setupBtn = document.getElementById('hue-setup-btn');
+  const openBtn  = document.getElementById('hue-open-btn');
+  if (!hueIsConnected()) {
+    el.innerHTML = `<div style="padding:8px 0 4px"><p style="color:var(--text2);font-size:14px">Hue nicht verbunden.<br>Verbinde einmalig und steuere alle Lichter direkt von hier.</p></div>`;
+    if (setupBtn) setupBtn.style.display = '';
+    if (openBtn) openBtn.style.display = 'none';
+    return;
+  }
+  if (setupBtn) { setupBtn.textContent = '⚙️ Hue-Einstellungen'; }
+  if (openBtn) openBtn.style.display = '';
+  const groups = Object.entries(hueGroups).filter(([,g]) => g.type === 'Room');
+  const lights = Object.entries(hueLights);
+  if (groups.length > 0) {
+    groups.sort(([,a],[,b]) => a.name.localeCompare(b.name));
+    let html = '';
+    groups.forEach(([id, group]) => {
+      const gLights = (group.lights||[]).map(lid=>hueLights[lid]).filter(Boolean);
+      const onCnt = gLights.filter(l => l.state?.on).length;
+      const isOn = onCnt > 0;
+      html += `<div class="hue-room" ontouchstart="" onclick="hueToggleGroup('${id}',${!isOn})" style="cursor:pointer">
+        <div>
+          <div style="font-size:14px;font-weight:500">${hueRoomIcon(group.name)} ${group.name}</div>
+          <div style="font-size:11px;color:var(--text3)">${isOn ? `${onCnt}/${gLights.length} an` : 'Aus'}</div>
+        </div>
+        <button class="hue-toggle-btn ${isOn?'on':''}" ontouchstart="" onclick="event.stopPropagation();hueToggleGroup('${id}',${!isOn})"></button>
+      </div>`;
+    });
+    el.innerHTML = html;
+  } else if (lights.length > 0) {
+    lights.sort(([,a],[,b]) => a.name.localeCompare(b.name));
+    let html = '';
+    lights.forEach(([id, light]) => {
+      const on = !!(light.state?.on);
+      const reachable = light.state?.reachable !== false;
+      html += `<div class="hue-room">
+        <div>
+          <div style="font-size:14px;font-weight:500">${light.name}</div>
+          <div style="font-size:11px;color:var(--text3)">${!reachable?'⚠️':''}${on?Math.round((light.state.bri||254)/254*100)+'%':'Aus'}</div>
+        </div>
+        <button class="hue-toggle-btn ${on?'on':''}" ontouchstart="" onclick="hueToggleLight('${id}',${!on}).then(()=>{hueRenderSmarthomeSection();hueUpdateQuickStatus()})" ${!reachable?'disabled style="opacity:0.4"':''}></button>
+      </div>`;
+    });
+    el.innerHTML = html;
+  } else {
+    el.innerHTML = '<p style="color:var(--text3);font-size:13px;padding:8px 0">Keine Lichter gefunden – ↻ versuchen</p>';
+  }
 }
 
 // ════════════════════
@@ -2949,9 +3552,9 @@ function openSettings() {
       <div><div class="label">🌡️ Tado</div><div class="sub">${tadoIsConnected() ? '✓ Verbunden (Home-ID: '+tadoGetHomeId()+')' : 'Nicht verbunden'}</div></div>
       <span style="color:var(--text3)">›</span>
     </div>
-    <div class="settings-row">
-      <div><div class="label">💡 Philips Hue</div><div class="sub">Bridge nicht verbunden – kommt später</div></div>
-      <span style="color:var(--text3);font-size:11px">⏳</span>
+    <div class="settings-row" onclick="openHueSetup();closeModal()" style="cursor:pointer">
+      <div><div class="label">💡 Philips Hue</div><div class="sub">${hueIsConnected() ? '✓ Verbunden – Bridge: ' + hueConfig.bridgeIp : 'Nicht verbunden – tippen zum Einrichten'}</div></div>
+      <span style="color:var(--text3)">›</span>
     </div>
     <div class="settings-row">
       <div><div class="label">🔐 Nuki</div><div class="sub">Nicht verbunden – kommt später</div></div>
@@ -3127,10 +3730,20 @@ async function tadoOffAll() {
 // INIT
 // ════════════════════
 function init() {
-  const savedHue = localStorage.getItem('r11_hue');
-  if (savedHue) {
-    hueState = JSON.parse(savedHue);
-    Object.keys(hueState).forEach(room => { if (hueState[room]) toggleHue(room); });
+  // OAuth Callback von Hue? (nach Redirect zurück ins Dashboard)
+  const _urlParams = new URLSearchParams(window.location.search);
+  const _oauthCode  = _urlParams.get('code');
+  const _oauthState = _urlParams.get('state');
+  if (_oauthCode && _oauthState?.startsWith('r11hue')) {
+    hueHandleOAuthCallback(_oauthCode, _oauthState);
+  }
+
+  // Hue Bridge
+  hueUpdateQuickStatus();
+  hueRenderSmarthomeSection();
+  if (hueIsConnected()) {
+    hueLoadAll();
+    setInterval(hueLoadAll, 3 * 60 * 1000); // alle 3 Min. aktualisieren
   }
 
   updateClock();
