@@ -477,6 +477,156 @@
   #next-waste .date-col { font-size:11px; min-width:60px; }
   #next-waste .waste-badge { font-size:10px; padding:2px 6px; }
   #next-waste .days-left { font-size:10px; min-width:36px; }
+
+  /* ── GÄSTEBUCH ── */
+  .gb-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; padding-top:4px; }
+  .gb-friend-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.15s, opacity 0.15s;
+    text-decoration: none;
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+  }
+  .gb-friend-card:active { transform: scale(0.93); opacity: 0.8; }
+  .gb-friend-img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+    background: var(--surface3);
+  }
+  .gb-friend-img-placeholder {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: var(--surface3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 52px;
+  }
+  .gb-friend-name {
+    font-size: 14px;
+    font-weight: 700;
+    padding: 10px 12px 12px;
+    text-align: center;
+  }
+  /* Freundebuch individual page */
+  .fb-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 0 20px;
+    margin-bottom: 4px;
+  }
+  .fb-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--border);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    background: var(--surface3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    overflow: hidden;
+  }
+  .fb-avatar img { width:100%; height:100%; object-fit:cover; display:block; border-radius:50%; }
+  .fb-name { font-size: 24px; font-weight: 700; text-align: center; }
+  .fb-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 16px;
+    cursor: pointer;
+    margin-bottom: 16px;
+    width: fit-content;
+  }
+  .fb-section-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    margin: 20px 0 8px;
+  }
+  .fb-qa-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 14px;
+    margin-bottom: 10px;
+  }
+  .fb-question {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text2);
+    margin-bottom: 8px;
+  }
+  .fb-answer-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 400;
+    padding: 4px 2px 8px;
+    margin: 0;
+    resize: none;
+    min-height: 30px;
+    line-height: 1.5;
+    transition: border-color 0.15s;
+  }
+  .fb-answer-input:focus { outline: none; border-bottom-color: var(--accent); }
+  .fb-answer-input::placeholder { color: var(--text3); font-style: italic; }
+  .fb-save-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--accent);
+    border: none;
+    border-radius: 14px;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: opacity 0.15s;
+  }
+  .fb-save-btn:active { opacity: 0.8; }
+  .fb-saved-toast {
+    position: fixed;
+    bottom: calc(var(--bottom-nav) + 20px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gruen);
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 10px 22px;
+    border-radius: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    z-index: 999;
+    white-space: nowrap;
+  }
+  .fb-saved-toast.show { opacity: 1; }
 </style>
 <script>
   // Service Worker nur im Browser aktiv – nicht wenn als PWA installiert.
@@ -591,6 +741,16 @@
         <div>
           <div style="font-size:13px;font-weight:700">Garten</div>
           <div style="font-size:11px;color:var(--text2)" id="garden-season">Saison-Tipps</div>
+        </div>
+        <div style="margin-left:auto;color:var(--text2);font-size:18px">›</div>
+      </a>
+
+      <!-- Gästebuch -->
+      <a class="cc-tile cc-gaestebuch" onclick="showPage('gaestebuch')" style="cursor:pointer;border-radius:22px;display:flex;flex-direction:row;align-items:center;gap:14px;padding:14px 16px;background:rgba(255,55,95,0.18);backdrop-filter:var(--glass);-webkit-backdrop-filter:var(--glass);margin-bottom:10px;text-decoration:none;color:var(--text);transition:transform 0.12s,opacity 0.12s;" ontouchstart="this.style.opacity=0.7" ontouchend="this.style.opacity=1">
+        <div style="font-size:28px">📖</div>
+        <div>
+          <div style="font-size:13px;font-weight:700">Gästebuch</div>
+          <div style="font-size:11px;color:var(--text2)" id="gb-friend-count">Freunde & Erinnerungen</div>
         </div>
         <div style="margin-left:auto;color:var(--text2);font-size:18px">›</div>
       </a>
@@ -847,6 +1007,26 @@
       <div id="waste-full-list"></div>
     </div>
 
+    <!-- ══ GÄSTEBUCH ══ -->
+    <div class="page" id="page-gaestebuch">
+      <div class="section-title">📖 Gästebuch</div>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:18px;margin-top:-10px">Wähl einen Freund aus und füll dein Freundebuch aus 🖊</p>
+      <div class="gb-grid" id="gb-grid"></div>
+    </div>
+
+    <!-- ══ FREUNDEBUCH (Einzelseite, dynamisch befüllt) ══ -->
+    <div class="page" id="page-freundebuch">
+      <button class="fb-back-btn" onclick="showPage('gaestebuch')">‹ Zurück</button>
+      <div class="fb-header">
+        <div class="fb-avatar" id="fb-avatar"></div>
+        <div class="fb-name" id="fb-name"></div>
+      </div>
+      <div id="fb-questions-container"></div>
+      <button class="fb-save-btn" onclick="saveFreundebuch()">Speichern ✓</button>
+      <div style="height:20px"></div>
+    </div>
+    <div class="fb-saved-toast" id="fb-toast">Gespeichert! 🎉</div>
+
   </div><!-- /content -->
 
   <!-- Bottom Nav -->
@@ -974,12 +1154,15 @@ let gardenIdeas = JSON.parse(localStorage.getItem('r11_garden_ideas') || '[]');
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
-  document.getElementById('nav-' + id).classList.add('active');
+  const pageEl = document.getElementById('page-' + id);
+  if (pageEl) pageEl.classList.add('active');
+  const navEl = document.getElementById('nav-' + id);
+  if (navEl) navEl.classList.add('active');
   currentPage = id;
   if (id === 'kalender') renderCalendar();
   if (id === 'muell') renderWasteList();
   if (id === 'garten') renderGarden();
+  if (id === 'gaestebuch') renderGaestebuch();
   document.getElementById('content').scrollTop = 0;
 }
 
@@ -3236,6 +3419,157 @@ function _sdLoop(){
   }
   _sdRAF=requestAnimationFrame(_sdLoop);
 }
+
+// ════════════════════════════════════
+// GÄSTEBUCH
+// ════════════════════════════════════
+
+// ── Freunde-Konfiguration ─────────────────────────────────────
+// Bilder in den Ordner "friends/" legen (z.B. friends/Lisa.jpg)
+// Name muss EXAKT dem Dateinamen entsprechen (ohne Endung)
+// Beispiel: { name: 'Lisa', img: 'jpg' }  → lädt friends/Lisa.jpg
+const FRIENDS = [
+  { name: 'Alex',   img: 'png' },
+  { name: 'Chris',  img: 'png' },
+  { name: 'Dennis', img: 'png' },
+  { name: 'Monica', img: 'png' },
+  { name: 'Niklas', img: 'png' },
+  { name: 'Spiri',  img: 'png' },
+  { name: 'Sucuk',  img: 'png' },
+  { name: 'Thomas', img: 'png' },
+];
+
+// ── Freundebuch-Fragen ────────────────────────────────────────
+const FB_QUESTIONS = [
+  // Klassiker
+  { section: '📚 Die Klassiker', items: [
+    { id: 'geburtstag',    q: 'Dein Geburtstag' },
+    { id: 'lieblingsessen',q: 'Dein Lieblingsessen' },
+    { id: 'lieblingsfarbe',q: 'Deine Lieblingsfarbe' },
+    { id: 'lieblingstier', q: 'Dein Lieblingstier' },
+    { id: 'hobby',         q: 'Dein liebstes Hobby' },
+    { id: 'beruf_wunsch',  q: 'Was wolltest du als Kind werden?' },
+    { id: 'groesster_wunsch', q: 'Dein größter Wunsch' },
+    { id: 'lebensmotto',   q: 'Dein Lebensmotto' },
+  ]},
+  // Cool & Modern
+  { section: '✨ Die coolen Fragen', items: [
+    { id: 'bester_moment', q: 'Unser bester gemeinsamer Moment' },
+    { id: 'was_magst_du',  q: 'Was magst du besonders an Chris?' },
+    { id: 'ein_wort',      q: 'Ein Wort, das Chris beschreibt' },
+    { id: 'geheimtipp',    q: 'Dein aktueller Geheimtipp (Ort, Film, Song...)' },
+    { id: 'superkraft',    q: 'Wenn du eine Superkraft hättest...' },
+    { id: 'glueck',        q: 'Was macht dich glücklich?' },
+    { id: 'serie_film',    q: 'Lieblingsserie oder -film gerade' },
+    { id: 'zukunft_wunsch',q: 'Was wünschst du Chris für die Zukunft?' },
+    { id: 'frueher_wissen',q: 'Was hättest du früher gerne gewusst?' },
+    { id: 'stempel',       q: 'Hinterlasse hier deinen Stempel 🖊' },
+  ]},
+];
+
+let _currentFriendId = null;
+
+function renderGaestebuch() {
+  const grid = document.getElementById('gb-grid');
+  const countEl = document.getElementById('gb-friend-count');
+
+  if (FRIENDS.length === 0) {
+    grid.innerHTML = `
+      <div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--text3)">
+        <div style="font-size:44px;margin-bottom:12px">📸</div>
+        <div style="font-size:15px;font-weight:600;color:var(--text2);margin-bottom:6px">Noch keine Freunde eingetragen</div>
+        <div style="font-size:13px">Bilder in den Ordner <code style="background:var(--surface3);padding:2px 6px;border-radius:6px">friends/</code> legen<br>und in der FRIENDS-Liste eintragen</div>
+      </div>`;
+    if (countEl) countEl.textContent = 'Freunde & Erinnerungen';
+    return;
+  }
+
+  if (countEl) countEl.textContent = FRIENDS.length + ' ' + (FRIENDS.length === 1 ? 'Freund' : 'Freunde');
+
+  grid.innerHTML = FRIENDS.map((f, i) => {
+    const imgPath = 'friends/' + f.name + '.' + (f.img || 'jpg');
+    return `
+      <div class="gb-friend-card" onclick="openFreundebuch(${i})">
+        <img class="gb-friend-img" src="${imgPath}" alt="${f.name}"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="gb-friend-img-placeholder" style="display:none">🙂</div>
+        <div class="gb-friend-name">${f.name}</div>
+      </div>`;
+  }).join('');
+}
+
+function openFreundebuch(friendIdx) {
+  const f = FRIENDS[friendIdx];
+  if (!f) return;
+  _currentFriendId = f.name;
+
+  // Avatar
+  const avatarEl = document.getElementById('fb-avatar');
+  const imgPath = 'friends/' + f.name + '.' + (f.img || 'jpg');
+  avatarEl.innerHTML = `<img src="${imgPath}" alt="${f.name}" onerror="this.parentElement.innerHTML='🙂'">`;
+
+  // Name
+  document.getElementById('fb-name').textContent = f.name;
+
+  // Fragen aufbauen
+  const container = document.getElementById('fb-questions-container');
+  const saved = _loadFriendAnswers(f.name);
+
+  let html = '';
+  FB_QUESTIONS.forEach(section => {
+    html += `<div class="fb-section-label">${section.section}</div>`;
+    section.items.forEach(q => {
+      const val = (saved[q.id] || '').replace(/"/g, '&quot;');
+      html += `
+        <div class="fb-qa-card">
+          <div class="fb-question">${q.q}</div>
+          <textarea class="fb-answer-input" data-qid="${q.id}" rows="1"
+            placeholder="Hier schreiben..." oninput="autoResize(this)">${saved[q.id] || ''}</textarea>
+        </div>`;
+    });
+  });
+  container.innerHTML = html;
+
+  // Textarea-Höhe anpassen
+  container.querySelectorAll('.fb-answer-input').forEach(autoResize);
+
+  showPage('freundebuch');
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+}
+
+function saveFreundebuch() {
+  if (!_currentFriendId) return;
+  const answers = {};
+  document.querySelectorAll('.fb-answer-input').forEach(el => {
+    answers[el.dataset.qid] = el.value;
+  });
+  localStorage.setItem('fb_' + _currentFriendId, JSON.stringify(answers));
+  _showFbToast();
+}
+
+function _loadFriendAnswers(name) {
+  try {
+    return JSON.parse(localStorage.getItem('fb_' + name)) || {};
+  } catch(e) { return {}; }
+}
+
+function _showFbToast() {
+  const t = document.getElementById('fb-toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// Gästebuch-Zahl im Home-Tile beim Start setzen
+(function initGaestebuchTile() {
+  const el = document.getElementById('gb-friend-count');
+  if (el && FRIENDS.length > 0) {
+    el.textContent = FRIENDS.length + ' ' + (FRIENDS.length === 1 ? 'Freund' : 'Freunde');
+  }
+})();
 </script>
 
   <!-- ══ SPIELE: GAME SELECTION ══ -->
