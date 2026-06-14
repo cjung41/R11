@@ -3549,7 +3549,7 @@ function saveFreundebuch() {
   });
   const btn = document.querySelector('.fb-save-btn');
   if (btn) { btn.textContent = 'Wird gespeichert…'; btn.disabled = true; }
-  fetch('/gaestebuch?friend=' + encodeURIComponent(_currentFriendId), {
+  fetch('https://r11-gaestebuch.cjung41.workers.dev?friend=' + encodeURIComponent(_currentFriendId), {
     method: 'POST',
     body: JSON.stringify(answers),
     headers: { 'Content-Type': 'application/json' }
@@ -3569,7 +3569,7 @@ function saveFreundebuch() {
 async function _loadFriendAnswers(name) {
   // Erst aus Cloud laden, Fallback auf localStorage
   try {
-    const res = await fetch('/gaestebuch?friend=' + encodeURIComponent(name));
+    const res = await fetch('https://r11-gaestebuch.cjung41.workers.dev?friend=' + encodeURIComponent(name));
     if (res.ok) {
       const data = await res.json();
       if (data && Object.keys(data).length > 0) {
