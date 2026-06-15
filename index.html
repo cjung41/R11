@@ -1202,9 +1202,9 @@
 
     <!-- Connecting -->
     <div id="hue-step-connecting" style="display:none">
-      <div style="font-size:52px;text-align:center;margin:40px 0 12px">⏳</div>
-      <h3 style="font-size:20px;font-weight:700;text-align:center;margin-bottom:8px">Verbinde…</h3>
-      <p style="font-size:14px;color:var(--text2);text-align:center">Token wird ausgetauscht und Bridge verknüpft…</p>
+      <div style="font-size:52px;text-align:center;margin:24px 0 12px">⏳</div>
+      <h3 style="font-size:20px;font-weight:700;text-align:center;margin-bottom:16px">Verbinde…</h3>
+      <div id="hue-debug-log" style="background:rgba(0,0,0,0.4);border-radius:12px;padding:14px;font-size:12px;font-family:monospace;color:var(--text2);min-height:80px;max-height:200px;overflow-y:auto;line-height:1.8"></div>
     </div>
 
     <!-- Local Step 1: IP -->
@@ -1666,17 +1666,40 @@ function hueStartOAuth(clientId, clientSecret) {
 async function hueHandleOAuthCallback(code, state) {
   const pending = JSON.parse(localStorage.getItem('r11_hue_pending') || 'null');
   const savedState = localStorage.getItem('r11_hue_oauth_state');
-  if (!pending || !code) return;
-  if (savedState && state !== savedState) { console.warn('Hue OAuth state mismatch'); return; }
-  localStorage.removeItem('r11_hue_oauth_state');
-  localStorage.removeItem('r11_hue_pending');
-  // Clean URL immediately
-  window.history.replaceState({}, '', window.location.pathname);
-  // Show connecting modal
+
+  // Helper: log in the debug panel
+  function dbg(msg, ok) {
+    const el = document.getElementById('hue-debug-log');
+    if (el) el.innerHTML += `<div style="color:${ok===false?'#ff453a':ok===true?'#30d158':'var(--text2)'}">${msg}</div>`;
+    console.log('[Hue]', msg);
+  }
+
   document.getElementById('hue-setup-modal').classList.add('open');
   showHueSetupStep('connecting');
+  const logEl = document.getElementById('hue-debug-log');
+  if (logEl) logEl.innerHTML = '';
+
+  dbg('▶ OAuth Callback empfangen');
+  dbg('Code: ' + (code ? code.substring(0,12)+'…' : '❌ FEHLT'));
+  dbg('State: ' + (state || '(leer)'));
+  dbg('pending config: ' + (pending ? '✓ vorhanden' : '❌ FEHLT – localStorage leer?'), !pending ? false : true);
+
+  if (!pending || !code) {
+    dbg('❌ Abbruch: code oder pending fehlt', false);
+    return;
+  }
+  if (savedState && state !== savedState) {
+    dbg('❌ State-Mismatch! Erwartet: ' + savedState + ' / Erhalten: ' + state, false);
+    return;
+  }
+
+  localStorage.removeItem('r11_hue_oauth_state');
+  localStorage.removeItem('r11_hue_pending');
+  window.history.replaceState({}, '', window.location.pathname);
+
   try {
     // 1) Exchange code → token
+    dbg('1/3 Token tauschen…');
     const tokenResp = await fetch('https://api.meethue.com/oauth2/token', {
       method: 'POST',
       headers: {
@@ -1685,25 +1708,37 @@ async function hueHandleOAuthCallback(code, state) {
       },
       body: `grant_type=authorization_code&code=${encodeURIComponent(code)}`
     });
-    const tokenData = await tokenResp.json();
-    if (!tokenData.access_token) throw new Error('Kein Token erhalten. Antwort: ' + JSON.stringify(tokenData));
+    const tokenRaw = await tokenResp.text();
+    dbg('Token-Response (' + tokenResp.status + '): ' + tokenRaw.substring(0,120));
+    const tokenData = JSON.parse(tokenRaw);
+    if (!tokenData.access_token) throw new Error('Kein access_token: ' + tokenRaw);
     const { access_token, refresh_token, expires_in } = tokenData;
-    // 2) Enable link button remotely (no physical button press needed with Remote API)
-    await fetch('https://api.meethue.com/route/api/0/config', {
+    dbg('✓ Token erhalten', true);
+
+    // 2) Enable link button remotely
+    dbg('2/3 Linkbutton aktivieren…');
+    const lbResp = await fetch('https://api.meethue.com/route/api/0/config', {
       method: 'PUT',
       headers: { 'Authorization': `Bearer ${access_token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ linkbutton: true })
     });
+    dbg('Linkbutton-Response: ' + lbResp.status + ' ' + await lbResp.text().catch(()=>''), lbResp.ok);
     await new Promise(r => setTimeout(r, 400));
+
     // 3) Create API username
+    dbg('3/3 Bridge-Username erstellen…');
     const pairResp = await fetch('https://api.meethue.com/route/api', {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${access_token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ devicetype: 'r11_dashboard#browser', generateclientkey: true })
     });
-    const pairData = await pairResp.json();
+    const pairRaw = await pairResp.text();
+    dbg('Pair-Response (' + pairResp.status + '): ' + pairRaw.substring(0,120));
+    const pairData = JSON.parse(pairRaw);
     const username = pairData[0]?.success?.username;
-    if (!username) throw new Error('Username nicht erhalten: ' + JSON.stringify(pairData));
+    if (!username) throw new Error('Username fehlt: ' + pairRaw);
+    dbg('✓ Username: ' + username, true);
+
     // 4) Save everything
     hueConfig = {
       type: 'remote',
@@ -1715,13 +1750,15 @@ async function hueHandleOAuthCallback(code, state) {
       username
     };
     localStorage.setItem('r11_hue_config', JSON.stringify(hueConfig));
+    dbg('✓ Alles gespeichert – Verbindung hergestellt!', true);
     showHueSetupStep('success');
     await hueLoadAll();
   } catch(e) {
+    dbg('❌ Fehler: ' + e.message, false);
     console.error('Hue OAuth error:', e);
-    showHueSetupStep('remote');
     const errEl = document.getElementById('hue-oauth-error');
     if (errEl) { errEl.textContent = '❌ ' + e.message; errEl.style.display = 'block'; }
+    // Bleib im connecting-step damit man das Log sieht
   }
 }
 
