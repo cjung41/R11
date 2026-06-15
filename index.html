@@ -1658,7 +1658,7 @@ function hueStartOAuth(clientId, clientSecret) {
   localStorage.setItem('r11_hue_pending', JSON.stringify({ clientId, clientSecret }));
   const state = 'r11hue_' + Math.random().toString(36).substr(2,8);
   localStorage.setItem('r11_hue_oauth_state', state);
-  const redirectUri = window.location.origin + '/hue-callback';
+  const redirectUri = window.location.origin + '/index.html';
   const params = new URLSearchParams({ clientid:clientId, response_type:'code', state, appid:'r11_dashboard', deviceid:'r11_browser', devicename:'R11 Dashboard', redirect_uri:redirectUri });
   window.location.href = `https://api.meethue.com/oauth2/authorize?${params}`;
 }
@@ -3731,13 +3731,13 @@ async function tadoOffAll() {
 // INIT
 // ════════════════════
 function init() {
-  // OAuth Callback von Hue? — Code kommt jetzt via URL-Fragment (#hue_code=...) von /hue-callback
-  const _hashParams = new URLSearchParams(window.location.hash.slice(1));
-  const _oauthCode  = _hashParams.get('hue_code');
-  const _oauthState = _hashParams.get('hue_state');
-  if (_oauthCode) {
-    window.history.replaceState({}, '', window.location.pathname); // Fragment aus URL entfernen
-    hueHandleOAuthCallback(_oauthCode, _oauthState || '');
+  // OAuth Callback von Hue? (?code=...&state=... in URL nach Redirect)
+  const _urlParams  = new URLSearchParams(window.location.search);
+  const _oauthCode  = _urlParams.get('code');
+  const _oauthState = _urlParams.get('state');
+  if (_oauthCode && _oauthState?.startsWith('r11hue')) {
+    window.history.replaceState({}, '', window.location.pathname); // Code aus URL entfernen
+    hueHandleOAuthCallback(_oauthCode, _oauthState);
   }
 
   // Hue Bridge
