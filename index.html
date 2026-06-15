@@ -767,7 +767,7 @@
           <div class="cc-status" id="nuki-quick">Schloss</div>
         </a>
         <!-- Hue -->
-        <div class="cc-tile cc-hue" onclick="openHuePanel()" style="cursor:pointer">
+        <div class="cc-tile cc-hue" onclick="showPage('licht')" style="cursor:pointer">
           <div class="cc-icon">💡</div>
           <div class="cc-name">Hue</div>
           <div class="cc-status" id="hue-quick-status">Verbinden…</div>
@@ -844,9 +844,16 @@
     </div>
 
     <!-- ══ HAUS ══ -->
-    <div class="page" id="page-haus">
-      <div class="section-title">🏠 Smart Home</div>
+    <div class="page" id="page-licht">
+      <!-- hidden shim so legacy hueRenderSmarthomeSection() calls don't break -->
+      <div id="hue-rooms" style="display:none"></div>
+      <div id="hue-licht-content" style="padding-top:4px">
+        <div style="text-align:center;color:var(--text3);padding:40px 0">Lade…</div>
+      </div>
+    </div>
 
+    <!-- ══ HAUS (versteckt, Inhalt in Licht-Tab) ══ -->
+    <div class="page" id="page-haus-hidden">
       <!-- Tado -->
       <div class="card" id="tado-card">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
@@ -936,7 +943,7 @@
         <p style="font-size:14px;color:var(--text2);margin-bottom:12px">Alle HomeKit-Geräte zentral steuern: Tado, Nuki, Hue und Sonos sind alle in Apple Home integriert.</p>
         <a href="x-apple-home:///" onclick="return openApp(this,'#')" class="btn" style="width:100%;justify-content:center">Apple Home öffnen →</a>
       </div>
-    </div>
+    </div><!-- end page-haus-hidden -->
 
     <!-- ══ GARTEN ══ -->
     <div class="page" id="page-garten">
@@ -1128,9 +1135,9 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
       <span>Home</span>
     </button>
-    <button class="nav-btn" onclick="showPage('haus')" id="nav-haus">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-      <span>Haus</span>
+    <button class="nav-btn" onclick="showPage('licht')" id="nav-licht">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.5-1.5 4.5-3 6H9c-1.5-1.5-3-3.5-3-6a6 6 0 016-6z"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+      <span>Licht</span>
     </button>
     <button class="nav-btn" onclick="showPage('garten')" id="nav-garten">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22V12"/><path d="M12 12C12 7 7 4 3 6c4 0 7 3 9 6"/><path d="M12 12c0-5 5-8 9-6-4 0-7 3-9 6"/></svg>
@@ -1363,6 +1370,7 @@ function showPage(id) {
   if (id === 'muell') renderWasteList();
   if (id === 'garten') renderGarden();
   if (id === 'gaestebuch') renderGaestebuch();
+  if (id === 'licht') { hueRenderLichtPage(); if (hueIsConnected()) hueLoadAll().then(hueRenderLichtPage); }
   document.getElementById('content').scrollTop = 0;
 }
 
@@ -2038,6 +2046,7 @@ function hueSceneIcon(name) {
 
 // ── SMARTHOME TAB ──
 function hueRenderSmarthomeSection() {
+  hueRenderLichtPage(); // always keep licht tab in sync
   const el = document.getElementById('hue-rooms');
   if (!el) return;
   if (!hueIsConnected()) {
@@ -2084,6 +2093,97 @@ function hueRenderSmarthomeSection() {
     <button ontouchstart="" onclick="openHuePanel()" class="btn" style="width:100%;justify-content:center;font-size:13px;margin-top:12px">
       💡 Hue öffnen →
     </button>`;
+}
+
+// ════════════════════════════════
+// HUE LICHT-TAB PAGE RENDERER
+// ════════════════════════════════
+function hueRenderLichtPage() {
+  const el = document.getElementById('hue-licht-content');
+  if (!el) return;
+
+  if (!hueIsConnected()) {
+    el.innerHTML = `<div style="text-align:center;padding:60px 20px">
+      <div style="font-size:56px;margin-bottom:20px">💡</div>
+      <div style="font-size:20px;font-weight:700;margin-bottom:8px">Hue nicht verbunden</div>
+      <div style="font-size:14px;color:var(--text3);margin-bottom:28px">Verbinde deine Bridge einmalig in den Einstellungen.</div>
+      <button ontouchstart="" onclick="openSettings()" class="btn" style="justify-content:center;margin:0 auto">⚙️ Einstellungen</button>
+    </div>`;
+    return;
+  }
+
+  const groups = Object.entries(hueGroups).filter(([,g]) => ['Room','Zone','LightGroup'].includes(g.type));
+  const allLights = Object.values(hueLights);
+  const globalOnCnt = allLights.filter(l => l.state?.on).length;
+
+  let html = `
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px">
+      <div>
+        <div style="font-size:26px;font-weight:800;letter-spacing:-0.5px">${globalOnCnt > 0 ? globalOnCnt + ' Lichter an' : 'Alles aus'}</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:3px">${groups.length} Räume · ${allLights.length} Lichter</div>
+      </div>
+      <button ontouchstart="" onclick="hueLoadAll().then(hueRenderLichtPage)" style="background:var(--surface2);border:none;color:var(--text3);width:36px;height:36px;border-radius:18px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;touch-action:manipulation;flex-shrink:0;margin-top:4px">↻</button>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:20px;margin-top:14px">
+      <button ontouchstart="" onclick="hueAllLights(false).then(()=>hueLoadAll().then(hueRenderLichtPage))" style="flex:1;background:var(--surface2);border:none;color:var(--text2);height:42px;border-radius:21px;font-size:13px;font-weight:500;cursor:pointer;touch-action:manipulation">🌙 Alle aus</button>
+      <button ontouchstart="" onclick="hueAllLights(true).then(()=>hueLoadAll().then(hueRenderLichtPage))" style="flex:1;background:#f5a623;border:none;color:#1a0f00;height:42px;border-radius:21px;font-size:13px;font-weight:700;cursor:pointer;touch-action:manipulation">☀️ Alle an</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">`;
+
+  if (groups.length === 0 && allLights.length === 0) {
+    html += `</div><p style="text-align:center;color:var(--text3);grid-column:1/-1;padding:30px 0">Keine Räume gefunden – ↻ versuchen</p>`;
+  }
+
+  groups.sort(([,a],[,b]) => a.name.localeCompare(b.name));
+  groups.forEach(([id, group]) => {
+    const gLights = (group.lights||[]).map(lid => hueLights[lid]).filter(Boolean);
+    const onCnt = gLights.filter(l => l.state?.on).length;
+    const isOn = onCnt > 0;
+    const bri = group.action?.bri || 254;
+    const briPct = Math.round(bri/254*100);
+    const gScenes = Object.entries(hueScenes).filter(([,s]) => s.group === id);
+
+    html += `<div ontouchstart="" style="background:${isOn ? 'linear-gradient(160deg,#3a2500 0%,#1a1000 100%)' : 'var(--surface2)'};border-radius:22px;padding:16px 14px 14px;border:1px solid ${isOn ? 'rgba(245,166,35,0.3)' : 'var(--border)'};position:relative;cursor:pointer;touch-action:manipulation;transition:opacity 0.1s" onclick="hueTileToggle('${id}',${!isOn})" ontouchstart="this.style.opacity=0.75" ontouchend="this.style.opacity=1">
+      <button class="hue-toggle-btn ${isOn?'on':''}" ontouchstart="" onclick="event.stopPropagation();hueTileToggle('${id}',${!isOn})" style="position:absolute;top:13px;right:13px"></button>
+      <div style="font-size:38px;margin-bottom:10px;filter:${isOn?'none':'grayscale(0.8) opacity(0.45)'};line-height:1">${hueRoomIcon(group.name)}</div>
+      <div style="font-size:14px;font-weight:700;color:${isOn?'#ffd580':'var(--text)'};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:28px">${group.name}</div>
+      <div style="font-size:11px;color:${isOn?'rgba(255,213,128,0.55)':'var(--text3)'};margin-top:2px">${isOn ? onCnt+'/'+gLights.length+' an · '+briPct+'%' : gLights.length ? 'Alle aus' : 'Leer'}</div>
+      ${gScenes.length > 0 && isOn ? `<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:10px">
+        ${gScenes.slice(0,2).map(([sid,sc]) => `<button ontouchstart="" onclick="event.stopPropagation();hueActivateScene('${id}','${sid}').then(()=>hueLoadAll().then(hueRenderLichtPage))" style="background:rgba(245,166,35,0.18);border:1px solid rgba(245,166,35,0.25);border-radius:10px;color:#ffd580;font-size:10px;padding:3px 7px;cursor:pointer;touch-action:manipulation;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:80px">${sc.name}</button>`).join('')}
+      </div>` : ''}
+    </div>`;
+  });
+
+  // Fallback: individual lights if no rooms
+  if (groups.length === 0 && allLights.length > 0) {
+    allLights.sort((a,b) => a.name.localeCompare(b.name)).forEach((light, i) => {
+      const on = !!(light.state?.on);
+      html += `<div style="background:${on?'linear-gradient(160deg,#3a2500,#1a1000)':'var(--surface2)'};border-radius:22px;padding:16px 14px 14px;border:1px solid ${on?'rgba(245,166,35,0.3)':'var(--border)'};position:relative">
+        <div style="font-size:32px;margin-bottom:8px;filter:${on?'none':'grayscale(0.8) opacity(0.45)'}">💡</div>
+        <div style="font-size:13px;font-weight:700;color:${on?'#ffd580':'var(--text)'}">${light.name}</div>
+        <div style="font-size:11px;color:${on?'rgba(255,213,128,0.55)':'var(--text3)'}">${on?Math.round((light.state.bri||254)/254*100)+'%':'Aus'}</div>
+      </div>`;
+    });
+  }
+
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+async function hueTileToggle(groupId, on) {
+  // Optimistic update
+  if (hueGroups[groupId]) {
+    (hueGroups[groupId].lights||[]).forEach(lid => {
+      if (hueLights[lid]?.state) hueLights[lid].state.on = on;
+    });
+    if (hueGroups[groupId].action) hueGroups[groupId].action.on = on;
+  }
+  hueRenderLichtPage();
+  hueUpdateQuickStatus();
+  await hueToggleGroup(groupId, on);
+  await hueLoadAll();
+  hueRenderLichtPage();
+  hueUpdateQuickStatus();
 }
 
 // ════════════════════
