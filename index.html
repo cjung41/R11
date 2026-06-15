@@ -429,7 +429,7 @@
   #hue-setup-modal.open { display:flex; }
   .hue-setup-header { display:flex;align-items:center;justify-content:space-between;padding:max(14px,env(safe-area-inset-top)) 20px 14px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:10; }
   /* Hue bottom panel */
-  #hue-panel-overlay { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;align-items:flex-end; }
+  #hue-panel-overlay { display:none;position:fixed;inset:0;background:var(--bg);z-index:200;flex-direction:column;overflow:hidden; }
   #hue-panel-overlay.open { display:flex; }
   .hue-tab-btn { background:none;border:none;color:var(--text2);font-size:13px;font-weight:500;padding:6px 10px;border-radius:9px;cursor:pointer;touch-action:manipulation;transition:background 0.15s,color 0.15s; }
   .hue-tab-btn.active { background:var(--surface3);color:var(--text);font-weight:700; }
@@ -921,10 +921,6 @@
           <button onclick="hueLoadAll().then(hueRenderSmarthomeSection)" style="background:none;border:none;color:var(--text3);font-size:18px;cursor:pointer;padding:0 4px">↻</button>
         </div>
         <div id="hue-rooms"><p style="color:var(--text3);font-size:13px;padding:8px 0">Lade…</p></div>
-        <div style="display:flex;gap:8px;margin-top:12px">
-          <button class="btn secondary" onclick="openHueSetup()" style="flex:1;justify-content:center;font-size:13px" id="hue-setup-btn">🔗 Bridge verbinden</button>
-          <button class="btn" onclick="openHuePanel()" style="flex:1;justify-content:center;font-size:13px" id="hue-open-btn">💡 Schnellsteuerung</button>
-        </div>
       </div>
 
       <!-- Sonos + HomePods -->
@@ -1245,21 +1241,24 @@
 </div>
 
 <!-- Hue Control Panel (Bottom Sheet) -->
-<div id="hue-panel-overlay" onclick="closeHuePanel()">
-  <div id="hue-panel" onclick="event.stopPropagation()" style="background:var(--surface);border-radius:20px 20px 0 0;padding:20px;padding-bottom:max(20px,var(--safe-bottom));width:100%;max-height:85vh;overflow-y:auto;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-      <h3 style="font-size:18px;font-weight:700">💡 Philips Hue</h3>
-      <div style="display:flex;gap:8px;align-items:center">
-        <button onclick="hueLoadAll().then(hueRenderPanel)" style="background:none;border:none;color:var(--text3);font-size:20px;cursor:pointer;padding:0 4px">↻</button>
-        <button onclick="closeHuePanel()" style="background:var(--surface3);border:none;color:var(--text);width:28px;height:28px;border-radius:14px;cursor:pointer;font-size:16px">✕</button>
-      </div>
+<div id="hue-panel-overlay">
+  <!-- Header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:max(16px,var(--safe-top)) 20px 0;flex-shrink:0">
+    <div style="display:flex;align-items:center;gap:10px">
+      <button ontouchstart="" onclick="closeHuePanel()" style="background:var(--surface2);border:none;color:var(--text);width:34px;height:34px;border-radius:17px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;touch-action:manipulation">‹</button>
+      <span style="font-size:19px;font-weight:700">Philips Hue</span>
     </div>
-    <div style="display:flex;gap:4px;margin-bottom:14px;background:var(--surface2);border-radius:12px;padding:3px">
-      <button id="hue-tab-rooms"  class="hue-tab-btn active" ontouchstart="" onclick="hueSetPanelTab('rooms')"  style="flex:1">Räume</button>
-      <button id="hue-tab-scenes" class="hue-tab-btn"        ontouchstart="" onclick="hueSetPanelTab('scenes')" style="flex:1">Szenen</button>
-      <button id="hue-tab-lights" class="hue-tab-btn"        ontouchstart="" onclick="hueSetPanelTab('lights')" style="flex:1">Lichter</button>
-    </div>
-    <div id="hue-panel-content"><p style="color:var(--text3);text-align:center;padding:20px">Lade…</p></div>
+    <button ontouchstart="" onclick="hueLoadAll().then(hueRenderPanel)" style="background:var(--surface2);border:none;color:var(--text3);width:34px;height:34px;border-radius:17px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;touch-action:manipulation">↻</button>
+  </div>
+  <!-- Tabs -->
+  <div style="display:flex;gap:4px;margin:14px 20px 0;background:var(--surface2);border-radius:12px;padding:3px;flex-shrink:0">
+    <button id="hue-tab-rooms"  class="hue-tab-btn active" ontouchstart="" onclick="hueSetPanelTab('rooms')"  style="flex:1">Räume</button>
+    <button id="hue-tab-scenes" class="hue-tab-btn"        ontouchstart="" onclick="hueSetPanelTab('scenes')" style="flex:1">Szenen</button>
+    <button id="hue-tab-lights" class="hue-tab-btn"        ontouchstart="" onclick="hueSetPanelTab('lights')" style="flex:1">Lichter</button>
+  </div>
+  <!-- Content -->
+  <div id="hue-panel-content" style="flex:1;overflow-y:auto;padding:14px 20px max(20px,var(--safe-bottom))">
+    <p style="color:var(--text3);text-align:center;padding:20px">Lade…</p>
   </div>
 </div>
 
@@ -1889,37 +1888,57 @@ function hueRenderPanel() {
 // ── PANEL: RÄUME ──
 function hueRenderGroupsPanel(el) {
   const groups = Object.entries(hueGroups).filter(([,g]) => ['Room','Zone','LightGroup'].includes(g.type));
-  if (!groups.length) { el.innerHTML = '<p style="text-align:center;color:var(--text3);padding:20px">Keine Räume gefunden</p>'; return; }
-  let html = `<div style="display:flex;gap:8px;margin-bottom:14px">
-    <button class="btn" ontouchstart="" onclick="hueAllLights(true)"  style="flex:1;justify-content:center;font-size:13px">☀️ Alle an</button>
-    <button class="btn secondary" ontouchstart="" onclick="hueAllLights(false)" style="flex:1;justify-content:center;font-size:13px">🌙 Alle aus</button>
-  </div>`;
+  if (!groups.length) { el.innerHTML = '<p style="text-align:center;color:var(--text3);padding:40px">Keine Räume gefunden</p>'; return; }
+
+  // Count how many rooms/lights are on
+  const allOnCnt = groups.filter(([,g]) => (g.lights||[]).some(lid => hueLights[lid]?.state?.on)).length;
+  const allLights = Object.values(hueLights);
+  const globalOnCnt = allLights.filter(l => l.state?.on).length;
+
+  let html = `
+    <!-- Global status + controls -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <div>
+        <div style="font-size:22px;font-weight:700">${globalOnCnt > 0 ? globalOnCnt + ' Lichter an' : 'Alle aus'}</div>
+        <div style="font-size:12px;color:var(--text3)">${groups.length} Räume · ${allLights.length} Lichter</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button ontouchstart="" onclick="hueAllLights(false)" style="background:var(--surface2);border:none;color:var(--text2);height:38px;padding:0 14px;border-radius:19px;font-size:13px;cursor:pointer;touch-action:manipulation">🌙 Aus</button>
+        <button ontouchstart="" onclick="hueAllLights(true)"  style="background:#f5a623;border:none;color:#1a0f00;height:38px;padding:0 14px;border-radius:19px;font-size:13px;font-weight:600;cursor:pointer;touch-action:manipulation">☀️ Alle an</button>
+      </div>
+    </div>`;
+
   groups.sort(([,a],[,b]) => a.name.localeCompare(b.name));
   groups.forEach(([id, group]) => {
     const gLights = (group.lights||[]).map(lid => hueLights[lid]).filter(Boolean);
     const onCnt = gLights.filter(l => l.state?.on).length;
     const isOn = onCnt > 0;
     const bri = group.action?.bri || 254;
+    const briPct = Math.round(bri/254*100);
     const gScenes = Object.entries(hueScenes).filter(([,s]) => s.group === id);
+
     html += `
-      <div class="hue-light-card ${isOn ? 'on' : ''}" style="margin-bottom:10px">
-        <div style="display:flex;align-items:center;gap:10px">
-          <div style="font-size:22px">${hueRoomIcon(group.name)}</div>
+      <div style="background:${isOn ? 'linear-gradient(135deg,#2d1e00 0%,#1a1200 100%)' : 'var(--surface2)'};border-radius:18px;padding:18px;margin-bottom:12px;transition:background 0.3s;border:1px solid ${isOn ? 'rgba(245,166,35,0.25)' : 'var(--border)'}">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="font-size:32px;line-height:1;filter:${isOn ? 'none' : 'grayscale(0.8) opacity(0.5)'}">${hueRoomIcon(group.name)}</div>
           <div style="flex:1;min-width:0">
-            <div style="font-size:15px;font-weight:600">${group.name}</div>
-            <div style="font-size:11px;color:var(--text3)">${isOn ? `${onCnt}/${gLights.length} Lichter an` : gLights.length > 0 ? 'Alle aus' : 'Keine Lichter'}</div>
+            <div style="font-size:16px;font-weight:700;color:${isOn ? '#ffd580' : 'var(--text)'}">${group.name}</div>
+            <div style="font-size:12px;color:${isOn ? 'rgba(255,213,128,0.6)' : 'var(--text3)'}">${isOn ? `${onCnt} von ${gLights.length} Lichtern an · ${briPct}%` : gLights.length > 0 ? 'Alle aus' : 'Keine Lichter'}</div>
           </div>
           <button class="hue-toggle-btn ${isOn ? 'on' : ''}" ontouchstart="" onclick="hueToggleGroup('${id}',${!isOn})"></button>
         </div>
-        ${isOn ? `<input type="range" class="hue-bri-slider" min="1" max="254" value="${bri}"
-          oninput="this.nextElementSibling.textContent=Math.round(this.value/2.54)+'%'"
-          onchange="hueSetGroupBrightness('${id}',parseInt(this.value))">
-        <div style="text-align:right;font-size:10px;color:var(--text3);margin-top:2px">${Math.round(bri/254*100)}%</div>` : ''}
-        ${gScenes.length > 0 ? `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px">
-          ${gScenes.slice(0,6).map(([sid,sc]) => `<button ontouchstart="" onclick="hueActivateScene('${id}','${sid}')" style="background:var(--surface3);border:none;border-radius:20px;color:var(--text2);font-size:11px;padding:4px 10px;cursor:pointer;touch-action:manipulation">${hueSceneIcon(sc.name)} ${sc.name}</button>`).join('')}
+        ${isOn ? `<div style="margin-top:14px">
+          <input type="range" class="hue-bri-slider" min="1" max="254" value="${bri}"
+            oninput="this.nextElementSibling.textContent=Math.round(this.value/2.54)+'%'"
+            onchange="hueSetGroupBrightness('${id}',parseInt(this.value))">
+          <div style="text-align:right;font-size:10px;color:rgba(255,213,128,0.5);margin-top:2px" id="hue-gbv-${id}">${briPct}%</div>
+        </div>` : ''}
+        ${gScenes.length > 0 ? `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px">
+          ${gScenes.slice(0,6).map(([sid,sc]) => `<button ontouchstart="" onclick="hueActivateScene('${id}','${sid}')" style="background:${isOn?'rgba(245,166,35,0.15)':'var(--surface3)'};border:1px solid ${isOn?'rgba(245,166,35,0.3)':'var(--border)'};border-radius:20px;color:${isOn?'#ffd580':'var(--text2)'};font-size:11px;padding:5px 11px;cursor:pointer;touch-action:manipulation">${hueSceneIcon(sc.name)} ${sc.name}</button>`).join('')}
         </div>` : ''}
       </div>`;
   });
+
   el.innerHTML = html;
 }
 
@@ -2021,26 +2040,23 @@ function hueSceneIcon(name) {
 function hueRenderSmarthomeSection() {
   const el = document.getElementById('hue-rooms');
   if (!el) return;
-  const setupBtn = document.getElementById('hue-setup-btn');
-  const openBtn  = document.getElementById('hue-open-btn');
   if (!hueIsConnected()) {
-    el.innerHTML = `<div style="padding:8px 0 4px"><p style="color:var(--text2);font-size:14px">Hue nicht verbunden.<br>Verbinde einmalig und steuere alle Lichter direkt von hier.</p></div>`;
-    if (setupBtn) setupBtn.style.display = '';
-    if (openBtn) openBtn.style.display = 'none';
+    el.innerHTML = `<div style="padding:8px 0 12px">
+      <p style="color:var(--text2);font-size:13px;margin-bottom:12px">Hue nicht verbunden. Verbinde einmalig in den Einstellungen und steuere alle Lichter direkt von hier.</p>
+      <button ontouchstart="" onclick="openSettings()" class="btn secondary" style="width:100%;justify-content:center;font-size:13px">⚙️ In Einstellungen verbinden</button>
+    </div>`;
     return;
   }
-  if (setupBtn) { setupBtn.textContent = '⚙️ Hue-Einstellungen'; }
-  if (openBtn) openBtn.style.display = '';
   const groups = Object.entries(hueGroups).filter(([,g]) => g.type === 'Room');
   const lights = Object.entries(hueLights);
+  let roomHtml = '';
   if (groups.length > 0) {
     groups.sort(([,a],[,b]) => a.name.localeCompare(b.name));
-    let html = '';
     groups.forEach(([id, group]) => {
       const gLights = (group.lights||[]).map(lid=>hueLights[lid]).filter(Boolean);
       const onCnt = gLights.filter(l => l.state?.on).length;
       const isOn = onCnt > 0;
-      html += `<div class="hue-room" ontouchstart="" onclick="hueToggleGroup('${id}',${!isOn})" style="cursor:pointer">
+      roomHtml += `<div class="hue-room" ontouchstart="" onclick="hueToggleGroup('${id}',${!isOn})" style="cursor:pointer">
         <div>
           <div style="font-size:14px;font-weight:500">${hueRoomIcon(group.name)} ${group.name}</div>
           <div style="font-size:11px;color:var(--text3)">${isOn ? `${onCnt}/${gLights.length} an` : 'Aus'}</div>
@@ -2048,14 +2064,12 @@ function hueRenderSmarthomeSection() {
         <button class="hue-toggle-btn ${isOn?'on':''}" ontouchstart="" onclick="event.stopPropagation();hueToggleGroup('${id}',${!isOn})"></button>
       </div>`;
     });
-    el.innerHTML = html;
   } else if (lights.length > 0) {
     lights.sort(([,a],[,b]) => a.name.localeCompare(b.name));
-    let html = '';
     lights.forEach(([id, light]) => {
       const on = !!(light.state?.on);
       const reachable = light.state?.reachable !== false;
-      html += `<div class="hue-room">
+      roomHtml += `<div class="hue-room">
         <div>
           <div style="font-size:14px;font-weight:500">${light.name}</div>
           <div style="font-size:11px;color:var(--text3)">${!reachable?'⚠️':''}${on?Math.round((light.state.bri||254)/254*100)+'%':'Aus'}</div>
@@ -2063,10 +2077,13 @@ function hueRenderSmarthomeSection() {
         <button class="hue-toggle-btn ${on?'on':''}" ontouchstart="" onclick="hueToggleLight('${id}',${!on}).then(()=>{hueRenderSmarthomeSection();hueUpdateQuickStatus()})" ${!reachable?'disabled style="opacity:0.4"':''}></button>
       </div>`;
     });
-    el.innerHTML = html;
   } else {
-    el.innerHTML = '<p style="color:var(--text3);font-size:13px;padding:8px 0">Keine Lichter gefunden – ↻ versuchen</p>';
+    roomHtml = '<p style="color:var(--text3);font-size:13px;padding:8px 0">Keine Lichter gefunden – ↻ versuchen</p>';
   }
+  el.innerHTML = roomHtml + `
+    <button ontouchstart="" onclick="openHuePanel()" class="btn" style="width:100%;justify-content:center;font-size:13px;margin-top:12px">
+      💡 Hue öffnen →
+    </button>`;
 }
 
 // ════════════════════
@@ -3590,9 +3607,13 @@ function openSettings() {
       <span style="color:var(--text3)">›</span>
     </div>
     <div class="settings-row" onclick="openHueSetup();closeModal()" style="cursor:pointer">
-      <div><div class="label">💡 Philips Hue</div><div class="sub">${hueIsConnected() ? '✓ Verbunden – Bridge: ' + hueConfig.bridgeIp : 'Nicht verbunden – tippen zum Einrichten'}</div></div>
+      <div><div class="label">💡 Philips Hue</div><div class="sub">${hueIsConnected() ? (hueConfig?.type==='remote' ? '✓ Remote verbunden' : '✓ Lokal verbunden – IP: '+(hueConfig?.bridgeIp||'–')) : 'Nicht verbunden – tippen zum Einrichten'}</div></div>
       <span style="color:var(--text3)">›</span>
     </div>
+    ${hueIsConnected() ? `<div class="settings-row" onclick="if(confirm('Hue-Verbindung trennen?')){hueDisconnect();closeModal()}" style="cursor:pointer">
+      <div><div class="label" style="color:#ff6b6b">Hue trennen</div><div class="sub">Zugangsdaten löschen &amp; neu verbinden</div></div>
+      <span style="color:var(--text3)">›</span>
+    </div>` : ''}
     <div class="settings-row">
       <div><div class="label">🔐 Nuki</div><div class="sub">Nicht verbunden – kommt später</div></div>
       <span style="color:var(--text3);font-size:11px">⏳</span>
