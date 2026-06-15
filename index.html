@@ -1659,7 +1659,7 @@ function hueStartOAuth(clientId, clientSecret) {
   const state = 'r11hue_' + Math.random().toString(36).substr(2,8);
   localStorage.setItem('r11_hue_oauth_state', state);
   const redirectUri = 'https://r11-hue.cjung41.workers.dev';
-  const params = new URLSearchParams({ clientid:clientId, response_type:'code', state, appid:'r11_dashboard', deviceid:'r11_browser', devicename:'R11 Dashboard', redirect_uri:redirectUri });
+  const params = new URLSearchParams({ clientid:clientId, response_type:'code', state, appid:'R11 Dashboard', deviceid:'r11_browser', devicename:'R11 Dashboard', redirect_uri:redirectUri });
   window.location.href = `https://api.meethue.com/oauth2/authorize?${params}`;
 }
 
