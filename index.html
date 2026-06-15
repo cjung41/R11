@@ -1548,13 +1548,13 @@ async function hueEnsureToken() {
   const expiry = hueConfig.tokenExpiry || 0;
   if (Date.now() < expiry - 60000) return; // still valid (>1 min left)
   try {
-    const r = await fetch('https://api.meethue.com/oauth2/refresh?token=refresh', {
+    const r = await fetch('https://api.meethue.com/oauth2/refresh?grant_type=refresh_token', {
       method: 'POST',
       headers: {
         'Authorization': 'Basic ' + btoa(`${hueConfig.clientId}:${hueConfig.clientSecret}`),
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      body: `grant_type=refresh_token&refresh_token=${encodeURIComponent(hueConfig.refreshToken)}`
+      body: `refresh_token=${encodeURIComponent(hueConfig.refreshToken)}`
     });
     const data = await r.json();
     if (data.access_token) {
@@ -1574,7 +1574,7 @@ function _hueHeaders(extraHeaders) {
 }
 function _hueUrl(endpoint) {
   if (hueConfig.type === 'remote')
-    return `https://api.meethue.com/route/api/${hueConfig.username}${endpoint}`;
+    return `https://api.meethue.com/bridge/${hueConfig.username}${endpoint}`;
   return `https://${hueConfig.bridgeIp}/api/${hueConfig.username}${endpoint}`;
 }
 
@@ -1660,7 +1660,7 @@ function hueStartOAuth(clientId, clientSecret) {
   localStorage.setItem('r11_hue_oauth_state', state);
   const redirectUri = 'https://r11-hue.cjung41.workers.dev';
   const params = new URLSearchParams({ clientid:clientId, response_type:'code', state, appid:'R11 Dashboard', deviceid:'r11_browser', devicename:'R11 Dashboard', redirect_uri:redirectUri });
-  window.location.href = `https://api.meethue.com/oauth2/authorize?${params}`;
+  window.location.href = `https://api.meethue.com/oauth2/auth?${params}`;
 }
 
 async function hueHandleOAuthCallback(code, state) {
@@ -1700,13 +1700,12 @@ async function hueHandleOAuthCallback(code, state) {
   try {
     // 1) Exchange code → token
     dbg('1/3 Token tauschen…');
-    const tokenResp = await fetch('https://api.meethue.com/oauth2/token', {
+    const tokenResp = await fetch(`https://api.meethue.com/oauth2/token?code=${encodeURIComponent(code)}&grant_type=authorization_code`, {
       method: 'POST',
       headers: {
         'Authorization': 'Basic ' + btoa(`${pending.clientId}:${pending.clientSecret}`),
         'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: `grant_type=authorization_code&code=${encodeURIComponent(code)}`
+      }
     });
     const tokenRaw = await tokenResp.text();
     dbg('Token-Response (' + tokenResp.status + '): ' + tokenRaw.substring(0,120));
@@ -1717,7 +1716,7 @@ async function hueHandleOAuthCallback(code, state) {
 
     // 2) Enable link button remotely
     dbg('2/3 Linkbutton aktivieren…');
-    const lbResp = await fetch('https://api.meethue.com/route/api/0/config', {
+    const lbResp = await fetch('https://api.meethue.com/bridge/0/config', {
       method: 'PUT',
       headers: { 'Authorization': `Bearer ${access_token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ linkbutton: true })
@@ -1727,7 +1726,7 @@ async function hueHandleOAuthCallback(code, state) {
 
     // 3) Create API username
     dbg('3/3 Bridge-Username erstellen…');
-    const pairResp = await fetch('https://api.meethue.com/route/api', {
+    const pairResp = await fetch('https://api.meethue.com/bridge/', {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${access_token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ devicetype: 'r11_dashboard#browser', generateclientkey: true })
