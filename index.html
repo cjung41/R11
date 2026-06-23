@@ -8287,7 +8287,7 @@ function init() {
   const _sonosCode = _sqp.get('code');
   if (_sonosCode && localStorage.getItem('sonos_oauth_state')) {
     window.history.replaceState({}, '', window.location.pathname);
-    sonosHandleCallback(_sonosCode); // async, läuft im Hintergrund
+    setTimeout(function(){ if(typeof sonosHandleCallback==='function') sonosHandleCallback(_sonosCode); }, 0);
   }
 
   // OAuth Callback von Hue? — Worker macht Token-Exchange server-seitig
@@ -8362,7 +8362,7 @@ function init() {
   fetchNukiStatus();
 
   // Sonos im Hintergrund initialisieren
-  sonosInit().catch(function(){});
+  setTimeout(function(){ if(typeof sonosInit==='function') sonosInit().catch(function(){}); }, 0);
 
   renderEbikeTile();
   if (boschIsConnected()) {
