@@ -9087,7 +9087,7 @@ function wmBuildPage(data) {
   // ── Punktestand ──
   var done = games.filter(function(g){ return g.completed; });
   var pts = done.reduce(function(s,g){ return s + (g.gerScore>g.oppScore?3:g.gerScore===g.oppScore?1:0); }, 0);
-  var gf  = done.reduce(f  var gf  = done.reduce(function(s,g){ return s+(g.gerScore||0); }, 0);
+  var gf  = done.reduce(function(s,g){ return s+(g.gerScore||0); }, 0);
   var ga  = done.reduce(function(s,g){ return s+(g.oppScore||0); }, 0);
 
   html += '<div style="background:rgba(255,255,255,0.05);border-radius:14px;padding:12px 16px;display:flex;justify-content:space-around;text-align:center;margin-bottom:16px">';
