@@ -185,53 +185,22 @@
   #content { flex: 1; overflow-y: auto; overflow-x: hidden; scroll-behavior: smooth; }
 
   .page { display: none; padding: 16px; padding-bottom: calc(var(--bottom-nav) + 4px); min-height: 100%; }
-  #page-home { padding-bottom: calc(var(--bottom-nav) + 100px); }
   .page.active { display: block; }
-  #page-home.active { display: flex; flex-direction: column; min-height: 100%; }
+  #page-home.active { display: flex; flex-direction: column; height: 100%; }
 
   /* ── BOTTOM NAV – iOS Tab Bar ── */
   #nav {
     position: fixed;
     bottom: max(env(safe-area-inset-bottom, 8px), 10px);
-    left: 10px; right: 10px;
-    background: linear-gradient(160deg, rgba(62,58,90,0.78) 0%, rgba(20,18,36,0.97) 60%, rgba(12,12,28,0.99) 100%);
-    backdrop-filter: blur(60px) saturate(260%) brightness(1.12) contrast(1.04);
-    -webkit-backdrop-filter: blur(60px) saturate(260%) brightness(1.12) contrast(1.04);
-    border: 1px solid rgba(255,255,255,0.26);
-    border-radius: 28px;
-    box-shadow:
-      0 16px 56px rgba(0,0,0,0.80),
-      0 4px 16px rgba(0,0,0,0.50),
-      0 1.5px 0 rgba(255,255,255,0.28) inset,
-      0 0 0 0.5px rgba(255,255,255,0.10) inset,
-      0 -1px 0 rgba(0,0,0,0.45) inset;
+    left: 12px; right: 12px;
+    background: rgba(38,38,46,0.94);
+    backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 22px;
+    box-shadow: 0 4px 28px rgba(0,0,0,0.45), 0 0 0 0.5px rgba(255,255,255,0.05) inset;
     display: flex; z-index: 100;
     padding: 6px 6px;
     gap: 2px;
-    overflow: hidden;
-  }
-  #nav::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 10%; right: 10%;
-    height: 1px;
-    background: linear-gradient(90deg,
-      transparent 0%,
-      rgba(180,160,255,0.90) 20%,
-      rgba(255,214,10,0.70) 40%,
-      rgba(48,209,88,0.70) 60%,
-      rgba(90,200,250,0.80) 80%,
-      transparent 100%);
-    border-radius: 1px;
-    pointer-events: none;
-  }
-  #nav::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 80% 40% at 50% 0%, rgba(120,100,220,0.12) 0%, transparent 70%);
-    border-radius: 28px;
-    pointer-events: none;
   }
   .nav-btn {
     flex: 1; display: flex; flex-direction: column; align-items: center;
@@ -514,9 +483,11 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 8px;
-    margin-bottom: 12px;
+    margin-bottom: 0;
+    flex: 1;
+    align-content: space-between;
   }
-  .cc-tile:not(.cc-hue-wide):not(.cc-greece):not(.cc-tado-wide) { min-height:105px; max-height:105px; overflow:hidden; }
+  .cc-tile:not(.cc-hue-wide):not(.cc-wm) { min-height:105px; max-height:105px; overflow:hidden; }
   /* Basis-Tile: frosted glass */
   .cc-tile {
     background: var(--surface2);
@@ -636,71 +607,6 @@
   .cc-hue-dot-bri { font-size:9px;font-weight:500;text-align:center; }
   .cc-tile.cc-pille  { background: linear-gradient(135deg, rgba(255,45,150,0.28) 0%, rgba(175,82,222,0.22) 100%); }
   .cc-tile.cc-sonos  { background: rgba(48,209,88,0.20); }
-  /* ── Garten-Kachel ── */
-  .cc-tile.cc-garten { background: linear-gradient(135deg, rgba(76,175,80,0.22) 0%, rgba(27,94,32,0.12) 100%); border-color: rgba(76,175,80,0.18); }
-  .cc-tile.cc-garten::before { background: linear-gradient(90deg, #34C759, #30D158); }
-  .cc-tile.cc-sonos::before  { background: linear-gradient(90deg, #30D158, #1DB954); }
-
-  /* ══ SONOS – Sonos S2 Style ══════════════════════════════════════════ */
-  #page-sonos { padding:0; background:#000; }
-  /* Connect Screen */
-  .sonos-connect-screen { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 32px; text-align:center; min-height:70vh; }
-  .sonos-connect-action { background:#fff; color:#000; border:none; border-radius:999px; padding:15px 44px; font-size:16px; font-weight:700; cursor:pointer; touch-action:manipulation; letter-spacing:-0.2px; }
-  .sonos-connect-action:active { opacity:0.8; }
-  /* Room Strip */
-  .sonos-room-strip { display:flex; gap:8px; padding:12px 16px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; border-bottom:1px solid rgba(255,255,255,0.06); }
-  .sonos-room-strip::-webkit-scrollbar { display:none; }
-  .sonos-room-chip { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.1); border-radius:999px; padding:6px 16px; font-size:13px; font-weight:600; color:rgba(255,255,255,0.6); cursor:pointer; touch-action:manipulation; white-space:nowrap; flex-shrink:0; transition:all 0.15s; }
-  .sonos-room-chip.active { background:#fff; color:#000; border-color:#fff; }
-  /* Album Art */
-  .sonos-art-area { position:relative; width:100%; overflow:hidden; background:#111; display:flex; flex-direction:column; align-items:center; padding:20px 0 0; }
-  .sonos-art-bg { position:absolute; inset:-30px; filter:blur(50px) brightness(0.35) saturate(1.5); background-size:cover; background-position:center; z-index:0; transform:scale(1.2); }
-  .sonos-art-cover { position:relative; z-index:1; width:68%; aspect-ratio:1; background:linear-gradient(145deg,#2a2a2a,#111); border-radius:6px; box-shadow:0 28px 70px rgba(0,0,0,0.85),0 4px 16px rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; font-size:80px; overflow:hidden; }
-  .sonos-art-cover img { width:100%; height:100%; object-fit:cover; border-radius:6px; }
-  /* Track Info */
-  .sonos-track-section { display:flex; align-items:center; padding:20px 20px 4px; gap:12px; }
-  .sonos-track-name { font-size:22px; font-weight:700; letter-spacing:-0.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; flex:1; color:#fff; }
-  .sonos-like-btn { background:none; border:none; font-size:22px; cursor:pointer; touch-action:manipulation; color:rgba(255,255,255,0.4); padding:4px; transition:color 0.15s; -webkit-tap-highlight-color:transparent; flex-shrink:0; }
-  .sonos-like-btn.liked { color:#fff; }
-  .sonos-track-artist { font-size:15px; color:rgba(255,255,255,0.5); padding:0 20px 18px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  /* Progress Bar */
-  .sonos-progress-bar { margin:0 20px 20px; height:3px; background:rgba(255,255,255,0.12); border-radius:2px; cursor:pointer; }
-  .sonos-progress-fill { height:100%; background:#fff; border-radius:2px; width:0%; }
-  /* Controls */
-  .sonos-controls { display:flex; align-items:center; justify-content:space-between; padding:0 24px 18px; }
-  .sonos-ctrl-sm { background:none; border:none; color:rgba(255,255,255,0.6); font-size:22px; cursor:pointer; touch-action:manipulation; padding:10px; -webkit-tap-highlight-color:transparent; transition:opacity 0.12s; line-height:1; }
-  .sonos-ctrl-sm:active { opacity:0.3; }
-  .sonos-ctrl-sm.active-mode { color:#fff; }
-  .sonos-play-btn { width:70px; height:70px; border-radius:50%; background:#fff; color:#000; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; touch-action:manipulation; transition:transform 0.1s,opacity 0.12s; box-shadow:0 6px 28px rgba(255,255,255,0.18); flex-shrink:0; }
-  .sonos-play-btn:active { transform:scale(0.88); opacity:0.85; }
-  .sonos-play-icon { width:28px; height:28px; }
-  /* Volume */
-  .sonos-volume-wrap { display:flex; align-items:center; gap:10px; padding:0 20px 22px; }
-  .sonos-vol-svg { color:rgba(255,255,255,0.38); flex-shrink:0; }
-  .sonos-volume-slider { flex:1; -webkit-appearance:none; appearance:none; height:3px; border-radius:2px; background:rgba(255,255,255,0.18); outline:none; cursor:pointer; }
-  .sonos-volume-slider::-webkit-slider-thumb { -webkit-appearance:none; width:17px; height:17px; border-radius:50%; background:#fff; cursor:pointer; box-shadow:0 1px 6px rgba(0,0,0,0.5); }
-  /* Divider */
-  .sonos-divider { height:1px; background:rgba(255,255,255,0.07); margin:0 0 16px; }
-  /* Section Label */
-  .sonos-sec-label { font-size:11px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:rgba(255,255,255,0.35); padding:0 16px 10px; }
-  /* Favorites – horizontal scroll cards */
-  .sonos-fav-scroll { display:flex; gap:14px; padding:0 16px 20px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
-  .sonos-fav-scroll::-webkit-scrollbar { display:none; }
-  .sonos-fav-card { flex-shrink:0; width:128px; cursor:pointer; touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
-  .sonos-fav-card:active .sonos-fav-art { opacity:0.55; }
-  .sonos-fav-art { width:128px; height:128px; border-radius:10px; background:rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:center; font-size:48px; margin-bottom:8px; overflow:hidden; transition:opacity 0.15s; }
-  .sonos-fav-art img { width:100%; height:100%; object-fit:cover; border-radius:10px; }
-  .sonos-fav-title { font-size:12px; font-weight:600; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .sonos-fav-sub { font-size:11px; color:rgba(255,255,255,0.38); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:2px; }
-  /* TTS */
-  .sonos-tts-wrap { padding:0 16px 16px; }
-  .sonos-tts-row { display:flex; gap:8px; }
-  .sonos-tts-input { flex:1; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.1); color:#fff; border-radius:12px; padding:11px 14px; font-size:14px; outline:none; font-family:inherit; }
-  .sonos-tts-input::placeholder { color:rgba(255,255,255,0.28); }
-  .sonos-tts-btn { background:rgba(255,255,255,0.09); border:1px solid rgba(255,255,255,0.15); color:#fff; border-radius:12px; padding:11px 18px; font-size:20px; cursor:pointer; touch-action:manipulation; }
-  /* Art placeholder animation */
-  @keyframes sonosPulse { 0%,100%{opacity:0.5} 50%{opacity:0.9} }
-  .sonos-art-idle { animation:sonosPulse 2.5s ease-in-out infinite; }
 
   /* ── Design-Refresh: Tile Akzent-Streifen ── */
   .cc-tile::before { content:''; position:absolute; top:0; left:16px; right:16px; height:2px; border-radius:0 0 2px 2px; opacity:0.55; }
@@ -773,7 +679,7 @@
   .gr-cd-num { font-size:36px; font-weight:900; color:#fff; letter-spacing:-1px; }
   .gr-cd-label { font-size:10px; color:rgba(255,255,255,0.55); letter-spacing:0.5px; text-transform:uppercase; }
   /* ── WM 2026 ── */
-  .cc-tile.cc-wm { background: linear-gradient(145deg, rgba(20,20,20,0.94) 0%, rgba(50,15,10,0.92) 100%); border-radius:22px; }
+  .cc-tile.cc-wm { background: linear-gradient(145deg, rgba(20,20,20,0.94) 0%, rgba(50,15,10,0.92) 100%); grid-column: 1/3; border-radius:22px; padding:12px 14px 10px; min-height:auto; overflow:hidden; flex-direction:column; gap:6px; }
   .cc-tile.cc-wm::before { background: linear-gradient(90deg,#000 0%,#DD0000 50%,#FFCC00 100%); opacity:0.8; }
   .wm-ger-match { background:rgba(255,204,0,0.10);border:1px solid rgba(255,204,0,0.25);border-radius:14px;padding:10px 12px;margin-bottom:6px; }
   .wm-match { background:rgba(255,255,255,0.05);border-radius:10px;padding:7px 10px;margin-bottom:4px;display:flex;align-items:center;gap:6px;font-size:12px; }
@@ -1478,9 +1384,8 @@
 .section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); margin-bottom: 8px; }
 
 /* Nav-Buttons feiner */
-.nav-btn { border-radius: 16px; padding: 8px 0; transition: background 0.18s, transform 0.12s; }
-.nav-btn:active { transform: scale(0.88); }
-.nav-btn.active { background: rgba(255,255,255,0.11); box-shadow: 0 0 12px rgba(255,255,255,0.06) inset; }
+.nav-btn { border-radius: 14px; padding: 8px 0; }
+.nav-btn.active { background: rgba(255,255,255,0.09); }
 
 /* Tado Modal: glass-look */
 #tado-modal .modal-box {
@@ -1668,7 +1573,51 @@ textarea.note-area { min-height: 100px; resize: vertical; }
 .cc-tile.cc-hue-wide  { background: linear-gradient(135deg, rgba(255,214,10,0.22) 0%, rgba(255,149,0,0.12) 50%, rgba(30,28,22,0.96) 100%) !important; border-color: rgba(255,214,10,0.16) !important; }
 .cc-tile.cc-tado-wide { background: linear-gradient(135deg, rgba(255,107,53,0.24) 0%, rgba(255,80,0,0.12) 50%, rgba(30,22,18,0.96) 100%) !important; border-color: rgba(255,107,53,0.16) !important; }
 
-  </style>
+  
+  /* ── Garten-Kachel ── */
+  .cc-tile.cc-garten { background: linear-gradient(135deg, #1a3a1a 0%, #0d2b0d 100%); }
+
+  /* ── Sonos Page ── */
+  .sonos-connect-screen { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 32px; text-align:center; min-height:70vh; }
+  .sonos-connect-action { background:#fff; color:#000; border:none; border-radius:999px; padding:15px 44px; font-size:16px; font-weight:700; cursor:pointer; touch-action:manipulation; }
+  .sonos-connect-action:active { opacity:0.8; }
+  .sonos-room-strip { display:flex; gap:8px; padding:12px 16px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; border-bottom:1px solid rgba(255,255,255,0.06); }
+  .sonos-room-strip::-webkit-scrollbar { display:none; }
+  .sonos-room-chip { flex-shrink:0; background:rgba(255,255,255,0.08); color:rgba(255,255,255,0.6); border:none; border-radius:999px; padding:7px 16px; font-size:13px; font-weight:600; cursor:pointer; touch-action:manipulation; white-space:nowrap; }
+  .sonos-room-chip.active { background:#fff; color:#000; }
+  .sonos-art-area { position:relative; overflow:hidden; min-height:260px; display:flex; align-items:center; justify-content:center; }
+  .sonos-art-bg { position:absolute; inset:-20px; background-size:cover; background-position:center; filter:blur(30px) brightness(0.4); transform:scale(1.1); }
+  .sonos-art-cover { position:relative; z-index:1; width:200px; height:200px; border-radius:12px; background:rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:center; font-size:60px; box-shadow:0 8px 40px rgba(0,0,0,0.6); }
+  .sonos-art-idle { box-shadow:none; }
+  .sonos-track-section { display:flex; align-items:center; gap:12px; padding:16px 20px 4px; }
+  .sonos-track-name { font-size:18px; font-weight:700; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .sonos-track-artist { font-size:14px; color:rgba(255,255,255,0.5); padding:0 20px 16px; }
+  .sonos-like-btn { background:none; border:none; color:rgba(255,255,255,0.4); font-size:22px; cursor:pointer; touch-action:manipulation; flex-shrink:0; padding:4px; }
+  .sonos-like-btn.liked { color:#ff375f; }
+  .sonos-progress-bar { height:2px; background:rgba(255,255,255,0.1); margin:0 20px 16px; border-radius:1px; }
+  .sonos-progress-fill { height:100%; background:rgba(255,255,255,0.5); border-radius:1px; width:0%; }
+  .sonos-controls { display:flex; align-items:center; justify-content:center; gap:20px; padding:8px 20px 16px; }
+  .sonos-play-btn { width:70px; height:70px; border-radius:50%; background:#fff; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; touch-action:manipulation; box-shadow:0 4px 20px rgba(0,0,0,0.4); flex-shrink:0; }
+  .sonos-play-btn:active { transform:scale(0.95); }
+  .sonos-ctrl-sm { background:none; border:none; color:rgba(255,255,255,0.7); cursor:pointer; touch-action:manipulation; padding:8px; display:flex; align-items:center; justify-content:center; }
+  .sonos-ctrl-sm.active-mode { color:#fff; }
+  .sonos-volume-wrap { display:flex; align-items:center; gap:10px; padding:4px 20px 16px; }
+  .sonos-volume-slider { flex:1; -webkit-appearance:none; appearance:none; height:3px; background:rgba(255,255,255,0.2); border-radius:2px; outline:none; }
+  .sonos-volume-slider::-webkit-slider-thumb { -webkit-appearance:none; width:18px; height:18px; border-radius:50%; background:#fff; cursor:pointer; }
+  .sonos-vol-svg { color:rgba(255,255,255,0.5); flex-shrink:0; }
+  .sonos-divider { height:1px; background:rgba(255,255,255,0.06); margin:4px 20px 16px; }
+  .sonos-sec-label { font-size:13px; font-weight:700; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.8px; padding:0 20px 10px; }
+  .sonos-fav-scroll { display:flex; gap:12px; padding:0 20px 16px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+  .sonos-fav-scroll::-webkit-scrollbar { display:none; }
+  .sonos-fav-card { flex-shrink:0; width:110px; cursor:pointer; touch-action:manipulation; }
+  .sonos-fav-art { width:110px; height:110px; border-radius:10px; background:rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; font-size:36px; margin-bottom:8px; overflow:hidden; }
+  .sonos-fav-title { font-size:12px; font-weight:600; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .sonos-fav-sub { font-size:11px; color:rgba(255,255,255,0.4); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .sonos-tts-wrap { padding:0 20px 20px; }
+  .sonos-tts-row { display:flex; gap:10px; }
+  .sonos-tts-input { flex:1; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:12px 14px; color:#fff; font-size:15px; outline:none; }
+  .sonos-tts-btn { background:rgba(255,255,255,0.1); border:none; border-radius:12px; padding:12px 16px; font-size:20px; cursor:pointer; touch-action:manipulation; }
+</style>
 <script>
   // Service Worker nur im Browser aktiv – nicht wenn als PWA installiert.
   // Safari PWA-Modus kann Cloudflare Access Redirects sonst nicht verarbeiten.
@@ -1726,10 +1675,10 @@ textarea.note-area { min-height: 100px; resize: vertical; }
             <div class="hero-stat-val" id="muell-hero-val">--</div>
             <div class="hero-stat-label" id="muell-hero-lbl">Müll</div>
           </div>
-          <div class="hero-stat" onclick="showPage('schloss')">
-            <div class="hero-stat-icon" id="nuki-hero-icon">🔒</div>
+          <div class="hero-stat" onclick="fetchNukiStatus()">
+            <div class="hero-stat-icon" id="nuki-hero-icon">🔐</div>
             <div class="hero-stat-val" id="nuki-hero-val">--</div>
-            <div class="hero-stat-label">Schloss</div>
+            <div class="hero-stat-label">Nuki</div>
           </div>
           <div class="hero-stat" onclick="showPage('pille')">
             <div class="hero-stat-icon">💊</div>
@@ -1771,7 +1720,7 @@ textarea.note-area { min-height: 100px; resize: vertical; }
         <script>(function(){var s=localStorage.getItem('greeceFlightDate')||'2026-07-01';if(!/^\d{4}-\d{2}-\d{2}$/.test(s))s='2026-07-01';var p=s.split('-'),t=new Date(+p[0],+p[1]-1,+p[2]),n=new Date();n.setHours(0,0,0,0);var d=Math.round((t-n)/86400000);var el=document.getElementById('greece-tile-num');if(el)el.textContent=d>0?String(d):(d===0?'\u2708\uFE0F':'\uD83C\uDF0A');})()</script>
 
         <!-- Hue: breite Hero-Kachel -->
-        <div class="cc-tile cc-hue-wide" ontouchstart="if(!event.target.closest('.cc-hue-dot,.hue-home-toggle')){this.classList.add('pressing')}" ontouchend="this.classList.remove('pressing')" ontouchcancel="this.classList.remove('pressing')" onclick="if(!event.target.closest('.cc-hue-dot,.hue-home-toggle')){showPage('licht')}">
+        <div class="cc-tile cc-hue-wide" ontouchstart="if(!event.target.closest('.hue-home-toggle')){this.classList.add('pressing')}" ontouchend="this.classList.remove('pressing')" ontouchcancel="this.classList.remove('pressing')" onclick="showPage('licht')">
           <div class="cc-hue-wide-glow"></div>
           <div class="cc-hue-wide-header">
             <div class="cc-icon">💡</div>
@@ -1785,7 +1734,7 @@ textarea.note-area { min-height: 100px; resize: vertical; }
 
         </div>
         <!-- Heizung Kachel -->
-        <div class="cc-tile cc-tado-wide" ontouchstart="if(!event.target.closest('.cc-tado-dot,.hue-home-toggle')){this.classList.add('pressing')}" ontouchend="this.classList.remove('pressing')" ontouchcancel="this.classList.remove('pressing')" onclick="if(!event.target.closest('.cc-tado-dot,.hue-home-toggle')){showPage('heizung')}">
+        <div class="cc-tile cc-tado-wide" ontouchstart="if(!event.target.closest('.cc-tado-dot')){this.classList.add('pressing')}" ontouchend="this.classList.remove('pressing')" ontouchcancel="this.classList.remove('pressing')" onclick="showPage('heizung')">
           <div class="cc-hue-wide-header">
             <div class="cc-icon">🌡️</div>
             <div style="flex:1">
@@ -1800,22 +1749,38 @@ textarea.note-area { min-height: 100px; resize: vertical; }
           <div class="cc-tado-wide-dots" id="tado-quick-rooms"></div>
         </div>
 
-
-        <!-- Nuki: live Tür-Status -->
-        <div class="cc-tile cc-nuki" ontouchstart="" onclick="showPage('schloss')">
-          <div id="nuki-tile-icon" style="font-size:26px;line-height:1;margin-bottom:auto">🔐</div>
-          <div class="cc-name">Schloss</div>
-          <div class="cc-status" id="nuki-tile-door">--</div>
-          <div id="nuki-tile-lock" style="font-size:10px;color:var(--text3);margin-top:2px">--</div>
-        </div>
         <!-- WM 2026 Kachel -->
         <div class="cc-tile cc-wm" ontouchstart="" onclick="showPage('wm')">
-          <div class="cc-icon">🏆</div>
-          <div class="cc-name">WM 2026</div>
-          <div class="cc-status" id="wm-tile-status" style="color:#30D158">✅ Sieg</div>
-          <div id="wm-tile-content" style="font-size:10px;color:var(--text2);margin-top:auto;line-height:1.4">
-            <div style="font-weight:800;font-size:13px">🇩🇪 2:1 🇨🇮</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:20px">🏆</span>
+            <div style="flex:1;min-width:0">
+              <div style="display:flex;align-items:center;gap:6px">
+                <span class="cc-name" style="font-size:13px">WM 2026</span>
+                <span class="cc-status" id="wm-tile-status" style="font-size:10px;color:#FF9F0A">🔴 Heute!</span>
+              </div>
+              <div id="wm-tile-content" style="font-size:11px;color:var(--text2);margin-top:3px">
+                <div style="font-weight:700">🇩🇪 vs 🏳️ Elfenbeinküste · 22:00 Uhr</div>
+              </div>
+            </div>
+            <span style="font-size:16px;flex-shrink:0">🇩🇪</span>
           </div>
+        </div>
+
+
+        <!-- Müll -->
+        <div class="cc-tile cc-muell" ontouchstart="" onclick="showPage('muell')">
+          <div id="muell-tile-icon" style="font-size:26px;line-height:1;margin-bottom:auto">🗑️</div>
+          <div class="cc-name">Nächste Abfuhr</div>
+          <div class="cc-status" id="muell-tile-when">--</div>
+          <div id="muell-tile-types" style="margin-top:4px;display:flex;flex-wrap:wrap;gap:3px"></div>
+        </div>
+        <!-- Tado: kleine Kachel -->
+        <!-- Nuki -->
+        <div class="cc-tile cc-nuki" ontouchstart="" onclick="showPage('schloss')">
+          <div id="nuki-tile-icon" style="font-size:26px;line-height:1;margin-bottom:auto">🔐</div>
+          <div class="cc-name">Nuki</div>
+          <div class="cc-status" id="nuki-tile-door">--</div>
+          <div id="nuki-tile-lock" style="font-size:10px;color:var(--text3);margin-top:2px">--</div>
         </div>
         <!-- Pille -->
         <div class="cc-tile cc-pille" ontouchstart="" onclick="showPage('pille')" style="cursor:pointer">
@@ -1829,37 +1794,25 @@ textarea.note-area { min-height: 100px; resize: vertical; }
           <div class="cc-name">Radar</div>
           <div class="cc-status">Live Regen</div>
         </div>
+        <!-- E-Bike -->
+        <div class="cc-tile cc-ebike" ontouchstart="" id="ebike-home-tile" onclick="boschConnect()" style="cursor:pointer">
+          <div class="cc-icon">🚴</div>
+          <div class="cc-name">E-Bike</div>
+          <div class="cc-status" id="ebike-home-sub">Tippen zum Verbinden</div>
+          <div class="cc-tile cc-garten" ontouchstart="" onclick="showPage('garten')" style="cursor:pointer">
+            <div class="cc-icon">🌱</div>
+            <div class="cc-name">Garten</div>
+            <div class="cc-status">Pool · Tipps · Notizen</div>
+          </div>
+          <script>if(!_proxy){document.currentScript.previousElementSibling.textContent='Heimnetz';document.currentScript.previousElementSibling.style.color='var(--text3)';}</script>
+          <div id="ebike-home-bar" style="display:none"><div class="batt-body"><div class="batt-fill" id="ebike-fill" style="width:0%"></div></div><span id="ebike-pct-text"></span></div>
+        </div>
         <!-- Spiele -->
         <div class="cc-tile cc-games" ontouchstart="" onclick="openGames()" style="cursor:pointer">
           <div class="cc-icon">🎮</div>
           <div class="cc-name">Spiele</div>
           <div class="cc-status">Space Invaders · Duel</div>
           <div style="margin-top:auto;padding-top:8px;font-size:10px;color:#BF5AF2;font-weight:700;letter-spacing:0.3px">Spielen ›</div>
-        </div>
-        <!-- E-Bike -->
-        <div class="cc-tile cc-ebike" ontouchstart="" id="ebike-home-tile" onclick="boschConnect()" style="cursor:pointer">
-          <div class="cc-icon">🚴</div>
-          <div class="cc-name">E-Bike</div>
-          <div class="cc-status" id="ebike-home-sub">Tippen zum Verbinden</div>
-          <div id="ebike-home-bar" style="display:none"><div class="batt-body"><div class="batt-fill" id="ebike-fill" style="width:0%"></div></div><span id="ebike-pct-text"></span></div>
-        </div>
-        <!-- Garten -->
-        <div class="cc-tile cc-garten" ontouchstart="" onclick="showPage('garten')" style="cursor:pointer">
-          <div class="cc-icon">🌱</div>
-          <div class="cc-name">Garten</div>
-          <div class="cc-status">Pool · Tipps · Notizen</div>
-        </div>
-      </div>
-      <!-- Müll + Kalender -->
-      <div class="home-duo">
-        <div class="info-card waste-info-card" ontouchstart="" onclick="showPage('muell')" style="cursor:pointer">
-          <div class="info-card-title">🗑 Nächste Abfuhr</div>
-          <div id="next-waste" style="font-size:12px;flex:1"></div>
-          <div style="font-size:10px;color:var(--accent2);font-weight:600;margin-top:4px">Jahreskalender →</div>
-        </div>
-        <div class="info-card cal-info-card">
-          <div class="info-card-title">📅 Heute &amp; Morgen</div>
-          <div id="today-events" style="font-size:12px;color:var(--text2);flex:1">Keine Termine</div>
         </div>
       </div>
 
@@ -1874,7 +1827,18 @@ textarea.note-area { min-height: 100px; resize: vertical; }
       </button>
 
 
-
+      <!-- Müll + Kalender -->
+      <div class="home-duo">
+        <div class="info-card waste-info-card">
+          <div class="info-card-title">🗑 Nächste Abfuhr</div>
+          <div id="next-waste" style="font-size:12px;flex:1"></div>
+          <button class="info-card-btn" onclick="showPage('muell')">Alle Termine →</button>
+        </div>
+        <div class="info-card cal-info-card">
+          <div class="info-card-title">📅 Heute &amp; Morgen</div>
+          <div id="today-events" style="font-size:12px;color:var(--text2);flex:1">Keine Termine</div>
+        </div>
+      </div>
 
     </div>
 
@@ -2143,30 +2107,25 @@ textarea.note-area { min-height: 100px; resize: vertical; }
       <button id="wm-notif-btn" ontouchstart="" style="display:none;width:100%;align-items:center;justify-content:center;gap:6px;background:rgba(255,204,0,0.15);border:1px solid rgba(255,204,0,0.3);border-radius:12px;padding:10px;color:#FFD60A;font-size:11px;font-weight:700;cursor:pointer;margin-bottom:12px"></button>
       </div>
       <div id="wm-page-content">
-        <!-- Pre-rendered: wird von wmLoad() aktualisiert -->
-        <div style="background:linear-gradient(135deg,rgba(20,10,0,0.97),rgba(40,30,0,0.93));border:1px solid rgba(255,204,0,0.3);border-radius:18px;padding:16px;margin-bottom:16px">
-          <div style="font-size:11px;font-weight:800;color:#FFCC00;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px">🇩🇪 Deutschland · Gruppe A</div>
-          <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.07)">
-            <span style="font-size:16px">✅</span>
-            <div style="flex:1"><div style="font-size:13px;font-weight:700">🇩🇪 Deutschland vs Curaçao 🇨🇼</div><div style="font-size:10px;color:rgba(255,255,255,0.35)">Sa., 14. Jun.</div></div>
-            <div style="font-size:20px;font-weight:900;color:#30D158">7:1</div>
+        <div style="background:linear-gradient(135deg,rgba(20,10,0,0.95),rgba(40,30,0,0.92));border:1px solid rgba(255,204,0,0.3);border-radius:18px;padding:14px;margin-bottom:16px">
+          <div style="font-size:12px;font-weight:800;color:#FFCC00;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">🇩🇪 Deutschland · Gruppe E</div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.06)">
+            <span style="font-size:15px">✅</span>
+            <div style="flex:1"><div style="font-size:13px;font-weight:700">🇩🇪 Deutschland vs 🏳️ Curaçao</div><div style="font-size:10px;color:rgba(255,255,255,0.4)">Sa, 14. Jun · Houston · Gruppe E</div></div>
+            <div style="font-size:18px;font-weight:900;color:#30D158">7:1</div>
           </div>
-          <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.07)">
-            <span style="font-size:16px">✅</span>
-            <div style="flex:1"><div style="font-size:13px;font-weight:700">🇩🇪 Deutschland vs Elfenbeinküste 🇨🇮</div><div style="font-size:10px;color:rgba(255,255,255,0.35)">Sa., 20. Jun.</div></div>
-            <div style="font-size:20px;font-weight:900;color:#30D158">2:1</div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.06)">
+            <span style="font-size:15px">🔴</span>
+            <div style="flex:1"><div style="font-size:13px;font-weight:700;color:#FF9F0A">🇩🇪 Deutschland vs 🏳️ Elfenbeinküste</div><div style="font-size:10px;color:rgba(255,255,255,0.4)">Sa, 20. Jun · 22:00 Uhr · Toronto · Gruppe E</div></div>
+            <div style="font-size:18px;font-weight:900;color:rgba(255,255,255,0.25)" id="wm-ger2-score">–:–</div>
           </div>
-          <div style="display:flex;align-items:center;gap:10px;padding:10px 0">
-            <span style="font-size:16px">📅</span>
-            <div style="flex:1"><div style="font-size:13px;font-weight:700">🇩🇪 Deutschland vs Ecuador 🇪🇨</div><div style="font-size:10px;color:rgba(255,255,255,0.35)">Do., 25. Jun.</div></div>
-            <div style="font-size:11px;color:var(--text3)">22:00</div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 0">
+            <span style="font-size:15px">📅</span>
+            <div style="flex:1"><div style="font-size:13px;font-weight:700">🇪🇨 Ecuador vs 🇩🇪 Deutschland</div><div style="font-size:10px;color:rgba(255,255,255,0.4)">Do, 25. Jun · 22:00 Uhr · New York · Gruppe E</div></div>
+            <div style="font-size:18px;font-weight:900;color:rgba(255,255,255,0.25)">–:–</div>
           </div>
         </div>
-        <div style="background:rgba(255,255,255,0.05);border-radius:14px;padding:12px 16px;display:flex;justify-content:space-around;text-align:center">
-          <div><div style="font-size:26px;font-weight:900;color:#30D158">6</div><div style="font-size:10px;color:var(--text3)">Punkte</div></div>
-          <div><div style="font-size:26px;font-weight:900">9:2</div><div style="font-size:10px;color:var(--text3)">Tore</div></div>
-          <div><div style="font-size:26px;font-weight:900;color:#FFD60A">2/3</div><div style="font-size:10px;color:var(--text3)">Spiele</div></div>
-        </div>
+        <div id="wm-full-schedule" style="color:var(--text3);font-size:12px;text-align:center;padding:16px">⏳ Lade Spielplan…</div>
       </div>
     </div>
 
@@ -2356,7 +2315,7 @@ textarea.note-area { min-height: 100px; resize: vertical; }
         <div class="tp-disconnected">
           <div style="font-size:48px">🌡️</div>
           <div style="font-size:16px;font-weight:600;color:var(--text2)">Tado nicht verbunden</div>
-          <div style="font-size:10px;color:var(--text3);font-family:monospace;background:var(--surface2);padding:2px 8px;border-radius:6px" id="tp-version-badge">v95</div>
+          <div style="font-size:10px;color:var(--text3);font-family:monospace;background:var(--surface2);padding:2px 8px;border-radius:6px" id="tp-version-badge">v91</div>
           <button class="btn" ontouchstart="" onclick="tadoStartConnectInPage()" style="margin-top:8px;font-size:15px;padding:12px 24px">Verbinden →</button>
         </div>
       </div>
@@ -2529,10 +2488,8 @@ textarea.note-area { min-height: 100px; resize: vertical; }
       </div>
     </div>
 
-    <!-- ══ SONOS ══ -->
+    <!-- SONOS PAGE -->
     <div class="page" id="page-sonos" style="padding:0;background:#000">
-
-      <!-- Connect-Screen -->
       <div id="sonos-connect-screen" class="sonos-connect-screen">
         <div style="width:88px;height:88px;background:rgba(255,255,255,0.06);border-radius:26px;display:flex;align-items:center;justify-content:center;margin-bottom:26px">
           <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><circle cx="9" cy="12" r="7"/><path d="M15.5 8.5c1.5 1.1 2.5 2.8 2.5 3.5s-1 2.4-2.5 3.5"/><path d="M19.5 5.5c3 2.2 4.5 5 4.5 6.5s-1.5 4.3-4.5 6.5"/></svg>
@@ -2541,22 +2498,14 @@ textarea.note-area { min-height: 100px; resize: vertical; }
         <div style="font-size:15px;color:rgba(255,255,255,0.45);margin-bottom:40px;line-height:1.65;max-width:260px">Verbinde dein System um Musik zu steuern, Räume zu wählen und Favoriten zu spielen.</div>
         <button class="sonos-connect-action" onclick="sonosStartAuth()">Verbinden</button>
       </div>
-
-      <!-- Haupt-UI -->
-      <div id="sonos-main" style="display:none;overflow-y:auto;height:100%;padding-bottom:calc(var(--bottom-nav)+12px)">
-
-        <!-- Raum-Strip (horizontal scroll) -->
+      <div id="sonos-main" style="display:none;overflow-y:auto;height:100%;padding-bottom:calc(var(--bottom-nav) + 12px)">
         <div class="sonos-room-strip" id="sonos-room-list">
           <div style="color:rgba(255,255,255,0.3);font-size:13px;padding:6px 0">Lade Räume…</div>
         </div>
-
-        <!-- Album Art Bereich -->
         <div class="sonos-art-area" style="padding:24px 0 20px">
           <div class="sonos-art-bg" id="sonos-art-bg" style="background:#1a1a2e"></div>
           <div class="sonos-art-cover sonos-art-idle" id="sonos-art">🎵</div>
         </div>
-
-        <!-- Track Info -->
         <div class="sonos-track-section">
           <div style="flex:1;min-width:0">
             <div class="sonos-track-name" id="sonos-track">Nichts läuft</div>
@@ -2564,47 +2513,35 @@ textarea.note-area { min-height: 100px; resize: vertical; }
           <button class="sonos-like-btn" id="sonos-like-btn" onclick="sonosToggleLike()">♡</button>
         </div>
         <div class="sonos-track-artist" id="sonos-artist">—</div>
-
-        <!-- Progress -->
         <div class="sonos-progress-bar"><div class="sonos-progress-fill" id="sonos-progress" style="width:0%"></div></div>
-
-        <!-- Steuerung -->
         <div class="sonos-controls">
-          <button class="sonos-ctrl-sm" id="sonos-shuffle-btn" onclick="sonosToggleShuffle()" title="Zufallswiedergabe">
+          <button class="sonos-ctrl-sm" id="sonos-shuffle-btn" onclick="sonosToggleShuffle()">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
           </button>
           <button class="sonos-ctrl-sm" onclick="sonosPrev()">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="2"/></svg>
           </button>
           <button class="sonos-play-btn" id="sonos-play-btn" onclick="sonosPlayPause()">
-            <svg class="sonos-play-icon" id="sonos-play-icon" viewBox="0 0 24 24" fill="#000"><polygon id="sonos-play-poly" points="5 3 19 12 5 21 5 3"/></svg>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           </button>
           <button class="sonos-ctrl-sm" onclick="sonosNext()">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2"/></svg>
           </button>
-          <button class="sonos-ctrl-sm" id="sonos-repeat-btn" onclick="sonosToggleRepeat()" title="Wiederholen">
+          <button class="sonos-ctrl-sm" id="sonos-repeat-btn" onclick="sonosToggleRepeat()">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
           </button>
         </div>
-
-        <!-- Lautstärke -->
         <div class="sonos-volume-wrap">
           <svg class="sonos-vol-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/></svg>
           <input type="range" class="sonos-volume-slider" id="sonos-volume" min="0" max="100" value="50" oninput="sonosSetVolume(this.value)">
           <svg class="sonos-vol-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/><path d="M19.07 4.93a10 10 0 010 14.14"/></svg>
         </div>
-
         <div class="sonos-divider"></div>
-
-        <!-- Favoriten -->
         <div class="sonos-sec-label">Meine Favoriten</div>
         <div class="sonos-fav-scroll" id="sonos-favorites">
           <div style="color:rgba(255,255,255,0.3);font-size:13px;padding:40px 0;white-space:nowrap">Lade Favoriten…</div>
         </div>
-
         <div class="sonos-divider"></div>
-
-        <!-- Durchsage -->
         <div class="sonos-sec-label">Durchsage</div>
         <div class="sonos-tts-wrap">
           <div class="sonos-tts-row">
@@ -2613,14 +2550,12 @@ textarea.note-area { min-height: 100px; resize: vertical; }
           </div>
           <div style="font-size:11px;color:rgba(255,255,255,0.25);margin-top:7px">Unterbricht kurz die Musik auf allen Speakern</div>
         </div>
-
-        <!-- Verbindung trennen -->
         <div style="text-align:center;padding:4px 0 8px">
           <button onclick="sonosDisconnect()" style="background:none;border:none;color:rgba(255,255,255,0.2);font-size:12px;cursor:pointer;touch-action:manipulation;padding:8px">Sonos trennen</button>
         </div>
-
       </div>
     </div>
+
 
     <!-- ══ KALENDER ══ -->
     <div class="page" id="page-kalender">
@@ -2764,7 +2699,7 @@ textarea.note-area { min-height: 100px; resize: vertical; }
       <span>Schloss</span>
     </button>
     <button class="nav-btn" onclick="showPage('sonos')" id="nav-sonos">
-      <span class="nav-icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="12" r="7"/><path d="M15.5 8.5c1.5 1 2.5 2.8 2.5 3.5s-1 2.5-2.5 3.5"/><path d="M19 5c3 2 5 5.5 5 7s-2 5-5 7"/></svg></span>
+      <span class="nav-icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="12" r="7"/><path d="M15.5 8.5c1.5 1.1 2.5 2.8 2.5 3.5s-1 2.4-2.5 3.5"/><path d="M19.5 5.5c3 2.2 4.5 5 4.5 6.5s-1.5 4.3-4.5 6.5"/></svg></span>
       <span>Speaker</span>
     </button>
   </nav>
@@ -3021,15 +2956,15 @@ function showPage(id) {
   if (id === 'home') { renderNextWasteCompact(); renderTodayEvents(); renderMuellHero(); renderMuellTile(); setTimeout(()=>{renderNextWasteCompact();renderTodayEvents();renderMuellHero();},150); applyHiddenTiles(); }
   if (id === 'muell') renderWasteList();
   if (id === 'garten') renderGarden();
+  if (id === 'sonos') { sonosRenderPage(); if (sonosIsConnected()) { sonosLoadGroups(); } }
   if (id === 'gaestebuch') renderGaestebuch();
   if (id === 'licht') { hueRenderLichtPage(); if (hueIsConnected()) hueLoadAll().then(hueRenderLichtPage); }
   if (id === 'radar') { setTimeout(initRadar, 60); }
-  if (id === 'wm') { wmRenderPage(); wmLoad(); wmStartAutoRefresh(); }
+  if (id === 'wm') { wmLoad(); wmStartAutoRefresh(); }
   if (id === 'greece') { grInitCountdown(); grLoadWeather(); grStartClock(); }
   if (id !== 'wm') { wmStopAutoRefresh(); }
   if (id === 'pille') { pilleRender(); }
   if (id === 'schloss') { nukiLoadPage(); }
-  if (id === 'sonos') { sonosRenderPage(); if (sonosIsConnected()) { sonosLoadGroups(); } }
   if (id === 'heizung') {
     var _mo = document.getElementById('modal-overlay'); if (_mo) _mo.classList.remove('open');
     var _tm = document.getElementById('tado-modal');    if (_tm) _tm.classList.remove('open');
@@ -3707,7 +3642,7 @@ function renderMuellTile() {
   var upcoming = allDates.filter(function(d){ return d >= todayStr; });
   if (!upcoming.length) { whenEl.textContent = 'Keine Termine'; return; }
   var next = upcoming[0];
-  var d    = new Date(next); d.setHours(0,0,0,0);
+  var d    = new Date(next); d.setHours(12);
   var diff = daysBetween(today, d);
   var types = getWasteForDate(next);
   var dotBg    = { rest:'#48484A', verp:'#B8860B', papier:'#0A84FF', bio:'#FF6B35' };
@@ -3723,9 +3658,8 @@ function renderMuellTile() {
   }
   // Wann
   if (whenEl) {
-    if (diff === 0) { whenEl.innerHTML = '<strong style="color:#FF3B30">HEUTE!</strong>'; }
-    else if (diff === 1) { whenEl.innerHTML = '<strong style="color:#FF3B30">MORGEN</strong>'; }
-    else { whenEl.textContent = 'in ' + diff + ' Tagen'; whenEl.style.color = 'var(--text2)'; }
+    whenEl.textContent = diff === 0 ? 'Heute!' : diff === 1 ? 'Morgen' : 'in ' + diff + ' Tagen';
+    whenEl.style.color = diff === 0 ? '#FF9F0A' : diff === 1 ? '#30D158' : 'var(--text2)';
   }
   // Typ-Chips
   if (typesEl) {
@@ -3746,7 +3680,7 @@ function renderMuellHero() {
   var upcoming = allDates.filter(function(d){ return d >= todayStr; });
   if (!upcoming.length) { valEl.textContent = '–'; return; }
   var next = upcoming[0];
-  var d = new Date(next); d.setHours(0,0,0,0);
+  var d = new Date(next); d.setHours(12);
   var diff = daysBetween(today, d);
   var types = getWasteForDate(next);
   // Icon: Emoji auf farbigem Hintergrund, wie iOS-Stil
@@ -3794,7 +3728,7 @@ function renderNextWaste() {
   const monthNames = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
 
   el.innerHTML = upcoming.map(ds => {
-    const d = new Date(ds); d.setHours(0,0,0,0);
+    const d = new Date(ds); d.setHours(12);
     const diff = daysBetween(today, d);
     const types = getWasteForDate(ds);
     const diffLabel = diff === 0 ? '<span class="days-left today">Heute!</span>'
@@ -3824,11 +3758,11 @@ function renderNextWasteCompact() {
   const dayNames = ['So','Mo','Di','Mi','Do','Fr','Sa'];
   const monthNames = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
   el.innerHTML = '<div class="waste-compact">' + upcoming.map(ds => {
-    const d = new Date(ds); d.setHours(0,0,0,0);
+    const d = new Date(ds); d.setHours(12);
     const diff = daysBetween(today, d);
     const types = getWasteForDate(ds);
     const dLabel = diff===0 ? '<span style="font-size:10px;font-weight:700;color:#ff6b6b;flex-shrink:0">Heute</span>'
-                 : diff===1 ? '<span style="font-size:10px;font-weight:800;color:#FF3B30;flex-shrink:0">MORGEN</span>'
+                 : diff===1 ? '<span style="font-size:10px;font-weight:700;color:var(--verp);flex-shrink:0">Morgen</span>'
                  : `<span style="font-size:10px;font-weight:600;color:var(--text3);flex-shrink:0">${diff}d</span>`;
     const dateLabel = `${dayNames[d.getDay()]} ${d.getDate()}. ${monthNames[d.getMonth()]}`;
     return `<div class="waste-compact-row">
@@ -4119,47 +4053,6 @@ function tadoRoomIcon(name) {
   return '🌡️';
 }
 
-function encodeZone(name) { return encodeURIComponent(name); }
-
-var _tqrId   = null;
-var _tqrVal  = 20;
-
-function _tqrRender() {
-  var v = document.getElementById('tqr-val');
-  if (v) v.textContent = _tqrVal.toFixed(1) + '°';
-}
-function tadoQuickDec() { _tqrVal = Math.round((_tqrVal - 0.5)*2)/2; _tqrRender(); }
-function tadoQuickInc() { _tqrVal = Math.round((_tqrVal + 0.5)*2)/2; _tqrRender(); }
-function tadoQuickConfirm() {
-  if (_tqrId == null) return;
-  tadoSetTemp(_tqrId, _tqrVal);
-  closeModal();
-}
-
-function tadoQuickRoom(encodedName) {
-  var name = decodeURIComponent(encodedName);
-  var zones = (tadoLiveState && tadoLiveState.zones) ? tadoLiveState.zones : [];
-  var zone  = zones.find(function(z){ return z.name === name; });
-  if (!zone) { showPage('heizung'); return; }
-  _tqrId  = zone.id;
-  _tqrVal = zone.targetTemp != null ? Math.round(zone.targetTemp*2)/2 : 20;
-  var meas = zone.measuredTemp != null ? zone.measuredTemp.toFixed(1) : null;
-  var h = '<div style="padding:4px 0">'
-    + '<div style="font-size:32px;text-align:center;margin-bottom:4px">' + tadoRoomIcon(name) + '</div>';
-  if (meas) h += '<div style="font-size:12px;color:var(--text2);text-align:center;margin-bottom:12px">Ist: ' + meas + ' °C</div>';
-  h += '<div style="display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:16px">'
-    + '<button ontouchstart="" onclick="tadoQuickDec()" style="width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);color:#fff;font-size:24px;cursor:pointer">−</button>'
-    + '<span id="tqr-val" style="font-size:32px;font-weight:900;color:#FF9F0A;min-width:70px;text-align:center">' + _tqrVal.toFixed(1) + '°</span>'
-    + '<button ontouchstart="" onclick="tadoQuickInc()" style="width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);color:#fff;font-size:24px;cursor:pointer">+</button>'
-    + '</div>'
-    + '<button ontouchstart="" onclick="tadoQuickConfirm()" style="width:100%;padding:14px;background:linear-gradient(135deg,#FF9F0A,#FF6B0A);border:none;border-radius:14px;color:#fff;font-size:15px;font-weight:700;cursor:pointer">Setzen</button>'
-    + '</div>';
-  document.getElementById('modal-title').textContent = '🌡️ ' + name;
-  document.getElementById('modal-body').innerHTML = h;
-  document.getElementById('modal-overlay').classList.add('open');
-}
-
-
 function tadoUpdateQuickStatus() {
   var statusEl  = document.getElementById('tado-quick-status');
   var dotsEl    = document.getElementById('tado-quick-rooms');
@@ -4201,9 +4094,7 @@ function tadoUpdateQuickStatus() {
     dotsEl.innerHTML = zones.map(function(z) {
       var isActive = z.heatingPower > 0 || (z.power === 'ON' && z.isManual);
       var tempStr = z.measuredTemp != null ? z.measuredTemp.toFixed(1) + '°' : '';
-      return '<div class="cc-tado-dot ' + (isActive ? 'heating' : 'off') + '" style="cursor:pointer"'
-        + ' ontouchstart="event.stopPropagation()"'
-        + ' onclick="event.stopPropagation();tadoQuickRoom(\'' + encodeZone(z.name) + '\')">'  
+      return '<div class="cc-tado-dot ' + (isActive ? 'heating' : 'off') + '" ontouchstart="event.stopPropagation()" onclick="event.stopPropagation();tadoQuickRoomToggle(' + z.id + ')">'
         + '<div class="cc-tado-dot-icon">' + tadoRoomIcon(z.name) + '</div>'
         + '<div class="cc-tado-dot-temp">' + tempStr + '</div>'
         + '</div>';
@@ -5570,7 +5461,7 @@ function renderMonthEvents() {
   const el = document.getElementById('month-events-list');
   if (!monthEvents.length) { el.innerHTML = '<span style="color:var(--text3);font-size:14px">Keine Termine</span>'; return; }
   el.innerHTML = monthEvents.map(e => {
-    const d = new Date(e.date); d.setHours(0,0,0,0);
+    const d = new Date(e.date); d.setHours(12);
     return `<div class="upcoming-item">
       <span class="date-col" style="font-size:12px">${dayNames[d.getDay()]}, ${d.getDate()}.</span>
       <span style="flex:1;font-size:14px">${e.title}</span>
@@ -5580,7 +5471,7 @@ function renderMonthEvents() {
 }
 
 function openDayModal(ds) {
-  const d = new Date(ds); d.setHours(0,0,0,0);
+  const d = new Date(ds); d.setHours(12);
   const dayNames = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
   const monthNames = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
 
@@ -5674,7 +5565,7 @@ function renderWasteList() {
   Object.keys(byMonth).sort((a,b)=>+a-+b).forEach(m => {
     html += `<div class="month-block"><h3>${monthNames[m]}</h3>`;
     byMonth[m].sort().forEach(ds => {
-      const d = new Date(ds); d.setHours(0,0,0,0);
+      const d = new Date(ds); d.setHours(12);
       const types = getWasteForDate(ds);
       const isPast = ds < todayStr;
       const isToday = ds === todayStr;
@@ -6633,71 +6524,29 @@ function boschDisconnect() {
 // ════════════════════════════════════════
 const NUKI_TOKEN = '0cc49b58b48f668a36b6d4860ff59056559cea1024c61dfbdf4f35d390380e866f04ab462c4a2456';
 
-var nukiSmartlockId    = null;
-var nukiDoorOpenTimer  = null;   // 30s Alarm-Timer
-var nukiDoorFastPoll   = null;   // schnelles Poll-Interval wenn Tür offen (1s)
-var nukiBgPoll         = null;   // Hintergrund-Poll im Normalzustand (30s)
-var nukiFirstLoadDone  = false;  // wurde beim Start erfolgreich geladen?
-var nukiDoorAlertSent  = false;  // damit nicht mehrfach gesendet wird
-
-function nukiDoorOpenAlert() {
-  if (Notification.permission !== 'granted') return;
-  var opts = {
-    body:    'Die Haustür steht seit über 30 Sekunden offen!',
-    icon:    '/icon192.png',
-    badge:   '/icon192.png',
-    vibrate: [300, 150, 300, 150, 300],
-    tag:     'nuki-door-open',
-    renotify: true
-  };
-  if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-    navigator.serviceWorker.ready.then(function(reg) {
-      reg.showNotification('🔓 Haustür offen', opts);
-    });
-  } else {
-    new Notification('🔓 Haustür offen', opts);
-  }
-  nukiDoorAlertSent = true;
-}
-
-function nukiStartFastPoll() {
-  if (nukiDoorFastPoll) return;
-  // Hintergrund-Poll pausieren damit keine doppelten Calls
-  if (nukiBgPoll) { clearInterval(nukiBgPoll); nukiBgPoll = null; }
-  nukiDoorFastPoll = setInterval(fetchNukiStatus, 1000); // live 1s wenn Tür offen
-}
-
-function nukiStopFastPoll() {
-  if (nukiDoorFastPoll) { clearInterval(nukiDoorFastPoll); nukiDoorFastPoll = null; }
-  // Hintergrund-Poll wieder starten
-  if (!nukiBgPoll) nukiBgPoll = setInterval(fetchNukiStatus, 5000);
-}
+var nukiSmartlockId = null;
 
 function fetchNukiStatus() {
-  var _nCtrl = new AbortController();
-  var _nTmt  = setTimeout(function(){ _nCtrl.abort(); }, 15000); // 15s – CF Worker Cold Start
-  fetch('https://r11-nuki.cjung41.workers.dev/smartlock', {
-    headers: { 'Authorization': 'Bearer ' + NUKI_TOKEN },
-    signal: _nCtrl.signal
+  fetch('https://api.nuki.io/smartlock', {
+    headers: { 'Authorization': 'Bearer ' + NUKI_TOKEN }
   })
-  .then(function(r){ clearTimeout(_nTmt); return r.json(); })
+  .then(function(r){ return r.json(); })
   .then(function(data){
     var lock = Array.isArray(data) ? data[0] : null;
     if (!lock) return;
     if (lock.smartlockId) nukiSmartlockId = lock.smartlockId;
-    // Nuki Web API: state.state = lockState, state.doorsensorState = doorState (mit Fallback)
-    var doorState = lock.state ? (lock.state.doorState !== undefined ? lock.state.doorState : lock.state.doorsensorState) : null;
-    var lockState = lock.state ? (lock.state.lockState !== undefined ? lock.state.lockState : lock.state.state) : null;
+    var doorState = lock.state ? lock.state.doorState : null;
+    var lockState = lock.state ? lock.state.lockState : null;
     var batCrit   = lock.state ? lock.state.batteryCritical : false;
 
     // door: 2=closed, 3=open, 1=deactivated, 4=unknown
     var doorIcon, doorText, doorColor;
     if (doorState === 2) {
-      doorIcon = '🔒'; doorText = 'Tür zu'; doorColor = '#30D158';
+      doorIcon = '🚪'; doorText = 'Zu'; doorColor = '#30D158';
     } else if (doorState === 3) {
-      doorIcon = '🔓'; doorText = 'Tür auf'; doorColor = '#FF453A';
+      doorIcon = '🚪'; doorText = 'Auf'; doorColor = '#FF453A';
     } else {
-      doorIcon = '🔐'; doorText = 'Tür ?'; doorColor = 'var(--text2)';
+      doorIcon = '🔐'; doorText = '?'; doorColor = 'var(--text2)';
     }
 
     // lock: 1=locked, 3=unlocked, 5=unlatched
@@ -6710,26 +6559,15 @@ function fetchNukiStatus() {
     var tileIcon = document.getElementById('nuki-tile-icon');
     var tileDoor = document.getElementById('nuki-tile-door');
     var tileLock = document.getElementById('nuki-tile-lock');
-    // Big icon = Schloss-Zustand (verriegelt/entriegelt)
-    var lockIcon = lockState === 1 ? '🔒' : (lockState === 3 || lockState === 5) ? '🔓' : '🔐';
-    if (tileIcon) tileIcon.textContent = lockIcon;
-    // cc-status Text = Tür-Sensor (offen/zu)
+    if (tileIcon) tileIcon.textContent = doorIcon;
     if (tileDoor) { tileDoor.textContent = doorText; tileDoor.style.color = doorColor; }
-    if (tileLock) tileLock.style.display = 'none';
-    // Cache for instant display on next load
-    try { localStorage.setItem('r11_nuki_cache', JSON.stringify({doorState:doorState, lockState:lockState, batCrit:batCrit, ts:Date.now()})); } catch(e) {}
+    if (tileLock) tileLock.textContent = lockText + (batCrit ? ' 🪫' : '');
 
-    // Hero: Icon = Schloss-Zustand, Val = Tür-Sensor
+    // Hero
     var heroIcon = document.getElementById('nuki-hero-icon');
     var heroVal  = document.getElementById('nuki-hero-val');
-    var isDoorOpen = (doorState === 3);
-    if (heroIcon) {
-      heroIcon.textContent = lockIcon;
-      // Offen = größer + rot damit man's sofort sieht
-      heroIcon.style.fontSize  = isDoorOpen ? '22px' : '16px';
-      heroIcon.style.filter    = isDoorOpen ? 'drop-shadow(0 0 4px #FF453A)' : 'none';
-    }
-    if (heroVal) { heroVal.textContent = doorText; heroVal.style.color = doorColor; }
+    if (heroIcon) heroIcon.textContent = doorIcon;
+    if (heroVal)  { heroVal.textContent = doorText; heroVal.style.color = doorColor; }
 
     // Settings pill
     var pill = document.getElementById('nuki-status');
@@ -6737,45 +6575,8 @@ function fetchNukiStatus() {
       pill.textContent = (doorState === 3 ? '🚪 Auf' : '🚪 Zu') + ' · ' + lockText;
       pill.className   = 'pill ' + (doorState === 3 ? 'red' : 'green');
     }
-
-    // Tür-Alarm Logik
-    nukiHandleDoorState(doorState);
-
-    // Erster Load erfolgreich – normales Intervall starten
-    if (!nukiFirstLoadDone) {
-      nukiFirstLoadDone = true;
-      if (!nukiBgPoll && !nukiDoorFastPoll) {
-        nukiBgPoll = setInterval(fetchNukiStatus, 30000);
-      }
-    }
   })
-  .catch(function(e) {
-    clearTimeout(_nTmt);
-    console.warn('Nuki:', e && e.name === 'AbortError' ? 'Timeout/Cold-Start' : e);
-    // Noch nicht erfolgreich geladen → in 5s nochmal versuchen
-    if (!nukiFirstLoadDone && !nukiDoorFastPoll) {
-      setTimeout(fetchNukiStatus, 5000);
-    }
-  });
-}
-
-function nukiHandleDoorState(doorState) {
-  if (doorState === 3) {
-    // Tür offen
-    nukiStartFastPoll();
-    if (!nukiDoorOpenTimer) {
-      nukiDoorAlertSent = false;
-      nukiDoorOpenTimer = setTimeout(function() {
-        nukiDoorOpenTimer = null;
-        if (!nukiDoorAlertSent) nukiDoorOpenAlert();
-      }, 30 * 1000);
-    }
-  } else if (doorState === 2) {
-    // Tür zu → alles zurücksetzen
-    if (nukiDoorOpenTimer) { clearTimeout(nukiDoorOpenTimer); nukiDoorOpenTimer = null; }
-    nukiDoorAlertSent = false;
-    nukiStopFastPoll();
-  }
+  .catch(function(e){ console.warn('Nuki API Fehler:', e); });
 }
 
 
@@ -6816,20 +6617,16 @@ function nukiLoadPage() {
   fetchNukiStatus();
 
   // Update page status card too
-  var ctrl = new AbortController();
-  var timer = setTimeout(function(){ ctrl.abort(); }, 8000);
-  fetch('https://r11-nuki.cjung41.workers.dev/smartlock', {
-    headers: { 'Authorization': 'Bearer ' + NUKI_TOKEN },
-    signal: ctrl.signal
+  fetch('https://api.nuki.io/smartlock', {
+    headers: { 'Authorization': 'Bearer ' + NUKI_TOKEN }
   })
-  .then(function(r){ clearTimeout(timer); return r.json(); })
+  .then(function(r){ return r.json(); })
   .then(function(data){
     var lock = Array.isArray(data) ? data[0] : null;
     if (!lock) return;
     if (lock.smartlockId) nukiSmartlockId = lock.smartlockId;
-    // Nuki Web API: state.state = lockState, state.doorsensorState = doorState (mit Fallback)
-    var doorState = lock.state ? (lock.state.doorState !== undefined ? lock.state.doorState : lock.state.doorsensorState) : null;
-    var lockState = lock.state ? (lock.state.lockState !== undefined ? lock.state.lockState : lock.state.state) : null;
+    var doorState = lock.state ? lock.state.doorState : null;
+    var lockState = lock.state ? lock.state.lockState : null;
     var batCrit   = lock.state ? lock.state.batteryCritical : false;
 
     var card = document.getElementById('nuki-status-card');
@@ -6844,7 +6641,7 @@ function nukiLoadPage() {
       if (doorState === 3) card.classList.add('nuki-door-open');
       else if (doorState === 2) card.classList.add('nuki-door-closed');
     }
-    if (pageIcon)  pageIcon.textContent  = doorState === 3 ? '🔓' : '🔒';
+    if (pageIcon)  pageIcon.textContent  = doorState === 3 ? '🚪' : '🔒';
     if (pageLabel) pageLabel.textContent = doorState === 3 ? 'Tür auf' : doorState === 2 ? 'Tür zu' : '?';
     if (pageLock) {
       if (lockState === 1) pageLock.textContent = '🔒 gesperrt';
@@ -6860,12 +6657,6 @@ function nukiLoadPage() {
   })
   .catch(function(e){
     console.warn('Nuki page load error:', e);
-    var pageLabel = document.getElementById('nuki-page-door-label');
-    var pageLock  = document.getElementById('nuki-page-lock-text');
-    var pageUpd   = document.getElementById('nuki-page-updated');
-    if (pageLabel) pageLabel.textContent = 'Keine Verbindung';
-    if (pageLock)  pageLock.textContent  = e && e.name === 'AbortError' ? '⏱ Timeout' : '🔴 API nicht erreichbar (CORS?)';
-    if (pageUpd)   pageUpd.textContent   = 'Tippen zum Neu laden';
     nukiLoadLog();
     nukiLoadUsers();
   });
@@ -6877,7 +6668,7 @@ function nukiLoadLog() {
     return;
   }
   document.getElementById('nuki-log-list').innerHTML = '<div class="nuki-loading">⏳ Lade…</div>';
-  fetch('https://r11-nuki.cjung41.workers.dev/smartlock/' + nukiSmartlockId + '/log?limit=25', {
+  fetch('https://api.nuki.io/smartlock/' + nukiSmartlockId + '/log?limit=25', {
     headers: { 'Authorization': 'Bearer ' + NUKI_TOKEN }
   })
   .then(function(r){ return r.json(); })
@@ -6910,7 +6701,7 @@ function nukiLoadUsers() {
     return;
   }
   document.getElementById('nuki-users-list').innerHTML = '<div class="nuki-loading">⏳ Lade…</div>';
-  fetch('https://r11-nuki.cjung41.workers.dev/smartlock/' + nukiSmartlockId + '/auth', {
+  fetch('https://api.nuki.io/smartlock/' + nukiSmartlockId + '/auth', {
     headers: { 'Authorization': 'Bearer ' + NUKI_TOKEN }
   })
   .then(function(r){ return r.json(); })
@@ -6979,7 +6770,7 @@ function nukiCreateAccess() {
     remoteAllowed: true
   });
 
-  fetch('https://r11-nuki.cjung41.workers.dev/smartlock/' + nukiSmartlockId + '/auth', {
+  fetch('https://api.nuki.io/smartlock/' + nukiSmartlockId + '/auth', {
     method: 'POST',
     headers: { 'Authorization': 'Bearer ' + NUKI_TOKEN, 'Content-Type': 'application/json' },
     body: body
@@ -7767,13 +7558,13 @@ async function tadoLoadPage() {
     console.log('[Tado]', msg);
   }
 
-  // Nur Ladescreen zeigen wenn Räume noch nicht geladen (erster Aufruf)
-  if (!el.querySelector('.tp-rooms-grid')) {
-    el.innerHTML = '<div style="padding:32px 20px;text-align:center;color:var(--text2)">'
-      + '<div style="font-size:28px;margin-bottom:8px">🌡️</div>'
-      + '<div style="font-size:13px;font-weight:600" id="_tado_step">Lade Räume…</div>'
-      + '</div>';
-  }
+  el.innerHTML = '<div style="padding:32px 20px;font-family:monospace;font-size:12px;color:var(--text2);line-height:2">'
+    + '<div style="font-size:16px;margin-bottom:12px;font-family:sans-serif;font-weight:700">🌡️ Lade Tado…</div>'
+    + '<div>Token: ✓ ' + _tok.substring(0,12) + '…</div>'
+    + '<div>Home-ID: ' + (_homeId || '(wird geladen)') + '</div>'
+    + '<div>Gültig bis: ' + _expiryStr + '</div>'
+    + '<div id="_tado_step" style="color:#5AC8FA;margin-top:8px">→ Starte…</div>'
+    + '</div>';
 
   try {
     // 1. Token refresh wenn nötig
@@ -8282,12 +8073,12 @@ async function tadoOffAll() {
 // INIT
 // ════════════════════
 function init() {
-  // Sonos OAuth Callback? (kommt als ?code= in der URL)
-  const _sqp = new URLSearchParams(window.location.search);
-  const _sonosCode = _sqp.get('code');
-  if (_sonosCode && localStorage.getItem('sonos_oauth_state')) {
-    window.history.replaceState({}, '', window.location.pathname);
-    setTimeout(function(){ if(typeof sonosHandleCallback==='function') sonosHandleCallback(_sonosCode); }, 0);
+  // Sonos OAuth Callback?
+  var _sqp = new URLSearchParams(window.location.search);
+  var _sonosCode = _sqp.get("code");
+  if (_sonosCode && localStorage.getItem("sonos_oauth_state")) {
+    window.history.replaceState({}, "", window.location.pathname);
+    setTimeout(function(){ sonosHandleCallback(_sonosCode); }, 100);
   }
 
   // OAuth Callback von Hue? — Worker macht Token-Exchange server-seitig
@@ -8330,39 +8121,14 @@ function init() {
   renderMuellHero();
   renderTodayEvents();
   updateGardenSeason();
-  wmRenderTile(); wmRenderPage(); // Sofort Ergebnisse zeigen (hardcoded)
   setTimeout(wmLoad, 2000);
   applyHiddenTiles();
 
   initTado();
   setInterval(loadTadoData, 5 * 60 * 1000);
 
-  // Sofortige Anzeige aus Cache (falls CF Worker noch kalt)
-  try {
-    var _nc = localStorage.getItem('r11_nuki_cache');
-    if (_nc) {
-      var _ns = JSON.parse(_nc);
-      var _age = Date.now() - (_ns.ts || 0);
-      if (_age < 24 * 3600 * 1000) { // max 24h alt
-        var _di = _ns.doorState === 2 ? '🔒' : _ns.doorState === 3 ? '🔓' : '🔐';
-        var _dt = _ns.doorState === 2 ? 'Tür zu' : _ns.doorState === 3 ? 'Tür auf' : '?';
-        var _dc = _ns.doorState === 2 ? '#30D158' : _ns.doorState === 3 ? '#FF453A' : 'var(--text2)';
-        var _lt = _ns.lockState === 1 ? '🔒 gesperrt' : (_ns.lockState === 3 || _ns.lockState === 5) ? '🔓 offen' : '…';
-        var _lk = _ns.lockState === 1 ? '🔒' : (_ns.lockState === 3 || _ns.lockState === 5) ? '🔓' : '🔐';
-        var _ti = document.getElementById('nuki-tile-icon'); if (_ti) _ti.textContent = _lk;
-        var _td = document.getElementById('nuki-tile-door'); if (_td) { _td.textContent = _dt; _td.style.color = _dc; }
-        var _tl = document.getElementById('nuki-tile-lock'); if (_tl) _tl.style.display = 'none';
-        var _hi = document.getElementById('nuki-hero-icon');
-        if (_hi) { _hi.textContent = _lk; _hi.style.fontSize = _ns.doorState === 3 ? '22px' : '16px'; _hi.style.filter = _ns.doorState === 3 ? 'drop-shadow(0 0 4px #FF453A)' : 'none'; }
-        var _hv = document.getElementById('nuki-hero-val');  if (_hv) { _hv.textContent = _dt; _hv.style.color = _dc; }
-      }
-    }
-  } catch(e) {}
-  // Nuki: sofort laden, retry-until-success im catch(), danach 30s Intervall
   fetchNukiStatus();
-
-  // Sonos im Hintergrund initialisieren
-  setTimeout(function(){ if(typeof sonosInit==='function') sonosInit().catch(function(){}); }, 0);
+  setInterval(fetchNukiStatus, 5 * 60 * 1000);
 
   renderEbikeTile();
   if (boschIsConnected()) {
@@ -8374,7 +8140,211 @@ function init() {
     setTimeout(requestNotifications, 3000);
   }
   checkAndNotify();
+  // Sonos
+  sonosInit().catch(function(){});
 }
+
+
+// ════════════════════════════════════════
+//  SONOS
+// ════════════════════════════════════════
+var SONOS_WORKER = 'https://r11-sonos.cjung41.workers.dev';
+var sonosHouseholdId = null, sonosGroupId = null, sonosPollTimer = null, _sonosVolTimer = null;
+var _sonosLiked = false, _sonosShuffle = false, _sonosRepeat = false;
+
+function sonosGetToken() { return localStorage.getItem('sonos_access_token'); }
+function sonosGetRefresh() { return localStorage.getItem('sonos_refresh_token'); }
+function sonosGetExpiry() { return parseInt(localStorage.getItem('sonos_token_expires') || '0'); }
+function sonosIsConnected() { return !!sonosGetToken(); }
+function sonosSaveTokens(d) {
+  localStorage.setItem('sonos_access_token', d.access_token);
+  localStorage.setItem('sonos_refresh_token', d.refresh_token);
+  localStorage.setItem('sonos_token_expires', String(Date.now() + (d.expires_in - 60) * 1000));
+}
+async function sonosGetValidToken() {
+  if (Date.now() < sonosGetExpiry()) return sonosGetToken();
+  var rt = sonosGetRefresh(); if (!rt) return null;
+  try {
+    var r = await fetch(SONOS_WORKER + '/sonos/refresh', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ refresh_token: rt }) });
+    var d = await r.json(); if (d.access_token) { sonosSaveTokens(d); return d.access_token; }
+  } catch(e) {}
+  return null;
+}
+async function sonosAPI(method, path, body) {
+  var token = await sonosGetValidToken(); if (!token) throw new Error('no token');
+  var opts = { method: method, headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' } };
+  if (body) opts.body = JSON.stringify(body);
+  var res = await fetch(SONOS_WORKER + '/sonos/api/' + path, opts);
+  if (res.status === 204) return {};
+  var txt = await res.text(); return txt ? JSON.parse(txt) : {};
+}
+async function sonosStartAuth() {
+  try {
+    var r = await fetch(SONOS_WORKER + '/sonos/auth-url');
+    var d = await r.json();
+    localStorage.setItem('sonos_oauth_state', d.state);
+    window.location.href = d.url;
+  } catch(e) { alert('Fehler: ' + e.message); }
+}
+async function sonosHandleCallback(code) {
+  try {
+    var r = await fetch(SONOS_WORKER + '/sonos/token', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: code }) });
+    var d = await r.json();
+    if (d.access_token) { sonosSaveTokens(d); localStorage.removeItem('sonos_oauth_state'); await sonosInit(); showPage('sonos'); }
+  } catch(e) { console.error('Sonos callback:', e); }
+}
+function sonosDisconnect() {
+  if (sonosPollTimer) { clearInterval(sonosPollTimer); sonosPollTimer = null; }
+  ['sonos_access_token','sonos_refresh_token','sonos_token_expires','sonos_household_id','sonos_group_id','sonos_oauth_state'].forEach(function(k) { localStorage.removeItem(k); });
+  sonosGroupId = sonosHouseholdId = null; sonosRenderPage();
+}
+function sonosRenderPage() {
+  var cs = document.getElementById('sonos-connect-screen'), sm = document.getElementById('sonos-main');
+  var ok = sonosIsConnected();
+  if (cs) cs.style.display = ok ? 'none' : 'flex';
+  if (sm) sm.style.display = ok ? 'block' : 'none';
+}
+async function sonosLoadHousehold() {
+  try {
+    var d = await sonosAPI('GET', 'households');
+    if (d.households && d.households.length) {
+      sonosHouseholdId = d.households[0].id;
+      localStorage.setItem('sonos_household_id', sonosHouseholdId);
+      await Promise.all([sonosLoadGroups(), sonosLoadFavorites()]);
+    }
+  } catch(e) { console.error('households:', e); }
+}
+async function sonosLoadGroups() {
+  if (!sonosHouseholdId) return;
+  try {
+    var d = await sonosAPI('GET', 'households/' + sonosHouseholdId + '/groups');
+    var groups = d.groups || [];
+    var saved = localStorage.getItem('sonos_group_id');
+    if (saved && groups.find(function(g) { return g.id === saved; })) { sonosGroupId = saved; }
+    else if (groups.length) { sonosGroupId = groups[0].id; localStorage.setItem('sonos_group_id', sonosGroupId); }
+    var list = document.getElementById('sonos-room-list');
+    if (list) list.innerHTML = groups.map(function(g) {
+      return '<div class="sonos-room-chip' + (g.id === sonosGroupId ? ' active' : '') + '" onclick="sonosSelectGroup(this,'' + g.id + '')">' + g.name + '</div>';
+    }).join('');
+    if (sonosGroupId) await sonosLoadPlayback();
+  } catch(e) { console.error('groups:', e); }
+}
+async function sonosLoadPlayback() {
+  if (!sonosGroupId) return;
+  try {
+    var pb = await sonosAPI('GET', 'groups/' + sonosGroupId + '/playback');
+    var vol = await sonosAPI('GET', 'groups/' + sonosGroupId + '/volume');
+    var playing = pb.playbackState === 'PLAYBACK_STATE_PLAYING';
+    var track = pb.currentItem && pb.currentItem.track;
+    var artUrl = (track && track.imageUrl) || (track && track.images && track.images[0] && track.images[0].url) || '';
+    var el = function(id) { return document.getElementById(id); };
+    if (el('sonos-track')) el('sonos-track').textContent = (track && track.name) || (playing ? 'Läuft…' : 'Nichts läuft');
+    if (el('sonos-artist')) el('sonos-artist').textContent = (track && track.artist && track.artist.name) || '—';
+    var artEl = el('sonos-art');
+    if (artEl) {
+      artEl.innerHTML = artUrl ? '<img src="' + artUrl + '" style="width:100%;height:100%;object-fit:cover;border-radius:6px">' : '🎵';
+      artEl.classList.toggle('sonos-art-idle', !playing);
+    }
+    var bgEl = el('sonos-art-bg'); if (bgEl && artUrl) bgEl.style.backgroundImage = 'url(' + artUrl + ')';
+    var playBtn = el('sonos-play-btn');
+    if (playBtn) {
+      if (playing) {
+        playBtn.innerHTML = '<svg width="28" height="28" viewBox="0 0 24 24" fill="#000"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
+      } else {
+        playBtn.innerHTML = '<svg width="28" height="28" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
+      }
+    }
+    if (el('sonos-volume') && vol.volume !== undefined) el('sonos-volume').value = vol.volume;
+  } catch(e) { console.error('playback:', e); }
+}
+async function sonosLoadFavorites() {
+  if (!sonosHouseholdId) return;
+  try {
+    var d = await sonosAPI('GET', 'households/' + sonosHouseholdId + '/favorites');
+    var favs = (d.items || []).slice(0, 15);
+    var list = document.getElementById('sonos-favorites'); if (!list) return;
+    if (!favs.length) { list.innerHTML = '<div style="color:rgba(255,255,255,0.3);font-size:13px;padding:30px 0">Keine Favoriten</div>'; return; }
+    list.innerHTML = favs.map(function(f) {
+      var svc = (f.service && f.service.name) || '';
+      var img = f.imageUrl || (f.images && f.images[0] && f.images[0].url) || '';
+      var art = img ? '<img src="' + img + '" style="width:100%;height:100%;object-fit:cover;border-radius:10px">' : '🎵';
+      return '<div class="sonos-fav-card" onclick="sonosPlayFavorite(this,'' + f.id + '')">'
+        + '<div class="sonos-fav-art">' + art + '</div>'
+        + '<div class="sonos-fav-title">' + f.name + '</div>'
+        + '<div class="sonos-fav-sub">' + svc + '</div>'
+        + '</div>';
+    }).join('');
+  } catch(e) { console.error('favorites:', e); }
+}
+async function sonosPlayPause() {
+  if (!sonosGroupId) return;
+  try {
+    var pb = await sonosAPI('GET', 'groups/' + sonosGroupId + '/playback');
+    var p = pb.playbackState === 'PLAYBACK_STATE_PLAYING';
+    await sonosAPI('POST', 'groups/' + sonosGroupId + '/playback/' + (p ? 'pause' : 'play'));
+    setTimeout(sonosLoadPlayback, 500);
+  } catch(e) {}
+}
+async function sonosNext() { if (!sonosGroupId) return; try { await sonosAPI('POST', 'groups/' + sonosGroupId + '/playback/skipToNextTrack'); setTimeout(sonosLoadPlayback, 800); } catch(e) {} }
+async function sonosPrev() { if (!sonosGroupId) return; try { await sonosAPI('POST', 'groups/' + sonosGroupId + '/playback/skipToPreviousTrack'); setTimeout(sonosLoadPlayback, 800); } catch(e) {} }
+function sonosSetVolume(val) {
+  clearTimeout(_sonosVolTimer);
+  _sonosVolTimer = setTimeout(async function() {
+    if (!sonosGroupId) return;
+    try { await sonosAPI('POST', 'groups/' + sonosGroupId + '/volume', { volume: parseInt(val) }); } catch(e) {}
+  }, 350);
+}
+function sonosSelectGroup(el, groupId) {
+  sonosGroupId = groupId; localStorage.setItem('sonos_group_id', groupId);
+  document.querySelectorAll('.sonos-room-chip').forEach(function(c) { c.classList.remove('active'); });
+  el.classList.add('active');
+  sonosLoadPlayback();
+}
+async function sonosPlayFavorite(el, favId) {
+  if (!sonosGroupId) return;
+  try { await sonosAPI('POST', 'groups/' + sonosGroupId + '/favorites', { favoriteId: favId, action: 'INSERT', playOnCompletion: true }); setTimeout(sonosLoadPlayback, 1200); } catch(e) {}
+}
+function sonosToggleLike() {
+  _sonosLiked = !_sonosLiked;
+  var b = document.getElementById('sonos-like-btn');
+  if (b) { b.textContent = _sonosLiked ? '♥' : '♡'; b.classList.toggle('liked', _sonosLiked); }
+}
+async function sonosToggleShuffle() {
+  _sonosShuffle = !_sonosShuffle;
+  var b = document.getElementById('sonos-shuffle-btn'); if (b) b.classList.toggle('active-mode', _sonosShuffle);
+  if (!sonosGroupId) return;
+  try { await sonosAPI('POST', 'groups/' + sonosGroupId + '/playback/playMode', { playMode: { shuffle: _sonosShuffle, repeat: _sonosRepeat ? 'ALL' : 'NONE' } }); } catch(e) {}
+}
+async function sonosToggleRepeat() {
+  _sonosRepeat = !_sonosRepeat;
+  var b = document.getElementById('sonos-repeat-btn'); if (b) b.classList.toggle('active-mode', _sonosRepeat);
+  if (!sonosGroupId) return;
+  try { await sonosAPI('POST', 'groups/' + sonosGroupId + '/playback/playMode', { playMode: { shuffle: _sonosShuffle, repeat: _sonosRepeat ? 'ALL' : 'NONE' } }); } catch(e) {}
+}
+async function sonosSendTTS() {
+  var input = document.getElementById('sonos-tts-text');
+  var text = input && input.value.trim(); if (!text || !sonosHouseholdId) return;
+  var ttsUrl = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=de&client=tw-ob&q=' + encodeURIComponent(text);
+  try {
+    var d = await sonosAPI('GET', 'households/' + sonosHouseholdId + '/groups');
+    await Promise.all((d.players || []).map(function(p) {
+      return sonosAPI('POST', 'players/' + p.id + '/audioClip', { name: 'R11', appId: 'com.r11.dashboard', streamUrl: ttsUrl, volume: 45, clipType: 'CHIME' });
+    }));
+    if (input) input.value = '';
+  } catch(e) {}
+}
+async function sonosInit() {
+  sonosRenderPage(); if (!sonosIsConnected()) return;
+  sonosHouseholdId = localStorage.getItem('sonos_household_id') || null;
+  sonosGroupId = localStorage.getItem('sonos_group_id') || null;
+  await sonosLoadHousehold();
+  if (sonosPollTimer) clearInterval(sonosPollTimer);
+  sonosPollTimer = setInterval(function() {
+    var p = document.getElementById('page-sonos');
+    if (p && p.classList.contains('active')) sonosLoadPlayback();
+  }, 10000);
+}
+
 
 init();
 
@@ -8972,213 +8942,569 @@ function _showFbToast() {
 const ESPN_WM_BASE = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
 
 // ── WM 2026 Kompletter Spielplan (104 Spiele, hardcoded, kein Fetch nötig) ──
-
-// ══════════════════════════════════════════════════
-// WM 2026 – Hardcoded Ergebnisse + ESPN Live-Ticker
-// Kein CF Worker nötig. Scoreboard-API wird nur für
-// Live-Spiele am Spieltag abgefragt (CORS-fähig).
-// ══════════════════════════════════════════════════
-
-// Deutschland Gruppenspiele – Ergebnisse hardcoded
-var WM_GER_GAMES = [
-  { date:'2026-06-14', ts:'2026-06-14T17:00:00Z', opp:'Curaçao',        oppFlag:'🇨🇼', gerScore:7,    oppScore:1,    completed:true  },
-  { date:'2026-06-20', ts:'2026-06-20T20:00:00Z', opp:'Elfenbeinküste', oppFlag:'🇨🇮', gerScore:2,    oppScore:1,    completed:true  },
-  { date:'2026-06-25', ts:'2026-06-25T20:00:00Z', opp:'Ecuador',        oppFlag:'🇪🇨', gerScore:null, oppScore:null, completed:false }
+const WM_STATIC = [
+  {id:'of_0',date:'2026-06-11',timestamp:'2026-06-11T21:00:00',homeTeam:"Mexico",awayTeam:"South Africa",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Mexico City",phase:"Matchday 1",group:"Group A"},
+  {id:'of_1',date:'2026-06-11',timestamp:'2026-06-11T04:00:00',homeTeam:"South Korea",awayTeam:"UEFA Path D winner",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Guadalajara (Zapopan)",phase:"Matchday 1",group:"Group A"},
+  {id:'of_2',date:'2026-06-18',timestamp:'2026-06-18T18:00:00',homeTeam:"UEFA Path D winner",awayTeam:"South Africa",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Atlanta",phase:"Matchday 8",group:"Group A"},
+  {id:'of_3',date:'2026-06-18',timestamp:'2026-06-18T03:00:00',homeTeam:"Mexico",awayTeam:"South Korea",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Guadalajara (Zapopan)",phase:"Matchday 8",group:"Group A"},
+  {id:'of_4',date:'2026-06-24',timestamp:'2026-06-24T03:00:00',homeTeam:"UEFA Path D winner",awayTeam:"Mexico",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Mexico City",phase:"Matchday 14",group:"Group A"},
+  {id:'of_5',date:'2026-06-24',timestamp:'2026-06-24T03:00:00',homeTeam:"South Africa",awayTeam:"South Korea",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Monterrey (Guadalupe)",phase:"Matchday 14",group:"Group A"},
+  {id:'of_6',date:'2026-06-12',timestamp:'2026-06-12T21:00:00',homeTeam:"Canada",awayTeam:"UEFA Path A winner",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Toronto",phase:"Matchday 2",group:"Group B"},
+  {id:'of_7',date:'2026-06-13',timestamp:'2026-06-13T21:00:00',homeTeam:"Qatar",awayTeam:"Switzerland",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"San Francisco Bay Area (Santa Clara)",phase:"Matchday 3",group:"Group B"},
+  {id:'of_8',date:'2026-06-18',timestamp:'2026-06-18T21:00:00',homeTeam:"Switzerland",awayTeam:"UEFA Path A winner",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Los Angeles (Inglewood)",phase:"Matchday 8",group:"Group B"},
+  {id:'of_9',date:'2026-06-18',timestamp:'2026-06-18T00:00:00',homeTeam:"Canada",awayTeam:"Qatar",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Vancouver",phase:"Matchday 8",group:"Group B"},
+  {id:'of_10',date:'2026-06-24',timestamp:'2026-06-24T21:00:00',homeTeam:"Switzerland",awayTeam:"Canada",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Vancouver",phase:"Matchday 14",group:"Group B"},
+  {id:'of_11',date:'2026-06-24',timestamp:'2026-06-24T21:00:00',homeTeam:"UEFA Path A winner",awayTeam:"Qatar",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Seattle",phase:"Matchday 14",group:"Group B"},
+  {id:'of_12',date:'2026-06-13',timestamp:'2026-06-13T00:00:00',homeTeam:"Brazil",awayTeam:"Morocco",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"New York/New Jersey (East Rutherford)",phase:"Matchday 3",group:"Group C"},
+  {id:'of_13',date:'2026-06-13',timestamp:'2026-06-13T03:00:00',homeTeam:"Haiti",awayTeam:"Scotland",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Boston (Foxborough)",phase:"Matchday 3",group:"Group C"},
+  {id:'of_14',date:'2026-06-19',timestamp:'2026-06-19T00:00:00',homeTeam:"Scotland",awayTeam:"Morocco",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Boston (Foxborough)",phase:"Matchday 9",group:"Group C"},
+  {id:'of_15',date:'2026-06-19',timestamp:'2026-06-19T03:00:00',homeTeam:"Brazil",awayTeam:"Haiti",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Philadelphia",phase:"Matchday 9",group:"Group C"},
+  {id:'of_16',date:'2026-06-24',timestamp:'2026-06-24T00:00:00',homeTeam:"Scotland",awayTeam:"Brazil",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Miami (Miami Gardens)",phase:"Matchday 14",group:"Group C"},
+  {id:'of_17',date:'2026-06-24',timestamp:'2026-06-24T00:00:00',homeTeam:"Morocco",awayTeam:"Haiti",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Atlanta",phase:"Matchday 14",group:"Group C"},
+  {id:'of_18',date:'2026-06-12',timestamp:'2026-06-12T03:00:00',homeTeam:"USA",awayTeam:"Paraguay",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Los Angeles (Inglewood)",phase:"Matchday 2",group:"Group D"},
+  {id:'of_19',date:'2026-06-13',timestamp:'2026-06-13T06:00:00',homeTeam:"Australia",awayTeam:"UEFA Path C winner",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Vancouver",phase:"Matchday 3",group:"Group D"},
+  {id:'of_20',date:'2026-06-19',timestamp:'2026-06-19T21:00:00',homeTeam:"USA",awayTeam:"Australia",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Seattle",phase:"Matchday 9",group:"Group D"},
+  {id:'of_21',date:'2026-06-19',timestamp:'2026-06-19T06:00:00',homeTeam:"UEFA Path C winner",awayTeam:"Paraguay",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"San Francisco Bay Area (Santa Clara)",phase:"Matchday 9",group:"Group D"},
+  {id:'of_22',date:'2026-06-25',timestamp:'2026-06-25T04:00:00',homeTeam:"UEFA Path C winner",awayTeam:"USA",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Los Angeles (Inglewood)",phase:"Matchday 15",group:"Group D"},
+  {id:'of_23',date:'2026-06-25',timestamp:'2026-06-25T04:00:00',homeTeam:"Paraguay",awayTeam:"Australia",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"San Francisco Bay Area (Santa Clara)",phase:"Matchday 15",group:"Group D"},
+  {id:'of_24',date:'2026-06-14',timestamp:'2026-06-14T19:00:00',homeTeam:"Germany",awayTeam:"Cura\u00e7ao",homeScore:'7',awayScore:'1',status:'STATUS_FINAL',clock:'FT',venue:"Houston",phase:"Matchday 4",group:"Group E"},
+  {id:'of_25',date:'2026-06-14',timestamp:'2026-06-14T01:00:00',homeTeam:"Ivory Coast",awayTeam:"Ecuador",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Philadelphia",phase:"Matchday 4",group:"Group E"},
+  {id:'of_26',date:'2026-06-20',timestamp:'2026-06-20T22:00:00',homeTeam:"Germany",awayTeam:"Ivory Coast",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Toronto",phase:"Matchday 10",group:"Group E"},
+  {id:'of_27',date:'2026-06-20',timestamp:'2026-06-20T02:00:00',homeTeam:"Ecuador",awayTeam:"Cura\u00e7ao",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Kansas City",phase:"Matchday 10",group:"Group E"},
+  {id:'of_28',date:'2026-06-25',timestamp:'2026-06-25T22:00:00',homeTeam:"Cura\u00e7ao",awayTeam:"Ivory Coast",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Philadelphia",phase:"Matchday 15",group:"Group E"},
+  {id:'of_29',date:'2026-06-25',timestamp:'2026-06-25T22:00:00',homeTeam:"Ecuador",awayTeam:"Germany",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"New York/New Jersey (East Rutherford)",phase:"Matchday 15",group:"Group E"},
+  {id:'of_30',date:'2026-06-14',timestamp:'2026-06-14T22:00:00',homeTeam:"Netherlands",awayTeam:"Japan",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Dallas (Arlington)",phase:"Matchday 4",group:"Group F"},
+  {id:'of_31',date:'2026-06-14',timestamp:'2026-06-14T04:00:00',homeTeam:"UEFA Path B winner",awayTeam:"Tunisia",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Monterrey (Guadalupe)",phase:"Matchday 4",group:"Group F"},
+  {id:'of_32',date:'2026-06-20',timestamp:'2026-06-20T19:00:00',homeTeam:"Netherlands",awayTeam:"UEFA Path B winner",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Houston",phase:"Matchday 10",group:"Group F"},
+  {id:'of_33',date:'2026-06-20',timestamp:'2026-06-20T06:00:00',homeTeam:"Tunisia",awayTeam:"Japan",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Monterrey (Guadalupe)",phase:"Matchday 10",group:"Group F"},
+  {id:'of_34',date:'2026-06-25',timestamp:'2026-06-25T01:00:00',homeTeam:"Japan",awayTeam:"UEFA Path B winner",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Dallas (Arlington)",phase:"Matchday 15",group:"Group F"},
+  {id:'of_35',date:'2026-06-25',timestamp:'2026-06-25T01:00:00',homeTeam:"Tunisia",awayTeam:"Netherlands",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Kansas City",phase:"Matchday 15",group:"Group F"},
+  {id:'of_36',date:'2026-06-15',timestamp:'2026-06-15T21:00:00',homeTeam:"Belgium",awayTeam:"Egypt",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Seattle",phase:"Matchday 5",group:"Group G"},
+  {id:'of_37',date:'2026-06-15',timestamp:'2026-06-15T03:00:00',homeTeam:"Iran",awayTeam:"New Zealand",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Los Angeles (Inglewood)",phase:"Matchday 5",group:"Group G"},
+  {id:'of_38',date:'2026-06-21',timestamp:'2026-06-21T21:00:00',homeTeam:"Belgium",awayTeam:"Iran",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Los Angeles (Inglewood)",phase:"Matchday 11",group:"Group G"},
+  {id:'of_39',date:'2026-06-21',timestamp:'2026-06-21T03:00:00',homeTeam:"New Zealand",awayTeam:"Egypt",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Vancouver",phase:"Matchday 11",group:"Group G"},
+  {id:'of_40',date:'2026-06-26',timestamp:'2026-06-26T05:00:00',homeTeam:"Egypt",awayTeam:"Iran",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Seattle",phase:"Matchday 16",group:"Group G"},
+  {id:'of_41',date:'2026-06-26',timestamp:'2026-06-26T05:00:00',homeTeam:"New Zealand",awayTeam:"Belgium",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Vancouver",phase:"Matchday 16",group:"Group G"},
+  {id:'of_42',date:'2026-06-15',timestamp:'2026-06-15T18:00:00',homeTeam:"Spain",awayTeam:"Cape Verde",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Atlanta",phase:"Matchday 5",group:"Group H"},
+  {id:'of_43',date:'2026-06-15',timestamp:'2026-06-15T00:00:00',homeTeam:"Saudi Arabia",awayTeam:"Uruguay",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Miami (Miami Gardens)",phase:"Matchday 5",group:"Group H"},
+  {id:'of_44',date:'2026-06-21',timestamp:'2026-06-21T18:00:00',homeTeam:"Spain",awayTeam:"Saudi Arabia",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Atlanta",phase:"Matchday 11",group:"Group H"},
+  {id:'of_45',date:'2026-06-21',timestamp:'2026-06-21T00:00:00',homeTeam:"Uruguay",awayTeam:"Cape Verde",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Miami (Miami Gardens)",phase:"Matchday 11",group:"Group H"},
+  {id:'of_46',date:'2026-06-26',timestamp:'2026-06-26T02:00:00',homeTeam:"Cape Verde",awayTeam:"Saudi Arabia",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Houston",phase:"Matchday 16",group:"Group H"},
+  {id:'of_47',date:'2026-06-26',timestamp:'2026-06-26T02:00:00',homeTeam:"Uruguay",awayTeam:"Spain",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Guadalajara (Zapopan)",phase:"Matchday 16",group:"Group H"},
+  {id:'of_48',date:'2026-06-16',timestamp:'2026-06-16T21:00:00',homeTeam:"France",awayTeam:"Senegal",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"New York/New Jersey (East Rutherford)",phase:"Matchday 6",group:"Group I"},
+  {id:'of_49',date:'2026-06-16',timestamp:'2026-06-16T00:00:00',homeTeam:"IC Path 2 winner",awayTeam:"Norway",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Boston (Foxborough)",phase:"Matchday 6",group:"Group I"},
+  {id:'of_50',date:'2026-06-22',timestamp:'2026-06-22T23:00:00',homeTeam:"France",awayTeam:"IC Path 2 winner",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Philadelphia",phase:"Matchday 12",group:"Group I"},
+  {id:'of_51',date:'2026-06-22',timestamp:'2026-06-22T02:00:00',homeTeam:"Norway",awayTeam:"Senegal",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"New York/New Jersey (East Rutherford)",phase:"Matchday 12",group:"Group I"},
+  {id:'of_52',date:'2026-06-26',timestamp:'2026-06-26T21:00:00',homeTeam:"Norway",awayTeam:"France",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Boston (Foxborough)",phase:"Matchday 16",group:"Group I"},
+  {id:'of_53',date:'2026-06-26',timestamp:'2026-06-26T21:00:00',homeTeam:"Senegal",awayTeam:"IC Path 2 winner",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Toronto",phase:"Matchday 16",group:"Group I"},
+  {id:'of_54',date:'2026-06-16',timestamp:'2026-06-16T03:00:00',homeTeam:"Argentina",awayTeam:"Algeria",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Kansas City",phase:"Matchday 6",group:"Group J"},
+  {id:'of_55',date:'2026-06-16',timestamp:'2026-06-16T06:00:00',homeTeam:"Austria",awayTeam:"Jordan",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"San Francisco Bay Area (Santa Clara)",phase:"Matchday 6",group:"Group J"},
+  {id:'of_56',date:'2026-06-22',timestamp:'2026-06-22T19:00:00',homeTeam:"Argentina",awayTeam:"Austria",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Dallas (Arlington)",phase:"Matchday 12",group:"Group J"},
+  {id:'of_57',date:'2026-06-22',timestamp:'2026-06-22T05:00:00',homeTeam:"Jordan",awayTeam:"Algeria",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"San Francisco Bay Area (Santa Clara)",phase:"Matchday 12",group:"Group J"},
+  {id:'of_58',date:'2026-06-27',timestamp:'2026-06-27T04:00:00',homeTeam:"Algeria",awayTeam:"Austria",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Kansas City",phase:"Matchday 17",group:"Group J"},
+  {id:'of_59',date:'2026-06-27',timestamp:'2026-06-27T04:00:00',homeTeam:"Jordan",awayTeam:"Argentina",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Dallas (Arlington)",phase:"Matchday 17",group:"Group J"},
+  {id:'of_60',date:'2026-06-17',timestamp:'2026-06-17T19:00:00',homeTeam:"Portugal",awayTeam:"IC Path 1 winner",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Houston",phase:"Matchday 7",group:"Group K"},
+  {id:'of_61',date:'2026-06-17',timestamp:'2026-06-17T04:00:00',homeTeam:"Uzbekistan",awayTeam:"Colombia",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Mexico City",phase:"Matchday 7",group:"Group K"},
+  {id:'of_62',date:'2026-06-23',timestamp:'2026-06-23T19:00:00',homeTeam:"Portugal",awayTeam:"Uzbekistan",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Houston",phase:"Matchday 13",group:"Group K"},
+  {id:'of_63',date:'2026-06-23',timestamp:'2026-06-23T04:00:00',homeTeam:"Colombia",awayTeam:"IC Path 1 winner",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Guadalajara (Zapopan)",phase:"Matchday 13",group:"Group K"},
+  {id:'of_64',date:'2026-06-27',timestamp:'2026-06-27T01:30:00',homeTeam:"Colombia",awayTeam:"Portugal",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Miami (Miami Gardens)",phase:"Matchday 17",group:"Group K"},
+  {id:'of_65',date:'2026-06-27',timestamp:'2026-06-27T01:30:00',homeTeam:"IC Path 1 winner",awayTeam:"Uzbekistan",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Atlanta",phase:"Matchday 17",group:"Group K"},
+  {id:'of_66',date:'2026-06-17',timestamp:'2026-06-17T22:00:00',homeTeam:"England",awayTeam:"Croatia",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Dallas (Arlington)",phase:"Matchday 7",group:"Group L"},
+  {id:'of_67',date:'2026-06-17',timestamp:'2026-06-17T01:00:00',homeTeam:"Ghana",awayTeam:"Panama",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Toronto",phase:"Matchday 7",group:"Group L"},
+  {id:'of_68',date:'2026-06-23',timestamp:'2026-06-23T22:00:00',homeTeam:"England",awayTeam:"Ghana",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Boston (Foxborough)",phase:"Matchday 13",group:"Group L"},
+  {id:'of_69',date:'2026-06-23',timestamp:'2026-06-23T01:00:00',homeTeam:"Panama",awayTeam:"Croatia",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Toronto",phase:"Matchday 13",group:"Group L"},
+  {id:'of_70',date:'2026-06-27',timestamp:'2026-06-27T23:00:00',homeTeam:"Panama",awayTeam:"England",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"New York/New Jersey (East Rutherford)",phase:"Matchday 17",group:"Group L"},
+  {id:'of_71',date:'2026-06-27',timestamp:'2026-06-27T23:00:00',homeTeam:"Croatia",awayTeam:"Ghana",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Philadelphia",phase:"Matchday 17",group:"Group L"},
+  {id:'of_72',date:'2026-06-28',timestamp:'2026-06-28T21:00:00',homeTeam:"2A",awayTeam:"2B",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Los Angeles (Inglewood)",phase:"Round of 32",group:""},
+  {id:'of_73',date:'2026-06-29',timestamp:'2026-06-29T22:30:00',homeTeam:"1E",awayTeam:"3A/B/C/D/F",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Boston (Foxborough)",phase:"Round of 32",group:""},
+  {id:'of_74',date:'2026-06-29',timestamp:'2026-06-29T03:00:00',homeTeam:"1F",awayTeam:"2C",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Monterrey (Guadalupe)",phase:"Round of 32",group:""},
+  {id:'of_75',date:'2026-06-29',timestamp:'2026-06-29T19:00:00',homeTeam:"1C",awayTeam:"2F",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Houston",phase:"Round of 32",group:""},
+  {id:'of_76',date:'2026-06-30',timestamp:'2026-06-30T23:00:00',homeTeam:"1I",awayTeam:"3C/D/F/G/H",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"New York/New Jersey (East Rutherford)",phase:"Round of 32",group:""},
+  {id:'of_77',date:'2026-06-30',timestamp:'2026-06-30T19:00:00',homeTeam:"2E",awayTeam:"2I",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Dallas (Arlington)",phase:"Round of 32",group:""},
+  {id:'of_78',date:'2026-06-30',timestamp:'2026-06-30T03:00:00',homeTeam:"1A",awayTeam:"3C/E/F/H/I",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Mexico City",phase:"Round of 32",group:""},
+  {id:'of_79',date:'2026-07-01',timestamp:'2026-07-01T18:00:00',homeTeam:"1L",awayTeam:"3E/H/I/J/K",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Atlanta",phase:"Round of 32",group:""},
+  {id:'of_80',date:'2026-07-01',timestamp:'2026-07-01T02:00:00',homeTeam:"1D",awayTeam:"3B/E/F/I/J",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"San Francisco Bay Area (Santa Clara)",phase:"Round of 32",group:""},
+  {id:'of_81',date:'2026-07-01',timestamp:'2026-07-01T22:00:00',homeTeam:"1G",awayTeam:"3A/E/H/I/J",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Seattle",phase:"Round of 32",group:""},
+  {id:'of_82',date:'2026-07-02',timestamp:'2026-07-02T01:00:00',homeTeam:"2K",awayTeam:"2L",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Toronto",phase:"Round of 32",group:""},
+  {id:'of_83',date:'2026-07-02',timestamp:'2026-07-02T21:00:00',homeTeam:"1H",awayTeam:"2J",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Los Angeles (Inglewood)",phase:"Round of 32",group:""},
+  {id:'of_84',date:'2026-07-02',timestamp:'2026-07-02T05:00:00',homeTeam:"1B",awayTeam:"3E/F/G/I/J",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Vancouver",phase:"Round of 32",group:""},
+  {id:'of_85',date:'2026-07-03',timestamp:'2026-07-03T00:00:00',homeTeam:"1J",awayTeam:"2H",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Miami (Miami Gardens)",phase:"Round of 32",group:""},
+  {id:'of_86',date:'2026-07-03',timestamp:'2026-07-03T03:30:00',homeTeam:"1K",awayTeam:"3D/E/I/J/L",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Kansas City",phase:"Round of 32",group:""},
+  {id:'of_87',date:'2026-07-03',timestamp:'2026-07-03T20:00:00',homeTeam:"2D",awayTeam:"2G",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Dallas (Arlington)",phase:"Round of 32",group:""},
+  {id:'of_88',date:'2026-07-04',timestamp:'2026-07-04T23:00:00',homeTeam:"W74",awayTeam:"W77",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Philadelphia",phase:"Round of 16",group:""},
+  {id:'of_89',date:'2026-07-04',timestamp:'2026-07-04T19:00:00',homeTeam:"W73",awayTeam:"W75",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Houston",phase:"Round of 16",group:""},
+  {id:'of_90',date:'2026-07-05',timestamp:'2026-07-05T22:00:00',homeTeam:"W76",awayTeam:"W78",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"New York/New Jersey (East Rutherford)",phase:"Round of 16",group:""},
+  {id:'of_91',date:'2026-07-05',timestamp:'2026-07-05T02:00:00',homeTeam:"W79",awayTeam:"W80",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Mexico City",phase:"Round of 16",group:""},
+  {id:'of_92',date:'2026-07-06',timestamp:'2026-07-06T21:00:00',homeTeam:"W83",awayTeam:"W84",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Dallas (Arlington)",phase:"Round of 16",group:""},
+  {id:'of_93',date:'2026-07-06',timestamp:'2026-07-06T02:00:00',homeTeam:"W81",awayTeam:"W82",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Seattle",phase:"Round of 16",group:""},
+  {id:'of_94',date:'2026-07-07',timestamp:'2026-07-07T18:00:00',homeTeam:"W86",awayTeam:"W88",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Atlanta",phase:"Round of 16",group:""},
+  {id:'of_95',date:'2026-07-07',timestamp:'2026-07-07T22:00:00',homeTeam:"W85",awayTeam:"W87",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Vancouver",phase:"Round of 16",group:""},
+  {id:'of_96',date:'2026-07-09',timestamp:'2026-07-09T22:00:00',homeTeam:"W89",awayTeam:"W90",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Boston (Foxborough)",phase:"Quarter-final",group:""},
+  {id:'of_97',date:'2026-07-10',timestamp:'2026-07-10T21:00:00',homeTeam:"W93",awayTeam:"W94",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Los Angeles (Inglewood)",phase:"Quarter-final",group:""},
+  {id:'of_98',date:'2026-07-11',timestamp:'2026-07-11T23:00:00',homeTeam:"W91",awayTeam:"W92",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Miami (Miami Gardens)",phase:"Quarter-final",group:""},
+  {id:'of_99',date:'2026-07-11',timestamp:'2026-07-11T03:00:00',homeTeam:"W95",awayTeam:"W96",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Kansas City",phase:"Quarter-final",group:""},
+  {id:'of_100',date:'2026-07-14',timestamp:'2026-07-14T21:00:00',homeTeam:"W97",awayTeam:"W98",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Dallas (Arlington)",phase:"Semi-final",group:""},
+  {id:'of_101',date:'2026-07-15',timestamp:'2026-07-15T21:00:00',homeTeam:"W99",awayTeam:"W100",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Atlanta",phase:"Semi-final",group:""},
+  {id:'of_102',date:'2026-07-18',timestamp:'2026-07-18T23:00:00',homeTeam:"L101",awayTeam:"L102",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"Miami (Miami Gardens)",phase:"Match for third place",group:""},
+  {id:'of_103',date:'2026-07-19',timestamp:'2026-07-19T21:00:00',homeTeam:"W101",awayTeam:"W102",homeScore:null,awayScore:null,status:'STATUS_SCHEDULED',clock:'',venue:"New York/New Jersey (East Rutherford)",phase:"Final",group:""},
 ];
-var wmLiveCheckTimer = null;
-var wmPageData = null; // cached ESPN data
 
-function wmGetToday() { return new Date().toISOString().slice(0,10); }
+let wmMatches = WM_STATIC.slice(); // sofort verfügbar
+let wmLastFetch = 1; // als "geladen" markieren
+let wmAutoRefreshTimer = null;
 
-// ── Tile ──────────────────────────────────────────────────────────────────────
-function wmRenderTile() {
-  var statusEl  = document.getElementById('wm-tile-status');
-  var contentEl = document.getElementById('wm-tile-content');
-  if (!statusEl || !contentEl) return;
-  var src = wmPageData ? wmParseGerGames(wmPageData) : WM_GER_GAMES;
-  var last = src.slice().reverse().find(function(g){ return g.completed; });
-  var next = src.find(function(g){ return !g.completed; });
-  if (last) {
-    var c = last.gerScore > last.oppScore ? '#30D158' : last.gerScore === last.oppScore ? '#FFD60A' : '#FF453A';
-    var icon = last.gerScore > last.oppScore ? '✅' : last.gerScore === last.oppScore ? '🤝' : '❌';
-    statusEl.innerHTML = icon + ' ' + (last.gerScore > last.oppScore ? 'Sieg' : last.gerScore === last.oppScore ? 'Unent.' : 'Niederlage');
-    statusEl.style.color = c;
-    contentEl.innerHTML = '<div style="font-weight:800;font-size:13px">🇩🇪 ' + last.gerScore + ':' + last.oppScore + ' ' + (last.oppFlag || '') + '</div>';
-  }
-  if (next) {
-    var d = new Date(next.ts || next.date + 'T00:00:00Z');
-    var ds = d.toLocaleDateString('de-DE',{day:'numeric',month:'short',timeZone:'Europe/Berlin'});
-    contentEl.innerHTML += '<div style="font-size:9px;color:var(--text3);margin-top:2px">Nächstes: ' + ds + ' ' + (next.oppFlag||'') + '</div>';
-  }
+const TEAM_FLAGS = {
+  'Germany':'🇩🇪','France':'🇫🇷','Spain':'🇪🇸','Brazil':'🇧🇷','Argentina':'🇦🇷',
+  'England':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Portugal':'🇵🇹','Netherlands':'🇳🇱','Italy':'🇮🇹','Belgium':'🇧🇪',
+  'Croatia':'🇭🇷','Uruguay':'🇺🇾','Mexico':'🇲🇽','United States':'🇺🇸','Canada':'🇨🇦',
+  'Japan':'🇯🇵','South Korea':'🇰🇷','Morocco':'🇲🇦','Senegal':'🇸🇳','Ghana':'🇬🇭',
+  'Switzerland':'🇨🇭','Denmark':'🇩🇰','Poland':'🇵🇱','Serbia':'🇷🇸','Austria':'🇦🇹',
+  'Australia':'🇦🇺','Ecuador':'🇪🇨','Colombia':'🇨🇴','Turkey':'🇹🇷','Ukraine':'🇺🇦',
+  'Saudi Arabia':'🇸🇦','Iran':'🇮🇷','Qatar':'🇶🇦','South Africa':'🇿🇦','Nigeria':'🇳🇬',
+  'Cameroon':'🇨🇲','Egypt':'🇪🇬','Tunisia':'🇹🇳','Algeria':'🇩🇿','Norway':'🇳🇴',
+  'Sweden':'🇸🇪','Romania':'🇷🇴','Hungary':'🇭🇺','Slovakia':'🇸🇰','Scotland':'🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+  'Iraq':'🇮🇶','New Zealand':'🇳🇿','Panama':'🇵🇦','Costa Rica':'🇨🇷','Paraguay':'🇵🇾',
+  'Bolivia':'🇧🇴','Chile':'🇨🇱','Peru':'🇵🇪','Venezuela':'🇻🇪','Indonesia':'🇮🇩',
+  'Wales':'🏴󠁧󠁢󠁷󠁬󠁳󠁿','Czech Republic':'🇨🇿','Slovenia':'🇸🇮','Georgia':'🇬🇪','Albania':'🇦🇱',
+  'Jamaica':'🇯🇲','Honduras':'🇭🇳',
+  'USA':'🇺🇸','Ivory Coast':'🏳️','Curaçao':'🏳️','Türkiye':'🇹🇷',
+  'Scotland':'🏴\u200d','Cape Verde':'🇨🇻','Uzbekistan':'🇺🇿','Jordan':'🇯🇴',
+  'Algeria':'🇩🇿','Haiti':'🇭🇹','Ecuador':'🇪🇨','New Zealand':'🇳🇿'
+};
+
+var WM_DE_NAMES = {'Germany':'Deutschland','Ivory Coast':'Elfenbeinküste','USA':'USA','Curaçao':'Curaçao','Ecuador':'Ecuador','Morocco':'Marokko','France':'Frankreich','Spain':'Spanien','Brazil':'Brasilien','Argentina':'Argentinien','England':'England','Portugal':'Portugal','Netherlands':'Niederlande','Italy':'Italien','Belgium':'Belgien','Croatia':'Kroatien','Denmark':'Dänemark','Mexico':'Mexiko','Japan':'Japan','South Korea':'Südkorea','Australia':'Australien','Switzerland':'Schweiz','Canada':'Kanada','Serbia':'Serbien','Poland':'Polen','Uruguay':'Uruguay','Colombia':'Kolumbien','Senegal':'Senegal','Ghana':'Ghana','Tunisia':'Tunesien','Saudi Arabia':'Saudi-Arabien','Qatar':'Katar','Iran':'Iran','Panama':'Panama','Scotland':'Schottland','Norway':'Norwegen','Austria':'Österreich','Algeria':'Algerien','Paraguay':'Paraguay','Haiti':'Haiti','New Zealand':'Neuseeland','South Africa':'Südafrika','Cape Verde':'Kap Verde','Uzbekistan':'Usbekistan','Jordan':'Jordanien'};
+function wmDeName(name) { return WM_DE_NAMES[name] || name; }
+function wmFlag(team) { return TEAM_FLAGS[team] || '🏳️'; }
+
+function wmIsGermany(name) { return name === 'Germany'; }
+
+function wmStatusInfo(status) {
+  if (!status) return { live: false, done: false, label: '' };
+  const n = status.toUpperCase();
+  const live = n.includes('IN_PROGRESS') || n.includes('HALFTIME');
+  const done = n.includes('FINAL') || n.includes('FULL_TIME');
+  const ht = n.includes('HALFTIME');
+  return { live, done, ht, label: done ? 'FT' : ht ? 'HT' : live ? 'LIVE' : '' };
 }
 
-// ── Parse Germany games from worker response ───────────────────────────────────
-function wmParseGerGames(data) {
-  if (!data || !data.events) return WM_GER_GAMES;
-  return data.events.map(function(ev) {
-    var comp = (ev.competitions||[{}])[0];
-    var st   = (comp.status||{}).type||{};
-    var ger  = (comp.competitors||[]).find(function(c){ return (c.team||{}).displayName==='Germany'; });
-    var opp  = (comp.competitors||[]).find(function(c){ return (c.team||{}).displayName!=='Germany'; });
-    if (!ger||!opp) return null;
-    var gs = st.completed ? parseInt(ger.score||0) : null;
-    var os = st.completed ? parseInt(opp.score||0) : null;
+function wmFormatDateStr(iso) {
+  const d = new Date(iso);
+  const days = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+  const months = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+  return days[d.getDay()] + ', ' + d.getDate() + '. ' + months[d.getMonth()];
+}
+
+function wmFormatTime(iso) {
+  const d = new Date(iso);
+  return String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+}
+
+
+function wmFmtDate(d) { return d.toISOString().slice(0,10).replace(/-/g,''); }
+
+function wmParseEvent(evt) {
+  var comp = evt.competitions[0];
+  var home = comp.competitors.filter(function(x){ return x.homeAway === 'home'; })[0];
+  var away = comp.competitors.filter(function(x){ return x.homeAway === 'away'; })[0];
+  return {
+    id: evt.id,
+    date: evt.date.slice(0,10),
+    timestamp: evt.date,
+    homeTeam: home ? home.team.displayName : '?',
+    awayTeam: away ? away.team.displayName : '?',
+    homeScore: home ? (home.score || '0') : '0',
+    awayScore: away ? (away.score || '0') : '0',
+    status: comp.status ? comp.status.type.name : 'STATUS_SCHEDULED',
+    clock: comp.status ? comp.status.displayClock : '',
+    venue: comp.venue ? (comp.venue.displayName || '') : '',
+    note: comp.altGameNote || ''
+  };
+}
+
+async function wmFetchDay(dateStr) {
+  try {
+    var r = await fetch(ESPN_WM_BASE + '?dates=' + dateStr);
+    if (!r.ok) return [];
+    var d = await r.json();
+    return (d.events || []).map(wmParseEvent);
+  } catch(e) { return []; }
+}
+
+// Uhrzeit aus openfootball "16:00 UTC-4" in CEST umrechnen
+function wmParseCEST(timeStr) {
+  var m = timeStr && timeStr.match(/(\d+):(\d+)\s+UTC([+-]\d+)/);
+  if (!m) return '?';
+  var h = parseInt(m[1]), min = parseInt(m[2]), off = parseInt(m[3]);
+  var utcH = h - off; // UTC-4 → +4
+  var cestH = (utcH + 2) % 24; // CEST = UTC+2
+  return (cestH < 10 ? '0' : '') + cestH + ':' + (min < 10 ? '0' : '') + min;
+}
+
+// openfootball JSON in wmMatches-Format parsen
+function wmParseSchedule(matches) {
+  return (matches || []).map(function(m, i) {
+    var cestTime = wmParseCEST(m.time || '');
+    var ts = m.date + 'T' + (cestTime && cestTime !== '?' ? cestTime : '12:00') + ':00';
     return {
-      date: ev.date.slice(0,10),
-      ts:   ev.date,
-      opp:  (opp.team||{}).displayName||'?',
-      oppFlag: '',
-      gerScore: gs,
-      oppScore: os,
-      completed: !!st.completed,
-      live: st.name === 'STATUS_IN_PROGRESS',
-      clock: (comp.status||{}).displayClock||''
+      id: 'of_' + i,
+      date: m.date,
+      timestamp: ts,
+      homeTeam: m.team1 || '?',
+      awayTeam: m.team2 || '?',
+      homeScore: m.score1 != null ? String(m.score1) : null,
+      awayScore: m.score2 != null ? String(m.score2) : null,
+      status: (m.score1 != null) ? 'STATUS_FULL_TIME' : 'STATUS_SCHEDULED',
+      clock: '', venue: m.ground || '', phase: m.round || '', group: m.group || ''
     };
-  }).filter(Boolean).sort(function(a,b){ return a.ts < b.ts ? -1 : 1; });
+  });
 }
 
-// ── Page render ───────────────────────────────────────────────────────────────
-function wmBuildPage(data) {
-  var el = document.getElementById('wm-page-content');
-  if (!el) return;
-  var today = wmGetToday();
-  var games = data ? wmParseGerGames(data) : WM_GER_GAMES;
-  var hasLive = games.some(function(g){ return g.live; });
+async function wmLoad(force) {
+  var now = Date.now();
+  // Sofort rendern (wmMatches hat schon alle 104 Spiele)
+  try { wmRenderTile(); } catch(e) { console.warn('[WM] tile:', e); }
+  try { wmRenderPage(); } catch(e) { console.warn('[WM] page:', e); }
 
+  // ESPN: Live-Scores für heute ± 1 Tag (nur wenn nötig)
+  if (!force && (now - wmLastFetch < 60000) && wmLastFetch > 100) return;
+  try {
+    var today = new Date();
+    var espnDates = [0,-1,1].map(function(o){ var d=new Date(today); d.setDate(d.getDate()+o); return wmFmtDate(d); });
+    var results = await Promise.all(espnDates.map(function(dt){ return wmFetchDay(dt); }));
+    var espnAll = [];
+    results.forEach(function(b){ espnAll = espnAll.concat(b||[]); });
+    if (espnAll.length) {
+      espnAll.forEach(function(em) {
+        for (var i = 0; i < wmMatches.length; i++) {
+          var sm = wmMatches[i];
+          if (sm.date !== em.date) continue;
+          var h1 = sm.homeTeam.toLowerCase().substring(0,5);
+          var h2 = em.homeTeam.toLowerCase().substring(0,5);
+          var a1 = sm.awayTeam.toLowerCase().substring(0,5);
+          var a2 = em.awayTeam.toLowerCase().substring(0,5);
+          if (h1 === h2 && a1 === a2) {
+            wmMatches[i].homeScore = em.homeScore;
+            wmMatches[i].awayScore = em.awayScore;
+            wmMatches[i].status = em.status;
+            wmMatches[i].clock = em.clock;
+            break;
+          }
+        }
+      });
+      wmLastFetch = now;
+      try { wmRenderTile(); } catch(e) {}
+      try { wmRenderPage(); } catch(e) {}
+    }
+  } catch(e) { console.warn('[WM] ESPN:', e); }
+  try { wmScheduleGermanyNotifs(wmMatches); } catch(e) {}
+}
+
+function wmRenderTile() {
+  const statusEl = document.getElementById('wm-tile-status');
+  const contentEl = document.getElementById('wm-tile-content');
+  if (!statusEl || !contentEl) return;
+  if (!wmMatches.length) {
+    statusEl.textContent = 'Keine Daten';
+    contentEl.innerHTML = '<span style="font-size:10px;color:var(--text3)">Tippen zum Laden</span>';
+    return;
+  }
+
+  const gerMatches = wmMatches.filter(function(m) { return wmIsGermany(m.homeTeam) || wmIsGermany(m.awayTeam); });
+  const liveMatch = gerMatches.find(function(m){ return wmStatusInfo(m.status).live; });
+  var todayStr2 = new Date().toISOString().slice(0,10);
+  const nextMatch = gerMatches.find(function(m){ const s=wmStatusInfo(m.status); return !s.done && !s.live && m.date >= todayStr2; });
+  const lastMatch = gerMatches.slice().reverse().find(function(m){ var s=wmStatusInfo(m.status); return s.done || (!s.live && m.date < todayStr2); });
+
+  let html = '';
+  if (liveMatch) {
+    statusEl.innerHTML = '<span class="wm-live-badge">LIVE</span>';
+    const isHome = liveMatch.homeTeam === 'Germany';
+    const ger = isHome ? liveMatch.homeScore : liveMatch.awayScore;
+    const opp = isHome ? liveMatch.awayScore : liveMatch.homeScore;
+    const oppTeam = isHome ? liveMatch.awayTeam : liveMatch.homeTeam;
+    html = '<div style="font-size:16px;font-weight:800;color:#FFCC00">🇩🇪 ' + ger + ' – ' + opp + ' ' + wmFlag(oppTeam) + ' ' + wmDeName(oppTeam) + ' · ' + (liveMatch.clock||'LIVE') + '</div>';
+  } else if (nextMatch) {
+    const opp = nextMatch.homeTeam === 'Germany' ? nextMatch.awayTeam : nextMatch.homeTeam;
+    var isToday2 = nextMatch.date === todayStr2;
+    statusEl.textContent = isToday2 ? '🔴 Heute!' : 'Nächstes Spiel';
+    if (isToday2) statusEl.style.color = '#FF9F0A';
+    html = '<div style="font-weight:700">🇩🇪 vs ' + wmFlag(opp) + ' ' + wmDeName(opp) + ' · ' + wmFormatTime(nextMatch.timestamp) + ' Uhr</div>';
+  } else if (lastMatch) {
+    const isHome = lastMatch.homeTeam === 'Germany';
+    const ger = parseInt(isHome ? lastMatch.homeScore : lastMatch.awayScore);
+    const opp = parseInt(isHome ? lastMatch.awayScore : lastMatch.homeScore);
+    const oppTeam = isHome ? lastMatch.awayTeam : lastMatch.homeTeam;
+    statusEl.textContent = ger > opp ? '✅ Sieg!' : ger === opp ? '🤝 Remis' : '❌ Niederlage';
+    html = '<div style="font-weight:700">🇩🇪 ' + ger + ':' + opp + ' ' + wmFlag(oppTeam) + ' ' + wmDeName(oppTeam) + '</div>';
+  } else {
+    statusEl.textContent = wmMatches.length + ' Spiele geladen';
+    html = '<div style="font-size:10px;color:var(--text3)">Kein Deutschland-Spiel im Zeitfenster</div>';
+  }
+
+  // Live-Spiele anderer Teams
+  const otherLive = wmMatches.filter(function(m){
+    return wmStatusInfo(m.status).live && !wmIsGermany(m.homeTeam) && !wmIsGermany(m.awayTeam);
+  }).slice(0,2);
+  if (otherLive.length) {
+    html += '<div style="margin-top:5px;font-size:10px;color:var(--text3)">Auch live: ' +
+      otherLive.map(function(m){ return wmFlag(m.homeTeam)+' '+m.homeScore+':'+m.awayScore+' '+wmFlag(m.awayTeam); }).join(' · ') + '</div>';
+  }
+  contentEl.innerHTML = html;
+}
+
+function wmRenderPage() {
+  // Rendert in wm-full-schedule (innerhalb wm-page-content)
+  var schedEl = document.getElementById('wm-full-schedule');
+  var gerBlocks = ['wm-ger2-score']; // Score-Elemente für heute
+  if (!schedEl) {
+    // Fallback: altes Layout
+    var el = document.getElementById('wm-page-content');
+    if (!el) return;
+    if (!wmMatches.length) { el.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text3)">Keine Daten</div>'; return; }
+  }
+
+  // Heutiges Spiel Score aktualisieren (ESPN Live)
+  var todayGer = wmMatches.find(function(m){
+    return (wmIsGermany(m.homeTeam)||wmIsGermany(m.awayTeam)) && m.date === new Date().toISOString().slice(0,10);
+  });
+  if (todayGer) {
+    var si = wmStatusInfo(todayGer.status);
+    var scoreEl = document.getElementById('wm-ger2-score');
+    if (scoreEl && (si.done || si.live)) {
+      var isH = todayGer.homeTeam === 'Germany';
+      var gs = isH ? todayGer.homeScore : todayGer.awayScore;
+      var os = isH ? todayGer.awayScore : todayGer.homeScore;
+      scoreEl.textContent = gs + ':' + os;
+      scoreEl.style.color = si.live ? '#FF3B30' : '#30D158';
+    }
+  }
+
+  if (!schedEl || !wmMatches.length) return;
+
+  var today = new Date().toISOString().slice(0,10);
   var html = '';
 
-  // ── Deutschland Block ──
-  html += '<div style="background:linear-gradient(135deg,rgba(20,10,0,0.97),rgba(40,30,0,0.93));border:1px solid rgba(255,204,0,0.3);border-radius:18px;padding:16px;margin-bottom:16px">';
-  html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">';
-  html += '<div style="font-size:11px;font-weight:800;color:#FFCC00;text-transform:uppercase;letter-spacing:1.5px">🇩🇪 Deutschland · Gruppe E</div>';
-  if (data) html += '<div style="font-size:9px;color:rgba(255,204,0,0.5)">ESPN Live</div>';
-  html += '</div>';
+  // Spielplan nach Phasen
+  var phases = [
+    {name:'⚽ Gruppenphase', from:'2026-06-11', to:'2026-06-27'},
+    {name:'🔟 Round of 32',  from:'2026-06-28', to:'2026-07-03'},
+    {name:'⚔️ Achtelfinale', from:'2026-07-04', to:'2026-07-07'},
+    {name:'🏅 Viertelfinale',from:'2026-07-09', to:'2026-07-11'},
+    {name:'🌟 Halbfinale',   from:'2026-07-14', to:'2026-07-15'},
+    {name:'🥉 Platz 3',      from:'2026-07-18', to:'2026-07-18'},
+    {name:'🏆 Finale',       from:'2026-07-19', to:'2026-07-19'}
+  ];
 
-  games.forEach(function(g, i) {
-    var d  = new Date(g.ts || g.date);
-    var ds = d.toLocaleDateString('de-DE',{weekday:'short',day:'numeric',month:'short',timeZone:'Europe/Berlin'});
-    var ts = d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Berlin'});
-    var isToday = g.date === today;
-    var icon, scoreHtml, rowStyle;
+  phases.forEach(function(ph) {
+    var pm = wmMatches.filter(function(m){ return m.date >= ph.from && m.date <= ph.to; });
+    if (!pm.length) return;
+    var past = ph.to < today;
+    html += '<div style="font-size:11px;font-weight:800;color:' + (past?'rgba(255,255,255,0.3)':'#FFD60A') + ';text-transform:uppercase;letter-spacing:0.8px;margin:14px 0 6px">' + ph.name + '</div>';
 
-    if (g.live) {
-      icon = '<span style="font-size:10px;background:#FF3B30;color:#fff;padding:2px 5px;border-radius:4px;font-weight:800">● LIVE</span>';
-      scoreHtml = '<div style="text-align:right"><div style="font-size:20px;font-weight:900;color:#FF9F0A">' + g.gerScore + ':' + g.oppScore + '</div><div style="font-size:9px;color:#FF9F0A">' + (g.clock||'') + '</div></div>';
-      rowStyle = 'background:rgba(255,159,10,0.1);border-radius:10px;padding:8px 6px;margin:-2px -6px 2px;';
-    } else if (g.completed) {
-      var col = g.gerScore > g.oppScore ? '#30D158' : g.gerScore === g.oppScore ? '#FFD60A' : '#FF453A';
-      icon = g.gerScore > g.oppScore ? '✅' : g.gerScore === g.oppScore ? '🤝' : '❌';
-      scoreHtml = '<div style="font-size:20px;font-weight:900;color:' + col + '">' + g.gerScore + ':' + g.oppScore + '</div>';
-      rowStyle = i < games.length-1 ? 'border-bottom:1px solid rgba(255,255,255,0.07);' : '';
-    } else {
-      icon = '📅';
-      scoreHtml = '<div style="font-size:11px;color:var(--text3)">' + ts + '</div>';
-      rowStyle = isToday ? 'background:rgba(255,159,10,0.07);border-radius:10px;padding:6px;margin:-2px -6px 2px;' : (i < games.length-1 ? 'border-bottom:1px solid rgba(255,255,255,0.07);' : '');
-    }
-
-    html += '<div style="display:flex;align-items:center;gap:10px;padding:10px 0;' + rowStyle + '">';
-    html += '<span>' + icon + '</span>';
-    html += '<div style="flex:1"><div style="font-size:13px;font-weight:700">🇩🇪 Deutschland vs ' + g.opp + ' ' + (g.oppFlag||'') + '</div>';
-    html += '<div style="font-size:10px;color:rgba(255,255,255,0.35)">' + ds + '</div></div>';
-    html += scoreHtml + '</div>';
-  });
-  html += '</div>';
-
-  // ── Punktestand ──
-  var done = games.filter(function(g){ return g.completed; });
-  var pts = done.reduce(function(s,g){ return s + (g.gerScore>g.oppScore?3:g.gerScore===g.oppScore?1:0); }, 0);
-  var gf  = done.reduce(function(s,g){ return s+(g.gerScore||0); }, 0);
-  var ga  = done.reduce(function(s,g){ return s+(g.oppScore||0); }, 0);
-
-  html += '<div style="background:rgba(255,255,255,0.05);border-radius:14px;padding:12px 16px;display:flex;justify-content:space-around;text-align:center;margin-bottom:16px">';
-  html += '<div><div style="font-size:26px;font-weight:900;color:#30D158">' + pts + '</div><div style="font-size:10px;color:var(--text3)">Punkte</div></div>';
-  html += '<div><div style="font-size:26px;font-weight:900">' + gf + ':' + ga + '</div><div style="font-size:10px;color:var(--text3)">Tore</div></div>';
-  html += '<div><div style="font-size:26px;font-weight:900;color:#FFD60A">' + done.length + '/3</div><div style="font-size:10px;color:var(--text3)">Spiele</div></div>';
-  html += '</div>';
-
-  // ── Alle Spieltage (wenn /all-Daten da) ──
-  var allGames = data && data.allEvents;
-  if (allGames && allGames.length) {
-    html += '<div style="font-size:11px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Alle Spiele</div>';
-    var byDate = {}, dateOrder = [];
-    allGames.forEach(function(ev) {
-      var dk = (ev.date||'').slice(0,10);
-      if (!byDate[dk]) { byDate[dk]=[]; dateOrder.push(dk); }
-      byDate[dk].push(ev);
-    });
-    dateOrder.forEach(function(dk) {
-      var isToday2 = dk === today;
-      var label = new Date(dk+'T12:00:00Z').toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'short'});
-      html += '<div style="margin-bottom:12px">';
-      html += '<div style="font-size:11px;font-weight:700;color:' + (isToday2?'#0A84FF':'var(--accent2)') + ';margin-bottom:5px">' + (isToday2?'📍 ':'') + label + '</div>';
-      byDate[dk].forEach(function(ev) {
-        var comp = (ev.competitions||[{}])[0];
-        var st   = (comp.status||{}).type||{};
-        var teams = comp.competitors||[];
-        if (teams.length < 2) return;
-        var t1=teams[0], t2=teams[1];
-        var gs1=parseInt(t1.score||0), gs2=parseInt(t2.score||0);
-        var isGer = (t1.team||{}).displayName==='Germany' || (t2.team||{}).displayName==='Germany';
-        var badge='', scoreStr;
-        if (st.name==='STATUS_IN_PROGRESS') {
-          badge='<span style="background:#FF3B30;color:#fff;font-size:8px;font-weight:800;padding:1px 4px;border-radius:3px;margin-left:4px">LIVE</span>';
-          scoreStr='<span style="font-weight:900;color:#FF9F0A">'+gs1+':'+gs2+'</span>';
-        } else if (st.completed) {
-          scoreStr='<span style="font-weight:700">'+gs1+' : '+gs2+'</span>';
+    // Nach Datum gruppieren
+    var byDate = {};
+    pm.forEach(function(m){ if(!byDate[m.date])byDate[m.date]=[]; byDate[m.date].push(m); });
+    Object.keys(byDate).sort().forEach(function(dk) {
+      var isToday = dk === today;
+      var isPast = dk < today;
+      html += '<div style="font-size:9px;font-weight:700;color:' + (isToday?'#FF9F0A':isPast?'rgba(255,255,255,0.2)':'rgba(255,255,255,0.4)') + ';text-transform:uppercase;letter-spacing:0.5px;margin:6px 0 3px">' + (isToday?'🔴 HEUTE · ':'') + wmFormatDateStr(dk) + '</div>';
+      byDate[dk].forEach(function(m) {
+        var si = wmStatusInfo(m.status);
+        var isGer = wmIsGermany(m.homeTeam) || wmIsGermany(m.awayTeam);
+        var hDe = wmDeName(m.homeTeam), aDe = wmDeName(m.awayTeam);
+        html += '<div style="display:flex;align-items:center;gap:6px;padding:5px 6px;border-radius:8px;margin-bottom:2px;' + (isGer?'background:rgba(255,204,0,0.1);border:1px solid rgba(255,204,0,0.2);':'background:rgba(255,255,255,0.04);') + 'opacity:' + (isPast&&!isToday?'0.55':'1') + '">';
+        html += '<span style="font-size:12px;width:18px;text-align:center">' + wmFlag(m.homeTeam) + '</span>';
+        html += '<div style="flex:1;font-size:11px;font-weight:' + (isGer?'700':'500') + ';color:' + (isGer&&!isPast?'#FFE566':'rgba(255,255,255,0.8)') + ';white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + hDe + '</div>';
+        if (si.live) {
+          html += '<div style="font-size:12px;font-weight:800;color:#FF3B30;min-width:32px;text-align:center">' + m.homeScore + ':' + m.awayScore + '</div>';
+        } else if (si.done) {
+          var gh = wmIsGermany(m.homeTeam)?parseInt(m.homeScore):parseInt(m.awayScore);
+          var go = wmIsGermany(m.homeTeam)?parseInt(m.awayScore):parseInt(m.homeScore);
+          var col = isGer ? (gh>go?'#30D158':gh===go?'#FFD60A':'#FF453A') : 'rgba(255,255,255,0.7)';
+          html += '<div style="font-size:12px;font-weight:700;color:' + col + ';min-width:32px;text-align:center">' + m.homeScore + ':' + m.awayScore + '</div>';
         } else {
-          var t=new Date(ev.date).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Berlin'});
-          scoreStr='<span style="color:var(--text3)">'+t+'</span>';
+          html += '<div style="font-size:10px;color:' + (isToday&&isGer?'#FF9F0A':'rgba(255,255,255,0.35)') + ';min-width:32px;text-align:center">' + wmFormatTime(m.timestamp) + '</div>';
         }
-        var rs = isGer
-          ? 'background:rgba(255,204,0,0.08);border-radius:8px;padding:5px 8px;margin-bottom:3px;border:1px solid rgba(255,204,0,0.15);'
-          : 'padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.04);';
-        html += '<div style="display:flex;align-items:center;gap:6px;'+rs+'">';
-        html += '<span style="flex:1;font-size:12px;'+(isGer?'font-weight:700':'color:var(--text2)')+'">'+((t1.team||{}).displayName||'?')+' vs '+((t2.team||{}).displayName||'?')+badge+'</span>';
-        html += scoreStr+'</div>';
+        html += '<div style="flex:1;font-size:11px;font-weight:' + (isGer?'700':'500') + ';color:' + (isGer&&!isPast?'#FFE566':'rgba(255,255,255,0.8)') + ';text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + aDe + '</div>';
+        html += '<span style="font-size:12px;width:18px;text-align:right">' + wmFlag(m.awayTeam) + '</span>';
+        if (si.live) html += '<span style="font-size:8px;font-weight:800;color:#FF3B30;background:rgba(255,59,48,0.15);border-radius:4px;padding:1px 4px;margin-left:2px">LIVE</span>';
+        html += '</div>';
       });
-      html += '</div>';
     });
-  } else if (!data) {
-    html += '<div style="font-size:10px;color:var(--text3);text-align:center;padding-top:4px">Alle Spieltage: Worker-Update nötig (siehe Chat)</div>';
-  }
+  });
 
-  if (data) {
-    html += '<div style="font-size:10px;color:var(--text3);text-align:center;padding:8px 0 2px">ESPN via r11-wm · ' + new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}) + '</div>';
-  }
-
-  el.innerHTML = html;
+  var meta = document.getElementById('wm-page-meta'); if (meta) meta.textContent = wmMatches.length + ' Spiele · WM 2026';
+  schedEl.style.cssText = '';
+  schedEl.innerHTML = html || '<div style="text-align:center;padding:20px;color:var(--text3)">Keine Spiele gefunden</div>';
 }
 
-// ── Load ──────────────────────────────────────────────────────────────────────
-async function wmLoad() {
-  wmBuildPage(wmPageData); // show instantly
-  wmRenderTile();
-  try {
-    var ctrl = new AbortController();
-    setTimeout(function(){ ctrl.abort(); }, 20000);
-    var res = await fetch('https://r11-wm.cjung41.workers.dev', { signal: ctrl.signal });
-    if (res.ok) {
-      var data = await res.json();
-      wmPageData = data;
-      wmBuildPage(data);
-      wmRenderTile();
+
+// ── WM Phase aus Datum ───────────────────────────
+function wmGetPhase(dateStr) {
+  if (dateStr <= '2026-06-27') return 'Gruppenphase';
+  if (dateStr <= '2026-07-03') return 'Rd. of 32';
+  if (dateStr <= '2026-07-07') return 'Achtelfinale';
+  if (dateStr <= '2026-07-11') return 'Viertelfinale';
+  if (dateStr <= '2026-07-15') return 'Halbfinale';
+  if (dateStr === '2026-07-18') return 'Spiel um Platz 3';
+  return '🏆 Finale';
+}
+
+// ── Push-Benachrichtigungen ──────────────────────
+var _wmNotifTimers = [];
+
+function wmClearNotifTimers() {
+  _wmNotifTimers.forEach(function(t){ clearTimeout(t); });
+  _wmNotifTimers = [];
+}
+
+function wmShowNotif(title, body) {
+  if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+    navigator.serviceWorker.ready.then(function(reg) {
+      reg.showNotification(title, {
+        body: body,
+        icon: '/icon192.png',
+        badge: '/icon192.png',
+        tag: 'germany-match',
+        requireInteraction: true,
+        vibrate: [200, 100, 200]
+      });
+    });
+  } else if (Notification.permission === 'granted') {
+    new Notification(title, { body: body, icon: '/icon192.png' });
+  }
+}
+
+function wmScheduleGermanyNotifs(matches) {
+  if (!('Notification' in window)) return;
+  wmClearNotifTimers();
+
+  var now = new Date();
+  var tomorrow = new Date(now); tomorrow.setDate(now.getDate() + 1);
+  var tomorrowStr = tomorrow.toISOString().slice(0, 10);
+
+  var gerTomorrow = matches.filter(function(m) {
+    return (wmIsGermany(m.homeTeam) || wmIsGermany(m.awayTeam)) && m.date === tomorrowStr;
+  });
+
+  if (!gerTomorrow.length) {
+    wmUpdateNotifBtn(false, null);
+    return;
+  }
+
+  if (Notification.permission !== 'granted') {
+    wmUpdateNotifBtn('pending', gerTomorrow[0]);
+    return;
+  }
+
+  gerTomorrow.forEach(function(m) {
+    var opp = wmIsGermany(m.homeTeam) ? m.awayTeam : m.homeTeam;
+    var phase = wmGetPhase(m.date);
+    var matchTime = new Date(m.timestamp);
+    var timeStr = wmFormatTime(m.timestamp);
+    var flag = wmFlag(opp);
+
+    // Morgens 8h: Reminder
+    var morning = new Date(matchTime); morning.setHours(8, 0, 0, 0);
+    var msMorning = morning - now;
+    if (msMorning > 0 && msMorning < 36 * 3600000) {
+      var t1 = setTimeout(function() {
+        wmShowNotif('⚽ Heute spielt Deutschland!', 'Anstoß ' + timeStr + ' Uhr | ' + phase + ' | 🇩🇪 vs ' + flag + ' ' + opp);
+      }, msMorning);
+      _wmNotifTimers.push(t1);
     }
-  } catch(e) {
-    console.warn('[WM] Worker fetch failed:', e.message);
+
+    // 30 Min vorher
+    var pre30 = new Date(matchTime.getTime() - 30 * 60000);
+    var msPre30 = pre30 - now;
+    if (msPre30 > 0 && msPre30 < 36 * 3600000) {
+      var t2 = setTimeout(function() {
+        wmShowNotif('🇩🇪 In 30 Minuten Anstoß!', phase + ' | Deutschland vs ' + flag + ' ' + opp + ' | Anstoß ' + timeStr + ' Uhr');
+      }, msPre30);
+      _wmNotifTimers.push(t2);
+    }
+
+    // Pünktlich zum Anstoß
+    var msMatch = matchTime - now;
+    if (msMatch > 0 && msMatch < 36 * 3600000) {
+      var t3 = setTimeout(function() {
+        wmShowNotif('🔴 ANSTOSS – Deutschland spielt!', '🇩🇪 vs ' + flag + ' ' + opp + ' | ' + phase + ' | Los gehts!');
+      }, msMatch);
+      _wmNotifTimers.push(t3);
+    }
+  });
+
+  wmUpdateNotifBtn(true, gerTomorrow[0]);
+}
+
+function wmUpdateNotifBtn(active, match) {
+  var btn = document.getElementById('wm-notif-btn');
+  if (!btn) return;
+  if (!match) {
+    btn.style.display = 'none';
+    return;
+  }
+  btn.style.display = 'flex';
+  if (active === 'pending') {
+    btn.innerHTML = '🔔 Push-Benachrichtigung aktivieren';
+    btn.style.background = 'rgba(255,204,0,0.2)';
+    btn.style.borderColor = 'rgba(255,204,0,0.4)';
+    btn.style.color = '#FFD60A';
+    btn.onclick = function() {
+      Notification.requestPermission().then(function(p) {
+        if (p === 'granted') wmScheduleGermanyNotifs(wmMatches);
+      });
+    };
+  } else if (active === true) {
+    var opp = wmIsGermany(match.homeTeam) ? match.awayTeam : match.homeTeam;
+    btn.innerHTML = '🔔 Push aktiv: 🇩🇪 vs ' + wmFlag(opp) + ' ' + opp + ' · ' + wmFormatTime(match.timestamp) + ' Uhr';
+    btn.style.background = 'rgba(48,209,88,0.15)';
+    btn.style.borderColor = 'rgba(48,209,88,0.3)';
+    btn.style.color = '#30D158';
+    btn.onclick = null;
+  } else {
+    btn.style.display = 'none';
   }
 }
 
-function wmRenderPage() { wmBuildPage(wmPageData); }
-function wmRenderFallback() { wmBuildPage(null); }
 function wmStartAutoRefresh() {
   wmStopAutoRefresh();
-  wmLiveCheckTimer = setInterval(function(){
-    var pg = document.getElementById('page-wm');
-    if (pg && pg.classList.contains('active')) wmLoad();
-  }, 30000);
+  wmAutoRefreshTimer = setInterval(function() {
+    const hasLive = wmMatches.some(function(m){ return wmStatusInfo(m.status).live; });
+    if (hasLive) wmLoad(true);
+    else wmLoad(false); // nutzt Cache wenn noch frisch
+  }, 60000);
 }
 function wmStopAutoRefresh() {
-  if (wmLiveCheckTimer) { clearInterval(wmLiveCheckTimer); wmLiveCheckTimer = null; }
+  if (wmAutoRefreshTimer) { clearInterval(wmAutoRefreshTimer); wmAutoRefreshTimer = null; }
+}
+
+
+// ══════════════════════════════════════════════════
+// LICHT: Raumreihenfolge per UI
+// ══════════════════════════════════════════════════
+function hueOpenRoomSettings() {
+  const HIDDEN = ['keller'];
+  const visRooms = hueRooms.filter(r => !HIDDEN.includes((r.metadata?.name||'').toLowerCase()));
+  const sorted = [...visRooms].sort((a,b) => hueRoomOrder(a.metadata?.name) - hueRoomOrder(b.metadata?.name));
+  window._hueSettingsOrder = sorted.map(r => r.metadata?.name || '');
+
+  const rows = sorted.map((r, i) => {
+    const nm = r.metadata?.name || 'Raum';
+    const isFirst = i === 0, isLast = i === sorted.length - 1;
+    return '<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.06)">' +
+      '<span style="flex:1;font-size:14px;font-weight:600">' + nm + '</span>' +
+      '<button ontouchstart="" onclick="hueRoomMoveUp(' + i + ')" style="background:var(--surface2);border:none;border-radius:8px;width:32px;height:32px;color:' + (isFirst?'var(--text3)':'var(--text2)') + ';font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center">' + (isFirst?'·':'↑') + '</button>' +
+      '<button ontouchstart="" onclick="hueRoomMoveDown(' + i + ')" style="background:var(--surface2);border:none;border-radius:8px;width:32px;height:32px;color:' + (isLast?'var(--text3)':'var(--text2)') + ';font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center">' + (isLast?'·':'↓') + '</button>' +
+      '</div>';
+  }).join('');
+
+  document.getElementById('modal-title').textContent = '💡 Räume sortieren';
+  document.getElementById('modal-body').innerHTML =
+    '<div style="font-size:12px;color:var(--text3);margin-bottom:12px">Tippe ↑ / ↓ um Räume zu verschieben. Wird automatisch gespeichert.</div>' +
+    '<div id="hue-sort-list">' + rows + '</div>' +
+    '<button ontouchstart="" onclick="hueResetRoomOrder();closeModal()" style="margin-top:16px;width:100%;background:rgba(255,59,48,0.12);border:1px solid rgba(255,59,48,0.2);border-radius:12px;color:#ff6b6b;font-size:13px;font-weight:600;padding:10px;cursor:pointer">Reihenfolge zurücksetzen</button>';
+  document.getElementById('modal-overlay').classList.add('open');
 }
 
 function hueRoomMoveUp(idx) {
@@ -9330,7 +9656,6 @@ function grSetDate() {
 // Beim App-Start Tile-Countdown + Wetter laden
 setTimeout(function() { grInitCountdown(); grLoadWeather(); grStartClock(); }, 500);
 
-
 </script>
 
 <!-- GAME OVERLAYS -->
@@ -9370,217 +9695,6 @@ setTimeout(function() { grInitCountdown(); grLoadWeather(); grStartClock(); }, 5
     <div id="tado-modal-rooms" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;padding:16px 20px"></div>
   </div>
 </div>
-
-<!-- SONOS JS -->
-<script>
-var SONOS_WORKER='https://r11-sonos.cjung41.workers.dev';
-var sonosHouseholdId=null,sonosGroupId=null,sonosPollTimer=null,_sonosVolTimer=null;
-var _sonosLiked=false,_sonosShuffle=false,_sonosRepeat=false;
-
-function sonosGetToken(){return localStorage.getItem('sonos_access_token');}
-function sonosGetRefresh(){return localStorage.getItem('sonos_refresh_token');}
-function sonosGetExpiry(){return parseInt(localStorage.getItem('sonos_token_expires')||'0');}
-function sonosIsConnected(){return!!sonosGetToken();}
-function sonosSaveTokens(d){
-  localStorage.setItem('sonos_access_token',d.access_token);
-  localStorage.setItem('sonos_refresh_token',d.refresh_token);
-  localStorage.setItem('sonos_token_expires',String(Date.now()+(d.expires_in-60)*1000));
-}
-async function sonosGetValidToken(){
-  if(Date.now()<sonosGetExpiry())return sonosGetToken();
-  var rt=sonosGetRefresh();if(!rt)return null;
-  try{
-    var r=await fetch(SONOS_WORKER+'/sonos/refresh',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({refresh_token:rt})});
-    var d=await r.json();if(d.access_token){sonosSaveTokens(d);return d.access_token;}
-  }catch(e){}
-  return null;
-}
-async function sonosAPI(method,path,body){
-  var token=await sonosGetValidToken();if(!token)throw new Error('no token');
-  var opts={method:method,headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'}};
-  if(body)opts.body=JSON.stringify(body);
-  var res=await fetch(SONOS_WORKER+'/sonos/api/'+path,opts);
-  if(res.status===204)return{};var txt=await res.text();return txt?JSON.parse(txt):{};
-}
-async function sonosStartAuth(){
-  try{
-    var r=await fetch(SONOS_WORKER+'/sonos/auth-url');
-    var d=await r.json();
-    localStorage.setItem('sonos_oauth_state',d.state);
-    window.location.href=d.url;
-  }catch(e){alert('Fehler: '+e.message);}
-}
-async function sonosHandleCallback(code){
-  try{
-    var r=await fetch(SONOS_WORKER+'/sonos/token',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:code})});
-    var d=await r.json();
-    if(d.access_token){sonosSaveTokens(d);localStorage.removeItem('sonos_oauth_state');await sonosInit();showPage('sonos');}
-  }catch(e){console.error('Sonos callback:',e);}
-}
-function sonosDisconnect(){
-  if(sonosPollTimer){clearInterval(sonosPollTimer);sonosPollTimer=null;}
-  ['sonos_access_token','sonos_refresh_token','sonos_token_expires','sonos_household_id','sonos_group_id','sonos_oauth_state'].forEach(function(k){localStorage.removeItem(k);});
-  sonosGroupId=sonosHouseholdId=null;sonosRenderPage();
-}
-function sonosRenderPage(){
-  var cs=document.getElementById('sonos-connect-screen'),sm=document.getElementById('sonos-main');
-  var ok=sonosIsConnected();
-  if(cs)cs.style.display=ok?'none':'flex';
-  if(sm)sm.style.display=ok?'block':'none';
-}
-async function sonosLoadHousehold(){
-  try{
-    var d=await sonosAPI('GET','households');
-    if(d.households&&d.households.length){
-      sonosHouseholdId=d.households[0].id;
-      localStorage.setItem('sonos_household_id',sonosHouseholdId);
-      await Promise.all([sonosLoadGroups(),sonosLoadFavorites()]);
-    }
-  }catch(e){console.error('households:',e);}
-}
-async function sonosLoadGroups(){
-  if(!sonosHouseholdId)return;
-  try{
-    var d=await sonosAPI('GET','households/'+sonosHouseholdId+'/groups');
-    var groups=d.groups||[];
-    var saved=localStorage.getItem('sonos_group_id');
-    if(saved&&groups.find(function(g){return g.id===saved;})){sonosGroupId=saved;}
-    else if(groups.length){sonosGroupId=groups[0].id;localStorage.setItem('sonos_group_id',sonosGroupId);}
-    var list=document.getElementById('sonos-room-list');
-    if(list)list.innerHTML=groups.map(function(g){
-      return'<div class="sonos-room-chip'+(g.id===sonosGroupId?' active':'')+'" onclick="sonosSelectGroup(\''+g.id+'\',this)">'+g.name+'</div>';
-    }).join('');
-    if(sonosGroupId)await sonosLoadPlayback();
-  }catch(e){console.error('groups:',e);}
-}
-async function sonosLoadPlayback(){
-  if(!sonosGroupId)return;
-  try{
-    var pb=await sonosAPI('GET','groups/'+sonosGroupId+'/playback');
-    var vol=await sonosAPI('GET','groups/'+sonosGroupId+'/volume');
-    var playing=pb.playbackState==='PLAYBACK_STATE_PLAYING';
-    var track=pb.currentItem&&pb.currentItem.track;
-    var artUrl=(track&&track.imageUrl)||(track&&track.images&&track.images[0]&&track.images[0].url)||'';
-    var el=function(id){return document.getElementById(id);};
-    if(el('sonos-track'))el('sonos-track').textContent=(track&&track.name)||(playing?'Laeuft...':'Nichts laeuft');
-    if(el('sonos-artist'))el('sonos-artist').textContent=(track&&track.artist&&track.artist.name)||'--';
-    var artEl=el('sonos-art');
-    if(artEl){
-      artEl.innerHTML=artUrl?'<img src="'+artUrl+'" style="width:100%;height:100%;object-fit:cover;border-radius:6px">':'<span style="font-size:60px">&#127925;</span>';
-      artEl.classList.toggle('sonos-art-idle',!playing);
-    }
-    var bgEl=el('sonos-art-bg');if(bgEl&&artUrl)bgEl.style.backgroundImage='url('+artUrl+')';
-    var playBtn=el('sonos-play-btn');
-    if(playBtn){
-      if(playing){
-        playBtn.innerHTML='<svg width="28" height="28" viewBox="0 0 24 24" fill="#000"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
-      }else{
-        playBtn.innerHTML='<svg width="28" height="28" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
-      }
-    }
-    if(el('sonos-volume')&&vol.volume!==undefined)el('sonos-volume').value=vol.volume;
-  }catch(e){console.error('playback:',e);}
-}
-async function sonosLoadFavorites(){
-  if(!sonosHouseholdId)return;
-  try{
-    var d=await sonosAPI('GET','households/'+sonosHouseholdId+'/favorites');
-    var favs=(d.items||[]).slice(0,15);
-    var list=document.getElementById('sonos-favorites');if(!list)return;
-    if(!favs.length){list.innerHTML='<div style="color:rgba(255,255,255,0.3);font-size:13px;padding:30px 0">Keine Favoriten</div>';return;}
-    list.innerHTML=favs.map(function(f){
-      var svc=(f.service&&f.service.name)||'';
-      var img=f.imageUrl||(f.images&&f.images[0]&&f.images[0].url)||'';
-      var icon=svc.toLowerCase().indexOf('radio')>=0?'&#128251;':svc.toLowerCase().indexOf('podcast')>=0?'&#127897;':'&#127925;';
-      var art=img?'<img src="'+img+'" style="width:100%;height:100%;object-fit:cover;border-radius:10px">':icon;
-      return'<div class="sonos-fav-card" onclick="sonosPlayFavorite(\''+f.id+'\')">'
-        +'<div class="sonos-fav-art">'+art+'</div>'
-        +'<div class="sonos-fav-title">'+f.name+'</div>'
-        +'<div class="sonos-fav-sub">'+svc+'</div>'
-        +'</div>';
-    }).join('');
-  }catch(e){console.error('favorites:',e);}
-}
-async function sonosPlayPause(){
-  if(!sonosGroupId)return;
-  try{
-    var pb=await sonosAPI('GET','groups/'+sonosGroupId+'/playback');
-    var p=pb.playbackState==='PLAYBACK_STATE_PLAYING';
-    await sonosAPI('POST','groups/'+sonosGroupId+'/playback/'+(p?'pause':'play'));
-    setTimeout(sonosLoadPlayback,500);
-  }catch(e){}
-}
-async function sonosNext(){
-  if(!sonosGroupId)return;
-  try{await sonosAPI('POST','groups/'+sonosGroupId+'/playback/skipToNextTrack');setTimeout(sonosLoadPlayback,800);}catch(e){}
-}
-async function sonosPrev(){
-  if(!sonosGroupId)return;
-  try{await sonosAPI('POST','groups/'+sonosGroupId+'/playback/skipToPreviousTrack');setTimeout(sonosLoadPlayback,800);}catch(e){}
-}
-function sonosSetVolume(val){
-  clearTimeout(_sonosVolTimer);
-  _sonosVolTimer=setTimeout(async function(){
-    if(!sonosGroupId)return;
-    try{await sonosAPI('POST','groups/'+sonosGroupId+'/volume',{volume:parseInt(val)});}catch(e){}
-  },350);
-}
-async function sonosSelectGroup(groupId,el){
-  sonosGroupId=groupId;localStorage.setItem('sonos_group_id',groupId);
-  document.querySelectorAll('.sonos-room-chip').forEach(function(c){c.classList.remove('active');});
-  el.classList.add('active');
-  await sonosLoadPlayback();
-}
-async function sonosPlayFavorite(favId){
-  if(!sonosGroupId)return;
-  try{
-    await sonosAPI('POST','groups/'+sonosGroupId+'/favorites',{favoriteId:favId,action:'INSERT',playOnCompletion:true});
-    setTimeout(sonosLoadPlayback,1200);
-  }catch(e){}
-}
-function sonosToggleLike(){
-  _sonosLiked=!_sonosLiked;
-  var b=document.getElementById('sonos-like-btn');
-  if(b){b.textContent=_sonosLiked?'♥':'♡';b.classList.toggle('liked',_sonosLiked);}
-}
-async function sonosToggleShuffle(){
-  _sonosShuffle=!_sonosShuffle;
-  var b=document.getElementById('sonos-shuffle-btn');
-  if(b)b.classList.toggle('active-mode',_sonosShuffle);
-  if(!sonosGroupId)return;
-  try{await sonosAPI('POST','groups/'+sonosGroupId+'/playback/playMode',{playMode:{shuffle:_sonosShuffle,repeat:_sonosRepeat?'ALL':'NONE'}});}catch(e){}
-}
-async function sonosToggleRepeat(){
-  _sonosRepeat=!_sonosRepeat;
-  var b=document.getElementById('sonos-repeat-btn');
-  if(b)b.classList.toggle('active-mode',_sonosRepeat);
-  if(!sonosGroupId)return;
-  try{await sonosAPI('POST','groups/'+sonosGroupId+'/playback/playMode',{playMode:{shuffle:_sonosShuffle,repeat:_sonosRepeat?'ALL':'NONE'}});}catch(e){}
-}
-async function sonosSendTTS(){
-  var input=document.getElementById('sonos-tts-text');
-  var text=input&&input.value.trim();if(!text||!sonosHouseholdId)return;
-  var ttsUrl='https://translate.google.com/translate_tts?ie=UTF-8&tl=de&client=tw-ob&q='+encodeURIComponent(text);
-  try{
-    var d=await sonosAPI('GET','households/'+sonosHouseholdId+'/groups');
-    await Promise.all((d.players||[]).map(function(p){
-      return sonosAPI('POST','players/'+p.id+'/audioClip',{name:'R11',appId:'com.r11.dashboard',streamUrl:ttsUrl,volume:45,clipType:'CHIME'});
-    }));
-    if(input)input.value='';
-  }catch(e){}
-}
-async function sonosInit(){
-  sonosRenderPage();if(!sonosIsConnected())return;
-  sonosHouseholdId=localStorage.getItem('sonos_household_id')||null;
-  sonosGroupId=localStorage.getItem('sonos_group_id')||null;
-  await sonosLoadHousehold();
-  if(sonosPollTimer)clearInterval(sonosPollTimer);
-  sonosPollTimer=setInterval(function(){
-    var p=document.getElementById('page-sonos');
-    if(p&&p.classList.contains('active'))sonosLoadPlayback();
-  },10000);
-}
-</script>
 
 </body>
 </html>
