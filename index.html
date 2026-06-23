@@ -636,6 +636,71 @@
   .cc-hue-dot-bri { font-size:9px;font-weight:500;text-align:center; }
   .cc-tile.cc-pille  { background: linear-gradient(135deg, rgba(255,45,150,0.28) 0%, rgba(175,82,222,0.22) 100%); }
   .cc-tile.cc-sonos  { background: rgba(48,209,88,0.20); }
+  /* ── Garten-Kachel ── */
+  .cc-tile.cc-garten { background: linear-gradient(135deg, rgba(76,175,80,0.22) 0%, rgba(27,94,32,0.12) 100%); border-color: rgba(76,175,80,0.18); }
+  .cc-tile.cc-garten::before { background: linear-gradient(90deg, #34C759, #30D158); }
+  .cc-tile.cc-sonos::before  { background: linear-gradient(90deg, #30D158, #1DB954); }
+
+  /* ══ SONOS – Sonos S2 Style ══════════════════════════════════════════ */
+  #page-sonos { padding:0; background:#000; }
+  /* Connect Screen */
+  .sonos-connect-screen { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 32px; text-align:center; min-height:70vh; }
+  .sonos-connect-action { background:#fff; color:#000; border:none; border-radius:999px; padding:15px 44px; font-size:16px; font-weight:700; cursor:pointer; touch-action:manipulation; letter-spacing:-0.2px; }
+  .sonos-connect-action:active { opacity:0.8; }
+  /* Room Strip */
+  .sonos-room-strip { display:flex; gap:8px; padding:12px 16px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; border-bottom:1px solid rgba(255,255,255,0.06); }
+  .sonos-room-strip::-webkit-scrollbar { display:none; }
+  .sonos-room-chip { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.1); border-radius:999px; padding:6px 16px; font-size:13px; font-weight:600; color:rgba(255,255,255,0.6); cursor:pointer; touch-action:manipulation; white-space:nowrap; flex-shrink:0; transition:all 0.15s; }
+  .sonos-room-chip.active { background:#fff; color:#000; border-color:#fff; }
+  /* Album Art */
+  .sonos-art-area { position:relative; width:100%; overflow:hidden; background:#111; display:flex; flex-direction:column; align-items:center; padding:20px 0 0; }
+  .sonos-art-bg { position:absolute; inset:-30px; filter:blur(50px) brightness(0.35) saturate(1.5); background-size:cover; background-position:center; z-index:0; transform:scale(1.2); }
+  .sonos-art-cover { position:relative; z-index:1; width:68%; aspect-ratio:1; background:linear-gradient(145deg,#2a2a2a,#111); border-radius:6px; box-shadow:0 28px 70px rgba(0,0,0,0.85),0 4px 16px rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; font-size:80px; overflow:hidden; }
+  .sonos-art-cover img { width:100%; height:100%; object-fit:cover; border-radius:6px; }
+  /* Track Info */
+  .sonos-track-section { display:flex; align-items:center; padding:20px 20px 4px; gap:12px; }
+  .sonos-track-name { font-size:22px; font-weight:700; letter-spacing:-0.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; flex:1; color:#fff; }
+  .sonos-like-btn { background:none; border:none; font-size:22px; cursor:pointer; touch-action:manipulation; color:rgba(255,255,255,0.4); padding:4px; transition:color 0.15s; -webkit-tap-highlight-color:transparent; flex-shrink:0; }
+  .sonos-like-btn.liked { color:#fff; }
+  .sonos-track-artist { font-size:15px; color:rgba(255,255,255,0.5); padding:0 20px 18px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  /* Progress Bar */
+  .sonos-progress-bar { margin:0 20px 20px; height:3px; background:rgba(255,255,255,0.12); border-radius:2px; cursor:pointer; }
+  .sonos-progress-fill { height:100%; background:#fff; border-radius:2px; width:0%; }
+  /* Controls */
+  .sonos-controls { display:flex; align-items:center; justify-content:space-between; padding:0 24px 18px; }
+  .sonos-ctrl-sm { background:none; border:none; color:rgba(255,255,255,0.6); font-size:22px; cursor:pointer; touch-action:manipulation; padding:10px; -webkit-tap-highlight-color:transparent; transition:opacity 0.12s; line-height:1; }
+  .sonos-ctrl-sm:active { opacity:0.3; }
+  .sonos-ctrl-sm.active-mode { color:#fff; }
+  .sonos-play-btn { width:70px; height:70px; border-radius:50%; background:#fff; color:#000; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; touch-action:manipulation; transition:transform 0.1s,opacity 0.12s; box-shadow:0 6px 28px rgba(255,255,255,0.18); flex-shrink:0; }
+  .sonos-play-btn:active { transform:scale(0.88); opacity:0.85; }
+  .sonos-play-icon { width:28px; height:28px; }
+  /* Volume */
+  .sonos-volume-wrap { display:flex; align-items:center; gap:10px; padding:0 20px 22px; }
+  .sonos-vol-svg { color:rgba(255,255,255,0.38); flex-shrink:0; }
+  .sonos-volume-slider { flex:1; -webkit-appearance:none; appearance:none; height:3px; border-radius:2px; background:rgba(255,255,255,0.18); outline:none; cursor:pointer; }
+  .sonos-volume-slider::-webkit-slider-thumb { -webkit-appearance:none; width:17px; height:17px; border-radius:50%; background:#fff; cursor:pointer; box-shadow:0 1px 6px rgba(0,0,0,0.5); }
+  /* Divider */
+  .sonos-divider { height:1px; background:rgba(255,255,255,0.07); margin:0 0 16px; }
+  /* Section Label */
+  .sonos-sec-label { font-size:11px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:rgba(255,255,255,0.35); padding:0 16px 10px; }
+  /* Favorites – horizontal scroll cards */
+  .sonos-fav-scroll { display:flex; gap:14px; padding:0 16px 20px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+  .sonos-fav-scroll::-webkit-scrollbar { display:none; }
+  .sonos-fav-card { flex-shrink:0; width:128px; cursor:pointer; touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
+  .sonos-fav-card:active .sonos-fav-art { opacity:0.55; }
+  .sonos-fav-art { width:128px; height:128px; border-radius:10px; background:rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:center; font-size:48px; margin-bottom:8px; overflow:hidden; transition:opacity 0.15s; }
+  .sonos-fav-art img { width:100%; height:100%; object-fit:cover; border-radius:10px; }
+  .sonos-fav-title { font-size:12px; font-weight:600; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .sonos-fav-sub { font-size:11px; color:rgba(255,255,255,0.38); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:2px; }
+  /* TTS */
+  .sonos-tts-wrap { padding:0 16px 16px; }
+  .sonos-tts-row { display:flex; gap:8px; }
+  .sonos-tts-input { flex:1; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.1); color:#fff; border-radius:12px; padding:11px 14px; font-size:14px; outline:none; font-family:inherit; }
+  .sonos-tts-input::placeholder { color:rgba(255,255,255,0.28); }
+  .sonos-tts-btn { background:rgba(255,255,255,0.09); border:1px solid rgba(255,255,255,0.15); color:#fff; border-radius:12px; padding:11px 18px; font-size:20px; cursor:pointer; touch-action:manipulation; }
+  /* Art placeholder animation */
+  @keyframes sonosPulse { 0%,100%{opacity:0.5} 50%{opacity:0.9} }
+  .sonos-art-idle { animation:sonosPulse 2.5s ease-in-out infinite; }
 
   /* ── Design-Refresh: Tile Akzent-Streifen ── */
   .cc-tile::before { content:''; position:absolute; top:0; left:16px; right:16px; height:2px; border-radius:0 0 2px 2px; opacity:0.55; }
@@ -1778,6 +1843,12 @@ textarea.note-area { min-height: 100px; resize: vertical; }
           <div class="cc-status" id="ebike-home-sub">Tippen zum Verbinden</div>
           <div id="ebike-home-bar" style="display:none"><div class="batt-body"><div class="batt-fill" id="ebike-fill" style="width:0%"></div></div><span id="ebike-pct-text"></span></div>
         </div>
+        <!-- Garten -->
+        <div class="cc-tile cc-garten" ontouchstart="" onclick="showPage('garten')" style="cursor:pointer">
+          <div class="cc-icon">🌱</div>
+          <div class="cc-name">Garten</div>
+          <div class="cc-status">Pool · Tipps · Notizen</div>
+        </div>
       </div>
       <!-- Müll + Kalender -->
       <div class="home-duo">
@@ -2458,6 +2529,99 @@ textarea.note-area { min-height: 100px; resize: vertical; }
       </div>
     </div>
 
+    <!-- ══ SONOS ══ -->
+    <div class="page" id="page-sonos" style="padding:0;background:#000">
+
+      <!-- Connect-Screen -->
+      <div id="sonos-connect-screen" class="sonos-connect-screen">
+        <div style="width:88px;height:88px;background:rgba(255,255,255,0.06);border-radius:26px;display:flex;align-items:center;justify-content:center;margin-bottom:26px">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><circle cx="9" cy="12" r="7"/><path d="M15.5 8.5c1.5 1.1 2.5 2.8 2.5 3.5s-1 2.4-2.5 3.5"/><path d="M19.5 5.5c3 2.2 4.5 5 4.5 6.5s-1.5 4.3-4.5 6.5"/></svg>
+        </div>
+        <div style="font-size:26px;font-weight:700;letter-spacing:-0.5px;margin-bottom:10px;color:#fff">Sonos</div>
+        <div style="font-size:15px;color:rgba(255,255,255,0.45);margin-bottom:40px;line-height:1.65;max-width:260px">Verbinde dein System um Musik zu steuern, Räume zu wählen und Favoriten zu spielen.</div>
+        <button class="sonos-connect-action" onclick="sonosStartAuth()">Verbinden</button>
+      </div>
+
+      <!-- Haupt-UI -->
+      <div id="sonos-main" style="display:none;overflow-y:auto;height:100%;padding-bottom:calc(var(--bottom-nav)+12px)">
+
+        <!-- Raum-Strip (horizontal scroll) -->
+        <div class="sonos-room-strip" id="sonos-room-list">
+          <div style="color:rgba(255,255,255,0.3);font-size:13px;padding:6px 0">Lade Räume…</div>
+        </div>
+
+        <!-- Album Art Bereich -->
+        <div class="sonos-art-area" style="padding:24px 0 20px">
+          <div class="sonos-art-bg" id="sonos-art-bg" style="background:#1a1a2e"></div>
+          <div class="sonos-art-cover sonos-art-idle" id="sonos-art">🎵</div>
+        </div>
+
+        <!-- Track Info -->
+        <div class="sonos-track-section">
+          <div style="flex:1;min-width:0">
+            <div class="sonos-track-name" id="sonos-track">Nichts läuft</div>
+          </div>
+          <button class="sonos-like-btn" id="sonos-like-btn" onclick="sonosToggleLike()">♡</button>
+        </div>
+        <div class="sonos-track-artist" id="sonos-artist">—</div>
+
+        <!-- Progress -->
+        <div class="sonos-progress-bar"><div class="sonos-progress-fill" id="sonos-progress" style="width:0%"></div></div>
+
+        <!-- Steuerung -->
+        <div class="sonos-controls">
+          <button class="sonos-ctrl-sm" id="sonos-shuffle-btn" onclick="sonosToggleShuffle()" title="Zufallswiedergabe">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
+          </button>
+          <button class="sonos-ctrl-sm" onclick="sonosPrev()">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="2"/></svg>
+          </button>
+          <button class="sonos-play-btn" id="sonos-play-btn" onclick="sonosPlayPause()">
+            <svg class="sonos-play-icon" id="sonos-play-icon" viewBox="0 0 24 24" fill="#000"><polygon id="sonos-play-poly" points="5 3 19 12 5 21 5 3"/></svg>
+          </button>
+          <button class="sonos-ctrl-sm" onclick="sonosNext()">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2"/></svg>
+          </button>
+          <button class="sonos-ctrl-sm" id="sonos-repeat-btn" onclick="sonosToggleRepeat()" title="Wiederholen">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+          </button>
+        </div>
+
+        <!-- Lautstärke -->
+        <div class="sonos-volume-wrap">
+          <svg class="sonos-vol-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/></svg>
+          <input type="range" class="sonos-volume-slider" id="sonos-volume" min="0" max="100" value="50" oninput="sonosSetVolume(this.value)">
+          <svg class="sonos-vol-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/><path d="M19.07 4.93a10 10 0 010 14.14"/></svg>
+        </div>
+
+        <div class="sonos-divider"></div>
+
+        <!-- Favoriten -->
+        <div class="sonos-sec-label">Meine Favoriten</div>
+        <div class="sonos-fav-scroll" id="sonos-favorites">
+          <div style="color:rgba(255,255,255,0.3);font-size:13px;padding:40px 0;white-space:nowrap">Lade Favoriten…</div>
+        </div>
+
+        <div class="sonos-divider"></div>
+
+        <!-- Durchsage -->
+        <div class="sonos-sec-label">Durchsage</div>
+        <div class="sonos-tts-wrap">
+          <div class="sonos-tts-row">
+            <input type="text" class="sonos-tts-input" id="sonos-tts-text" placeholder="Nachricht ans Haus…">
+            <button class="sonos-tts-btn" onclick="sonosSendTTS()">📢</button>
+          </div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.25);margin-top:7px">Unterbricht kurz die Musik auf allen Speakern</div>
+        </div>
+
+        <!-- Verbindung trennen -->
+        <div style="text-align:center;padding:4px 0 8px">
+          <button onclick="sonosDisconnect()" style="background:none;border:none;color:rgba(255,255,255,0.2);font-size:12px;cursor:pointer;touch-action:manipulation;padding:8px">Sonos trennen</button>
+        </div>
+
+      </div>
+    </div>
+
     <!-- ══ KALENDER ══ -->
     <div class="page" id="page-kalender">
       <div class="page-header">
@@ -2599,9 +2763,9 @@ textarea.note-area { min-height: 100px; resize: vertical; }
       <span class="nav-icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
       <span>Schloss</span>
     </button>
-    <button class="nav-btn" onclick="showPage('garten')" id="nav-garten">
-      <span class="nav-icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22V12"/><path d="M12 12C12 7 7 4 3 6c4 0 7 3 9 6"/><path d="M12 12c0-5 5-8 9-6-4 0-7 3-9 6"/></svg></span>
-      <span>Garten</span>
+    <button class="nav-btn" onclick="showPage('sonos')" id="nav-sonos">
+      <span class="nav-icon-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="12" r="7"/><path d="M15.5 8.5c1.5 1 2.5 2.8 2.5 3.5s-1 2.5-2.5 3.5"/><path d="M19 5c3 2 5 5.5 5 7s-2 5-5 7"/></svg></span>
+      <span>Speaker</span>
     </button>
   </nav>
 </div>
@@ -2865,6 +3029,7 @@ function showPage(id) {
   if (id !== 'wm') { wmStopAutoRefresh(); }
   if (id === 'pille') { pilleRender(); }
   if (id === 'schloss') { nukiLoadPage(); }
+  if (id === 'sonos') { sonosRenderPage(); if (sonosIsConnected()) { sonosLoadGroups(); } }
   if (id === 'heizung') {
     var _mo = document.getElementById('modal-overlay'); if (_mo) _mo.classList.remove('open');
     var _tm = document.getElementById('tado-modal');    if (_tm) _tm.classList.remove('open');
@@ -6471,7 +6636,8 @@ const NUKI_TOKEN = '0cc49b58b48f668a36b6d4860ff59056559cea1024c61dfbdf4f35d39038
 var nukiSmartlockId    = null;
 var nukiDoorOpenTimer  = null;   // 30s Alarm-Timer
 var nukiDoorFastPoll   = null;   // schnelles Poll-Interval wenn Tür offen (1s)
-var nukiBgPoll         = null;   // Hintergrund-Poll im Normalzustand (5s)
+var nukiBgPoll         = null;   // Hintergrund-Poll im Normalzustand (30s)
+var nukiFirstLoadDone  = false;  // wurde beim Start erfolgreich geladen?
 var nukiDoorAlertSent  = false;  // damit nicht mehrfach gesendet wird
 
 function nukiDoorOpenAlert() {
@@ -6509,7 +6675,7 @@ function nukiStopFastPoll() {
 
 function fetchNukiStatus() {
   var _nCtrl = new AbortController();
-  var _nTmt  = setTimeout(function(){ _nCtrl.abort(); }, 8000);
+  var _nTmt  = setTimeout(function(){ _nCtrl.abort(); }, 15000); // 15s – CF Worker Cold Start
   fetch('https://r11-nuki.cjung41.workers.dev/smartlock', {
     headers: { 'Authorization': 'Bearer ' + NUKI_TOKEN },
     signal: _nCtrl.signal
@@ -6574,8 +6740,23 @@ function fetchNukiStatus() {
 
     // Tür-Alarm Logik
     nukiHandleDoorState(doorState);
+
+    // Erster Load erfolgreich – normales Intervall starten
+    if (!nukiFirstLoadDone) {
+      nukiFirstLoadDone = true;
+      if (!nukiBgPoll && !nukiDoorFastPoll) {
+        nukiBgPoll = setInterval(fetchNukiStatus, 30000);
+      }
+    }
   })
-  .catch(function(e){ clearTimeout(_nTmt); console.warn('Nuki:', e && e.name === 'AbortError' ? 'Timeout' : e); });
+  .catch(function(e) {
+    clearTimeout(_nTmt);
+    console.warn('Nuki:', e && e.name === 'AbortError' ? 'Timeout/Cold-Start' : e);
+    // Noch nicht erfolgreich geladen → in 5s nochmal versuchen
+    if (!nukiFirstLoadDone && !nukiDoorFastPoll) {
+      setTimeout(fetchNukiStatus, 5000);
+    }
+  });
 }
 
 function nukiHandleDoorState(doorState) {
@@ -8101,6 +8282,14 @@ async function tadoOffAll() {
 // INIT
 // ════════════════════
 function init() {
+  // Sonos OAuth Callback? (kommt als ?code= in der URL)
+  const _sqp = new URLSearchParams(window.location.search);
+  const _sonosCode = _sqp.get('code');
+  if (_sonosCode && localStorage.getItem('sonos_oauth_state')) {
+    window.history.replaceState({}, '', window.location.pathname);
+    sonosHandleCallback(_sonosCode); // async, läuft im Hintergrund
+  }
+
   // OAuth Callback von Hue? — Worker macht Token-Exchange server-seitig
   const _hashParams  = new URLSearchParams(window.location.hash.slice(1));
   // hue_config wird synchron VOR init() verarbeitet (s.o.) – hier nur noch Legacy
@@ -8156,29 +8345,24 @@ function init() {
       var _age = Date.now() - (_ns.ts || 0);
       if (_age < 24 * 3600 * 1000) { // max 24h alt
         var _di = _ns.doorState === 2 ? '🔒' : _ns.doorState === 3 ? '🔓' : '🔐';
-        var _dt = _ns.doorState === 2 ? 'Zu' : _ns.doorState === 3 ? 'Auf' : '?';
+        var _dt = _ns.doorState === 2 ? 'Tür zu' : _ns.doorState === 3 ? 'Tür auf' : '?';
         var _dc = _ns.doorState === 2 ? '#30D158' : _ns.doorState === 3 ? '#FF453A' : 'var(--text2)';
         var _lt = _ns.lockState === 1 ? '🔒 gesperrt' : (_ns.lockState === 3 || _ns.lockState === 5) ? '🔓 offen' : '…';
-        var _ti = document.getElementById('nuki-tile-icon'); if (_ti) _ti.textContent = _di;
-        var _lh = _ns.lockState === 1
-          ? '<span style="color:#30D158">🔒</span>'
-          : (_ns.lockState === 3 || _ns.lockState === 5)
-            ? '<span style="font-size:28px;color:#FF9F0A;filter:drop-shadow(0 0 6px rgba(255,159,10,0.7))">🔓</span>'
-            : '<span style="color:var(--text2)">🔐</span>';
-        var _dt = _ns.doorState === 2 ? 'Zu' : _ns.doorState === 3 ? 'Auf' : '?';
-        var _dc = _ns.doorState === 2 ? '#30D158' : _ns.doorState === 3 ? '#FF453A' : 'var(--text2)';
-        var _ti = document.getElementById('nuki-tile-icon'); if (_ti) _ti.innerHTML = _lh;
+        var _lk = _ns.lockState === 1 ? '🔒' : (_ns.lockState === 3 || _ns.lockState === 5) ? '🔓' : '🔐';
+        var _ti = document.getElementById('nuki-tile-icon'); if (_ti) _ti.textContent = _lk;
         var _td = document.getElementById('nuki-tile-door'); if (_td) { _td.textContent = _dt; _td.style.color = _dc; }
         var _tl = document.getElementById('nuki-tile-lock'); if (_tl) _tl.style.display = 'none';
-        var _hi = document.getElementById('nuki-hero-icon'); if (_hi) _hi.innerHTML = _lh;
+        var _hi = document.getElementById('nuki-hero-icon');
+        if (_hi) { _hi.textContent = _lk; _hi.style.fontSize = _ns.doorState === 3 ? '22px' : '16px'; _hi.style.filter = _ns.doorState === 3 ? 'drop-shadow(0 0 4px #FF453A)' : 'none'; }
         var _hv = document.getElementById('nuki-hero-val');  if (_hv) { _hv.textContent = _dt; _hv.style.color = _dc; }
       }
     }
   } catch(e) {}
+  // Nuki: sofort laden, retry-until-success im catch(), danach 30s Intervall
   fetchNukiStatus();
-  setTimeout(fetchNukiStatus, 6000);    // Retry – CF Worker kalt beim ersten Load
-  setTimeout(fetchNukiStatus, 20000);   // Retry 2
-  setInterval(fetchNukiStatus, 30000);  // Home-Kachel: alle 30s (Schloss-Seite hat 1s-Polling)
+
+  // Sonos im Hintergrund initialisieren
+  sonosInit().catch(function(){});
 
   renderEbikeTile();
   if (boschIsConnected()) {
@@ -8903,7 +9087,7 @@ function wmBuildPage(data) {
   // ── Punktestand ──
   var done = games.filter(function(g){ return g.completed; });
   var pts = done.reduce(function(s,g){ return s + (g.gerScore>g.oppScore?3:g.gerScore===g.oppScore?1:0); }, 0);
-  var gf  = done.reduce(function(s,g){ return s+(g.gerScore||0); }, 0);
+  var gf  = done.reduce(f  var gf  = done.reduce(function(s,g){ return s+(g.gerScore||0); }, 0);
   var ga  = done.reduce(function(s,g){ return s+(g.oppScore||0); }, 0);
 
   html += '<div style="background:rgba(255,255,255,0.05);border-radius:14px;padding:12px 16px;display:flex;justify-content:space-around;text-align:center;margin-bottom:16px">';
@@ -9146,11 +9330,6 @@ function grSetDate() {
 // Beim App-Start Tile-Countdown + Wetter laden
 setTimeout(function() { grInitCountdown(); grLoadWeather(); grStartClock(); }, 500);
 
-// Nuki beim Start laden, dann Hintergrund-Poll alle 5s starten
-setTimeout(function() {
-  fetchNukiStatus();
-  nukiBgPoll = setInterval(fetchNukiStatus, 5000);
-}, 800);
 
 </script>
 
@@ -9191,6 +9370,217 @@ setTimeout(function() {
     <div id="tado-modal-rooms" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;padding:16px 20px"></div>
   </div>
 </div>
+
+<!-- SONOS JS -->
+<script>
+var SONOS_WORKER='https://r11-sonos.cjung41.workers.dev';
+var sonosHouseholdId=null,sonosGroupId=null,sonosPollTimer=null,_sonosVolTimer=null;
+var _sonosLiked=false,_sonosShuffle=false,_sonosRepeat=false;
+
+function sonosGetToken(){return localStorage.getItem('sonos_access_token');}
+function sonosGetRefresh(){return localStorage.getItem('sonos_refresh_token');}
+function sonosGetExpiry(){return parseInt(localStorage.getItem('sonos_token_expires')||'0');}
+function sonosIsConnected(){return!!sonosGetToken();}
+function sonosSaveTokens(d){
+  localStorage.setItem('sonos_access_token',d.access_token);
+  localStorage.setItem('sonos_refresh_token',d.refresh_token);
+  localStorage.setItem('sonos_token_expires',String(Date.now()+(d.expires_in-60)*1000));
+}
+async function sonosGetValidToken(){
+  if(Date.now()<sonosGetExpiry())return sonosGetToken();
+  var rt=sonosGetRefresh();if(!rt)return null;
+  try{
+    var r=await fetch(SONOS_WORKER+'/sonos/refresh',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({refresh_token:rt})});
+    var d=await r.json();if(d.access_token){sonosSaveTokens(d);return d.access_token;}
+  }catch(e){}
+  return null;
+}
+async function sonosAPI(method,path,body){
+  var token=await sonosGetValidToken();if(!token)throw new Error('no token');
+  var opts={method:method,headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'}};
+  if(body)opts.body=JSON.stringify(body);
+  var res=await fetch(SONOS_WORKER+'/sonos/api/'+path,opts);
+  if(res.status===204)return{};var txt=await res.text();return txt?JSON.parse(txt):{};
+}
+async function sonosStartAuth(){
+  try{
+    var r=await fetch(SONOS_WORKER+'/sonos/auth-url');
+    var d=await r.json();
+    localStorage.setItem('sonos_oauth_state',d.state);
+    window.location.href=d.url;
+  }catch(e){alert('Fehler: '+e.message);}
+}
+async function sonosHandleCallback(code){
+  try{
+    var r=await fetch(SONOS_WORKER+'/sonos/token',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:code})});
+    var d=await r.json();
+    if(d.access_token){sonosSaveTokens(d);localStorage.removeItem('sonos_oauth_state');await sonosInit();showPage('sonos');}
+  }catch(e){console.error('Sonos callback:',e);}
+}
+function sonosDisconnect(){
+  if(sonosPollTimer){clearInterval(sonosPollTimer);sonosPollTimer=null;}
+  ['sonos_access_token','sonos_refresh_token','sonos_token_expires','sonos_household_id','sonos_group_id','sonos_oauth_state'].forEach(function(k){localStorage.removeItem(k);});
+  sonosGroupId=sonosHouseholdId=null;sonosRenderPage();
+}
+function sonosRenderPage(){
+  var cs=document.getElementById('sonos-connect-screen'),sm=document.getElementById('sonos-main');
+  var ok=sonosIsConnected();
+  if(cs)cs.style.display=ok?'none':'flex';
+  if(sm)sm.style.display=ok?'block':'none';
+}
+async function sonosLoadHousehold(){
+  try{
+    var d=await sonosAPI('GET','households');
+    if(d.households&&d.households.length){
+      sonosHouseholdId=d.households[0].id;
+      localStorage.setItem('sonos_household_id',sonosHouseholdId);
+      await Promise.all([sonosLoadGroups(),sonosLoadFavorites()]);
+    }
+  }catch(e){console.error('households:',e);}
+}
+async function sonosLoadGroups(){
+  if(!sonosHouseholdId)return;
+  try{
+    var d=await sonosAPI('GET','households/'+sonosHouseholdId+'/groups');
+    var groups=d.groups||[];
+    var saved=localStorage.getItem('sonos_group_id');
+    if(saved&&groups.find(function(g){return g.id===saved;})){sonosGroupId=saved;}
+    else if(groups.length){sonosGroupId=groups[0].id;localStorage.setItem('sonos_group_id',sonosGroupId);}
+    var list=document.getElementById('sonos-room-list');
+    if(list)list.innerHTML=groups.map(function(g){
+      return'<div class="sonos-room-chip'+(g.id===sonosGroupId?' active':'')+'" onclick="sonosSelectGroup(''+g.id+'',this)">'+g.name+'</div>';
+    }).join('');
+    if(sonosGroupId)await sonosLoadPlayback();
+  }catch(e){console.error('groups:',e);}
+}
+async function sonosLoadPlayback(){
+  if(!sonosGroupId)return;
+  try{
+    var pb=await sonosAPI('GET','groups/'+sonosGroupId+'/playback');
+    var vol=await sonosAPI('GET','groups/'+sonosGroupId+'/volume');
+    var playing=pb.playbackState==='PLAYBACK_STATE_PLAYING';
+    var track=pb.currentItem&&pb.currentItem.track;
+    var artUrl=(track&&track.imageUrl)||(track&&track.images&&track.images[0]&&track.images[0].url)||'';
+    var el=function(id){return document.getElementById(id);};
+    if(el('sonos-track'))el('sonos-track').textContent=(track&&track.name)||(playing?'Laeuft...':'Nichts laeuft');
+    if(el('sonos-artist'))el('sonos-artist').textContent=(track&&track.artist&&track.artist.name)||'--';
+    var artEl=el('sonos-art');
+    if(artEl){
+      artEl.innerHTML=artUrl?'<img src="'+artUrl+'" style="width:100%;height:100%;object-fit:cover;border-radius:6px">':'<span style="font-size:60px">&#127925;</span>';
+      artEl.classList.toggle('sonos-art-idle',!playing);
+    }
+    var bgEl=el('sonos-art-bg');if(bgEl&&artUrl)bgEl.style.backgroundImage='url('+artUrl+')';
+    var playBtn=el('sonos-play-btn');
+    if(playBtn){
+      if(playing){
+        playBtn.innerHTML='<svg width="28" height="28" viewBox="0 0 24 24" fill="#000"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
+      }else{
+        playBtn.innerHTML='<svg width="28" height="28" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
+      }
+    }
+    if(el('sonos-volume')&&vol.volume!==undefined)el('sonos-volume').value=vol.volume;
+  }catch(e){console.error('playback:',e);}
+}
+async function sonosLoadFavorites(){
+  if(!sonosHouseholdId)return;
+  try{
+    var d=await sonosAPI('GET','households/'+sonosHouseholdId+'/favorites');
+    var favs=(d.items||[]).slice(0,15);
+    var list=document.getElementById('sonos-favorites');if(!list)return;
+    if(!favs.length){list.innerHTML='<div style="color:rgba(255,255,255,0.3);font-size:13px;padding:30px 0">Keine Favoriten</div>';return;}
+    list.innerHTML=favs.map(function(f){
+      var svc=(f.service&&f.service.name)||'';
+      var img=f.imageUrl||(f.images&&f.images[0]&&f.images[0].url)||'';
+      var icon=svc.toLowerCase().indexOf('radio')>=0?'&#128251;':svc.toLowerCase().indexOf('podcast')>=0?'&#127897;':'&#127925;';
+      var art=img?'<img src="'+img+'" style="width:100%;height:100%;object-fit:cover;border-radius:10px">':icon;
+      return'<div class="sonos-fav-card" onclick="sonosPlayFavorite(''+f.id+'')">'
+        +'<div class="sonos-fav-art">'+art+'</div>'
+        +'<div class="sonos-fav-title">'+f.name+'</div>'
+        +'<div class="sonos-fav-sub">'+svc+'</div>'
+        +'</div>';
+    }).join('');
+  }catch(e){console.error('favorites:',e);}
+}
+async function sonosPlayPause(){
+  if(!sonosGroupId)return;
+  try{
+    var pb=await sonosAPI('GET','groups/'+sonosGroupId+'/playback');
+    var p=pb.playbackState==='PLAYBACK_STATE_PLAYING';
+    await sonosAPI('POST','groups/'+sonosGroupId+'/playback/'+(p?'pause':'play'));
+    setTimeout(sonosLoadPlayback,500);
+  }catch(e){}
+}
+async function sonosNext(){
+  if(!sonosGroupId)return;
+  try{await sonosAPI('POST','groups/'+sonosGroupId+'/playback/skipToNextTrack');setTimeout(sonosLoadPlayback,800);}catch(e){}
+}
+async function sonosPrev(){
+  if(!sonosGroupId)return;
+  try{await sonosAPI('POST','groups/'+sonosGroupId+'/playback/skipToPreviousTrack');setTimeout(sonosLoadPlayback,800);}catch(e){}
+}
+function sonosSetVolume(val){
+  clearTimeout(_sonosVolTimer);
+  _sonosVolTimer=setTimeout(async function(){
+    if(!sonosGroupId)return;
+    try{await sonosAPI('POST','groups/'+sonosGroupId+'/volume',{volume:parseInt(val)});}catch(e){}
+  },350);
+}
+async function sonosSelectGroup(groupId,el){
+  sonosGroupId=groupId;localStorage.setItem('sonos_group_id',groupId);
+  document.querySelectorAll('.sonos-room-chip').forEach(function(c){c.classList.remove('active');});
+  el.classList.add('active');
+  await sonosLoadPlayback();
+}
+async function sonosPlayFavorite(favId){
+  if(!sonosGroupId)return;
+  try{
+    await sonosAPI('POST','groups/'+sonosGroupId+'/favorites',{favoriteId:favId,action:'INSERT',playOnCompletion:true});
+    setTimeout(sonosLoadPlayback,1200);
+  }catch(e){}
+}
+function sonosToggleLike(){
+  _sonosLiked=!_sonosLiked;
+  var b=document.getElementById('sonos-like-btn');
+  if(b){b.textContent=_sonosLiked?'♥':'♡';b.classList.toggle('liked',_sonosLiked);}
+}
+async function sonosToggleShuffle(){
+  _sonosShuffle=!_sonosShuffle;
+  var b=document.getElementById('sonos-shuffle-btn');
+  if(b)b.classList.toggle('active-mode',_sonosShuffle);
+  if(!sonosGroupId)return;
+  try{await sonosAPI('POST','groups/'+sonosGroupId+'/playback/playMode',{playMode:{shuffle:_sonosShuffle,repeat:_sonosRepeat?'ALL':'NONE'}});}catch(e){}
+}
+async function sonosToggleRepeat(){
+  _sonosRepeat=!_sonosRepeat;
+  var b=document.getElementById('sonos-repeat-btn');
+  if(b)b.classList.toggle('active-mode',_sonosRepeat);
+  if(!sonosGroupId)return;
+  try{await sonosAPI('POST','groups/'+sonosGroupId+'/playback/playMode',{playMode:{shuffle:_sonosShuffle,repeat:_sonosRepeat?'ALL':'NONE'}});}catch(e){}
+}
+async function sonosSendTTS(){
+  var input=document.getElementById('sonos-tts-text');
+  var text=input&&input.value.trim();if(!text||!sonosHouseholdId)return;
+  var ttsUrl='https://translate.google.com/translate_tts?ie=UTF-8&tl=de&client=tw-ob&q='+encodeURIComponent(text);
+  try{
+    var d=await sonosAPI('GET','households/'+sonosHouseholdId+'/groups');
+    await Promise.all((d.players||[]).map(function(p){
+      return sonosAPI('POST','players/'+p.id+'/audioClip',{name:'R11',appId:'com.r11.dashboard',streamUrl:ttsUrl,volume:45,clipType:'CHIME'});
+    }));
+    if(input)input.value='';
+  }catch(e){}
+}
+async function sonosInit(){
+  sonosRenderPage();if(!sonosIsConnected())return;
+  sonosHouseholdId=localStorage.getItem('sonos_household_id')||null;
+  sonosGroupId=localStorage.getItem('sonos_group_id')||null;
+  await sonosLoadHousehold();
+  if(sonosPollTimer)clearInterval(sonosPollTimer);
+  sonosPollTimer=setInterval(function(){
+    var p=document.getElementById('page-sonos');
+    if(p&&p.classList.contains('active'))sonosLoadPlayback();
+  },10000);
+}
+</script>
 
 </body>
 </html>
