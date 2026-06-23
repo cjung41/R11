@@ -6527,11 +6527,11 @@ function fetchNukiStatus() {
     // door: 2=closed, 3=open, 1=deactivated, 4=unknown
     var doorIcon, doorText, doorColor;
     if (doorState === 2) {
-      doorIcon = '🔒'; doorText = 'Zu'; doorColor = '#30D158';
+      doorIcon = '🔒'; doorText = 'Tür zu'; doorColor = '#30D158';
     } else if (doorState === 3) {
-      doorIcon = '🔓'; doorText = 'Auf'; doorColor = '#FF453A';
+      doorIcon = '🔓'; doorText = 'Tür auf'; doorColor = '#FF453A';
     } else {
-      doorIcon = '🔐'; doorText = '?'; doorColor = 'var(--text2)';
+      doorIcon = '🔐'; doorText = 'Tür ?'; doorColor = 'var(--text2)';
     }
 
     // lock: 1=locked, 3=unlocked, 5=unlatched
@@ -6556,8 +6556,14 @@ function fetchNukiStatus() {
     // Hero: Icon = Schloss-Zustand, Val = Tür-Sensor
     var heroIcon = document.getElementById('nuki-hero-icon');
     var heroVal  = document.getElementById('nuki-hero-val');
-    if (heroIcon) heroIcon.textContent = lockIcon;
-    if (heroVal)  { heroVal.textContent = doorText; heroVal.style.color = doorColor; }
+    var isDoorOpen = (doorState === 3);
+    if (heroIcon) {
+      heroIcon.textContent = lockIcon;
+      // Offen = größer + rot damit man's sofort sieht
+      heroIcon.style.fontSize  = isDoorOpen ? '22px' : '16px';
+      heroIcon.style.filter    = isDoorOpen ? 'drop-shadow(0 0 4px #FF453A)' : 'none';
+    }
+    if (heroVal) { heroVal.textContent = doorText; heroVal.style.color = doorColor; }
 
     // Settings pill
     var pill = document.getElementById('nuki-status');
