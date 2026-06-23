@@ -9448,7 +9448,7 @@ async function sonosLoadGroups(){
     else if(groups.length){sonosGroupId=groups[0].id;localStorage.setItem('sonos_group_id',sonosGroupId);}
     var list=document.getElementById('sonos-room-list');
     if(list)list.innerHTML=groups.map(function(g){
-      return'<div class="sonos-room-chip'+(g.id===sonosGroupId?' active':'')+'" onclick="sonosSelectGroup(''+g.id+'',this)">'+g.name+'</div>';
+      return'<div class="sonos-room-chip'+(g.id===sonosGroupId?' active':'')+'" onclick="sonosSelectGroup(\''+g.id+'\',this)">'+g.name+'</div>';
     }).join('');
     if(sonosGroupId)await sonosLoadPlayback();
   }catch(e){console.error('groups:',e);}
@@ -9493,7 +9493,7 @@ async function sonosLoadFavorites(){
       var img=f.imageUrl||(f.images&&f.images[0]&&f.images[0].url)||'';
       var icon=svc.toLowerCase().indexOf('radio')>=0?'&#128251;':svc.toLowerCase().indexOf('podcast')>=0?'&#127897;':'&#127925;';
       var art=img?'<img src="'+img+'" style="width:100%;height:100%;object-fit:cover;border-radius:10px">':icon;
-      return'<div class="sonos-fav-card" onclick="sonosPlayFavorite(''+f.id+'')">'
+      return'<div class="sonos-fav-card" onclick="sonosPlayFavorite(\''+f.id+'\')">'
         +'<div class="sonos-fav-art">'+art+'</div>'
         +'<div class="sonos-fav-title">'+f.name+'</div>'
         +'<div class="sonos-fav-sub">'+svc+'</div>'
