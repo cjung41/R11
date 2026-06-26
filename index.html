@@ -8073,12 +8073,12 @@ async function tadoOffAll() {
 // INIT
 // ════════════════════
 function init() {
-  // Sonos OAuth Callback?
+  // Sonos OAuth Callback? (?code= kommt von Sonos-Redirect)
   var _sqp = new URLSearchParams(window.location.search);
   var _sonosCode = _sqp.get("code");
-  if (_sonosCode && localStorage.getItem("sonos_oauth_state")) {
+  if (_sonosCode) {
     window.history.replaceState({}, "", window.location.pathname);
-    setTimeout(function(){ sonosHandleCallback(_sonosCode); }, 100);
+    sonosHandleCallback(_sonosCode);
   }
 
   // OAuth Callback von Hue? — Worker macht Token-Exchange server-seitig
@@ -8187,11 +8187,21 @@ async function sonosStartAuth() {
   } catch(e) { alert('Fehler: ' + e.message); }
 }
 async function sonosHandleCallback(code) {
+  localStorage.removeItem('sonos_oauth_state');
   try {
     var r = await fetch(SONOS_WORKER + '/sonos/token', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: code }) });
     var d = await r.json();
-    if (d.access_token) { sonosSaveTokens(d); localStorage.removeItem('sonos_oauth_state'); await sonosInit(); showPage('sonos'); }
-  } catch(e) { console.error('Sonos callback:', e); }
+    if (d.access_token) {
+      sonosSaveTokens(d);
+      await sonosInit();
+      showPage('sonos');
+    } else {
+      alert('Sonos Verbindung fehlgeschlagen: ' + (d.error_description || d.error || JSON.stringify(d)));
+    }
+  } catch(e) {
+    alert('Sonos Fehler: ' + e.message);
+    console.error('Sonos callback:', e);
+  }
 }
 function sonosDisconnect() {
   if (sonosPollTimer) { clearInterval(sonosPollTimer); sonosPollTimer = null; }
@@ -8224,7 +8234,7 @@ async function sonosLoadGroups() {
     else if (groups.length) { sonosGroupId = groups[0].id; localStorage.setItem('sonos_group_id', sonosGroupId); }
     var list = document.getElementById('sonos-room-list');
     if (list) list.innerHTML = groups.map(function(g) {
-      return '<div class="sonos-room-chip' + (g.id === sonosGroupId ? ' active' : '') + '" onclick="sonosSelectGroup(this,'' + g.id + '')">' + g.name + '</div>';
+      return '<div class="sonos-room-chip' + (g.id === sonosGroupId ? ' active' : '') + '" data-gid="' + g.id + '" onclick="sonosSelectGroup(this,this.dataset.gid)">' + g.name + '</div>';
     }).join('');
     if (sonosGroupId) await sonosLoadPlayback();
   } catch(e) { console.error('groups:', e); }
@@ -8268,7 +8278,7 @@ async function sonosLoadFavorites() {
       var svc = (f.service && f.service.name) || '';
       var img = f.imageUrl || (f.images && f.images[0] && f.images[0].url) || '';
       var art = img ? '<img src="' + img + '" style="width:100%;height:100%;object-fit:cover;border-radius:10px">' : '🎵';
-      return '<div class="sonos-fav-card" onclick="sonosPlayFavorite(this,'' + f.id + '')">'
+      return '<div class="sonos-fav-card" data-fid="' + f.id + '" onclick="sonosPlayFavorite(this,this.dataset.fid)">'
         + '<div class="sonos-fav-art">' + art + '</div>'
         + '<div class="sonos-fav-title">' + f.name + '</div>'
         + '<div class="sonos-fav-sub">' + svc + '</div>'
